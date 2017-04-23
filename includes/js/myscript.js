@@ -146,44 +146,282 @@ app.controller('pcatctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-            console.log(id);
-            var params = {};
-            params.action = "inventory_crud_function";
-            params.type = "delete";
-            params.table = "inv_product_cat";
-            params.id = id;
-            $http({
-                url: myAjax.ajaxurl,
-                method: "POST",
-                params: params
-            }).then(function(response) {
-                console.log(response.data);
-                // $scope.delete = response.data;
-                if (response.data === '1') {
-                    console.log('successful');
-                    $scope.get_category();
-                }
-            }, function(error) {
-                console.log(error);
-            });
-        }
-        // $scope.get_all_user = function() {
-        //     var params = {};
-        //     params.action = "inventory_crud_function";
-        //     params.type = "get_all_user";
-        //     $http({
-        //         url: myAjax.ajaxurl,
-        //         method: "POST",
-        //         params: params
-        //     }).then(function(response) {
-        //         console.log(response.data);
-        //         $scope.users = response.data;
-        //     }, function(error) {
-        //         console.log(error);
-        //     });
-        // };
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_product_cat";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                $scope.get_category();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit_cat = function(data) {
+        console.log(data);
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_product_category";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                $scope.cat = [];
+                $scope.get_category();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
     $scope.get_category();
-    // $scope.get_all_user();
+});
+
+app.controller('supplierctrl', function($scope, $http) {
+
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_supplier";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_supplier();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_supplier = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_supplier";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.suppliers = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_supplier";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                $scope.get_supplier();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        console.log(data);
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_supplier";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                $scope.get_supplier();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_supplier();
+});
+
+
+app.controller('productctrl', function($scope, $http) {
+
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_product";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_product();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_product = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_product";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.products = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_product";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                   $scope.get_product();
+                // },1000);
+                
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        console.log(data);
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_product";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                   $scope.get_product();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_supplier = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_supplier";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.suppliers = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_product_category";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.categories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_supplier();
+    $scope.get_category();
+    $scope.get_product();
 });
 
 
@@ -195,15 +433,18 @@ app.directive('parent', function() {
     return {
         restrict: 'E',
         scope: {
-            category: '=info',
-            catId:'=cid'
+            arr: '=info',
+            identifier: '=cid',
+            field: '@field'
         },
         link: function(scope, element, attr) {
-            for (var i = 0; i < scope.category.length; i++) {
-               if(scope.category[i].id==scope.catId){
-                  element.html(scope.category[i].inv_product_cat_name);
-               }
-            }
+            setTimeout(function(argument) {
+                for (var i = 0; i < scope.arr.length; i++) {
+                    if (scope.arr[i].id == scope.identifier) {
+                        element.html(scope.arr[i][scope.field]);
+                    }
+                }
+            }, 1000);
         }
     };
 });

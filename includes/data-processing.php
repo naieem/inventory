@@ -66,6 +66,7 @@ function inventory_crud_function(){
   // echo var_dump($_REQUEST);
   $type=$_REQUEST['type'];
   switch ($type) {
+    /* user crud */
     case 'add_new_user':
     add_new_user($data);
     break;
@@ -75,6 +76,7 @@ function inventory_crud_function(){
     case 'get_all_user':
     get_all_user();
     break;
+    /* product category crud*/
     case 'add_new_product_cat':
     add_new_product_cat($data);
     break;
@@ -84,6 +86,38 @@ function inventory_crud_function(){
     break;
     case 'delete':
     delete($data);
+    break;
+    case 'update_product_category':
+    update_product_category($data);
+    break;
+    /* supplier crud */
+    case 'add_new_supplier':
+    add_new_supplier($data);
+    break;
+
+    case 'get_supplier':
+    get_supplier();
+    break;
+    case 'delete':
+    delete($data);
+    break;
+    case 'update_supplier':
+    update_supplier($data);
+    break;
+
+    /* product crud */
+    case 'add_new_product':
+    add_new_product($data);
+    break;
+
+    case 'get_product':
+    get_product();
+    break;
+    case 'delete':
+    delete($data);
+    break;
+    case 'update_product':
+    update_product($data);
     break;
     
     default:
@@ -147,6 +181,88 @@ function delete($data){
   // var_dump($data);
   global $wpdb;
   $ret=$wpdb->query($wpdb->prepare("DELETE FROM ".$data['table']." WHERE id=".$data['id']));
-    echo $ret;
+  echo $ret;
+}
+
+function update_product_category($data){
+  // var_dump($data);
+  global $wpdb;
+  $datas = array(
+    'inv_product_cat_name' => $data['inv_product_cat_name'],
+    'inv_product_cat_parent' => $data['inv_product_cat_parent'], 
+    'inv_product_cat_desc' => $data['inv_product_cat_desc'],
+    'inv_i18n_entitie_name' => 1
+    );
+  $insert_result=$wpdb->update('inv_product_cat',$datas,array( 'id' => $data['id'] ));
+  echo $insert_result;
+}
+
+function add_new_supplier($data){
+  // var_dump($data);
+  global $wpdb;
+  $datas = array(
+    'inv_supplier_name' => $data['name']
+    );
+  $insert_result=$wpdb->insert('inv_supplier',$datas);
+  echo $insert_result;
+}
+function get_supplier(){
+  global $wpdb;
+  $fivesdrafts = $wpdb->get_results("SELECT * FROM inv_supplier");
+  // var_dump($fivesdrafts);
+  echo json_encode($fivesdrafts);
+}
+
+function update_supplier($data){
+  // var_dump($data);
+  global $wpdb;
+  $datas = array(
+    'inv_supplier_name' => $data['inv_supplier_name']
+    );
+  $insert_result=$wpdb->update('inv_supplier',$datas,array( 'id' => $data['id'] ));
+  echo $insert_result;
+}
+
+
+function add_new_product($data){
+  // var_dump($data);
+  global $wpdb;
+  $datas = array(
+    'inv_product_name' => $data['name'],
+    'inv_product_barcode' => $data['barcode'],
+    'inv_product_size' => $data['size'],
+    'inv_product_full_weight' => $data['fweight'],
+    'inv_product_empty_weight' => $data['eweight'],
+    'inv_product_cost' => $data['cost'],
+    'inv_i18n_entity_name' => 1,
+    'inv_product_category_id' => $data['category'],
+    'inv_product_supplier_id' => $data['supplier']
+    );
+  $insert_result=$wpdb->insert('inv_product',$datas);
+  echo $insert_result;
+}
+function get_product(){
+  global $wpdb;
+  $fivesdrafts = $wpdb->get_results("SELECT * FROM inv_product");
+  // var_dump($fivesdrafts);
+  echo json_encode($fivesdrafts);
+}
+
+function update_product($data){
+  // var_dump($data);
+  global $wpdb;
+  $datas = array(
+    'inv_product_name' => $data['inv_product_name'],
+    'inv_product_barcode' => $data['inv_product_barcode'],
+    'inv_product_size' => $data['inv_product_size'],
+    'inv_product_full_weight' => $data['inv_product_full_weight'],
+    'inv_product_empty_weight' => $data['inv_product_empty_weight'],
+    'inv_product_cost' => $data['inv_product_cost'],
+    'inv_i18n_entity_name' => 1,
+    'inv_product_category_id' => $data['inv_product_category_id'],
+    'inv_product_supplier_id' => $data['inv_product_supplier_id']
+    );
+  $insert_result=$wpdb->update('inv_product',$datas,array( 'id' => $data['id'] ));
+  echo $insert_result;
 }
 ?>
