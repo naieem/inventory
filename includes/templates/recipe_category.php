@@ -1,5 +1,5 @@
 <?php ?>
-<div class="container" ng-app="inventoryHome" ng-controller="pcatctrl">
+<div class="container" ng-app="inventoryHome" ng-controller="recipectctrl">
 		<div class="row">
 			<div class="col-md-12">
 				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Category</button>
@@ -26,15 +26,7 @@
 										<label for="email">Category Description</label>
 										<textarea name="description" class="form-control"  ng-model="cat.desc"></textarea>
 									</div>
-									<div class="form-group">
-										<label for="">Category parent</label>
-										<select class="form-control" name="parent" ng-model="cat.parent">
-											<option value="0">none</option>
-											<option value="{{category.id}}" ng-repeat="category in categories">{{category.inv_product_cat_name}} 
-											</option>
-										</select>
-									</div>
-									<button type="button" class="btn btn-default" ng-click="add_cat(cat)">Submit</button>
+									<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -59,23 +51,14 @@
 								<form name="new_user">
 									<div class="form-group">
 										<label for="name">Category name</label>
-										<input type="text" class="form-control" name="name" ng-model="cat.inv_product_cat_name" required>
-										<span ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
+										<input type="text" class="form-control" name="name" ng-model="cat.inv_recipe_cat_name" required>
 									</div>
 
 									<div class="form-group">
 										<label for="email">Category Description</label>
-										<textarea name="description" class="form-control"  ng-model="cat.inv_product_cat_desc"></textarea>
+										<textarea name="description" class="form-control"  ng-model="cat.inv_recipe_cat_desc"></textarea>
 									</div>
-									<div class="form-group">
-										<label for="">Category parent</label>
-										<select class="form-control" name="parent" ng-model="cat.inv_product_cat_parent">
-											<option value="0">none</option>
-											<option value="{{category.id}}" ng-repeat="category in categories">{{category.inv_product_cat_name}} 
-											</option>
-										</select>
-									</div>
-									<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="edit_cat(cat)">Submit</button>
+									<button type="button" class="btn btn-default" ng-click="edit(cat)">Submit</button>
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -95,16 +78,14 @@
 								<th>#</th>
 								<th>Name</th>
 								<th>Description</th>
-								<th>Parent</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="category in categories | orderBy:'inv_product_cat_name'">
 								<td>{{category.id}}</td>
-								<td>{{category.inv_product_cat_name}}</td>
-								<td>{{category.inv_product_cat_desc}}</td>
-								<td><parent info="categories" cid="category.inv_product_cat_parent" field="inv_product_cat_name"></parent></td>
+								<td>{{category.inv_recipe_cat_name}}</td>
+								<td>{{category.inv_recipe_cat_desc}}</td>
 
 								<td>
 									<button type="button" class="btn btn-default" ng-click="edit_modal(category)">Edit</button>

@@ -65,6 +65,26 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory_product_supl_func' // callback function
 );
 
+	/* Product submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory recipe category', // Page Title
+'Inventory recipe category', // menu Title
+'manage_options', // capability
+'inventory-recipe-category', // slug
+'inventory_recipe_cat_func' // callback function
+);
+
+		/* Recipe submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory recipe', // Page Title
+'Inventory recipe', // menu Title
+'manage_options', // capability
+'inventory-recipe', // slug
+'inventory_recipe_func' // callback function
+);
+
 }
 
 /**
@@ -75,11 +95,11 @@ function inventory_home_page() {
 	<div class="container" ng-app="inventoryHome" ng-controller="homectrl">
 		<div class="row">
 			<h1>Inventory Home</h1>
-			<form name="new_user">
+			<!-- <form name="new_user">
 
 
 				<button type="button" class="btn btn-default" ng-click="hello()">Submit</button>
-			</form>
+			 --></form>
 		</div>
 	</div>
 	<?php
@@ -114,3 +134,18 @@ function inventory_product_cat_func() {
 function inventory_product_supl_func() {
 include_once('templates/product_supplier.php');	
 }
+
+/**
+* Disply callback for the inventory recipe category.
+*/
+function inventory_recipe_cat_func() {
+include_once('templates/recipe_category.php');	
+}
+
+/**
+* Disply callback for the inventory recipe category.
+*/
+function inventory_recipe_func() {
+include_once('templates/recipe.php');	
+}
+

@@ -1,28 +1,3 @@
-// jQuery(document).ready(function() {
-//     jQuery(".btn-default").click(function(e) {
-//         e.preventDefault();
-//         alert("hi jquery is working");
-//         jQuery.ajax({
-//             type: "post",
-//             //dataType : "json",
-//             url: myAjax.ajaxurl,
-//             data: { action: "my_ajax",name:"name"},
-//             success: function(data) {
-//                 //if(data=='20')
-//                 // var newstr = data.substring(0, data.length - 1);
-//                 // jQuery("#sku").val("");
-//                 // jQuery("#pur").val("");
-//                 // jQuery("#sold").val("");
-//                 // jQuery(".show").html(newstr).fadeIn("fast").delay(5000).fadeOut("slow");
-//                 // jQuery("#sku").focus();
-//                 alert(data);
-//                 //else alert("not done");
-//             }
-//         });
-//     });
-// });
-
-
 var app = angular.module('inventoryHome', []);
 app.controller('homectrl', function($scope, $http) {
     // $http.get("welcome.htm")
@@ -67,6 +42,32 @@ app.controller('userctrl', function($scope, $http) {
         });
     };
 
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.customer = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        data.action = "inventory_crud_function";
+        data.type = "update_customer";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                $scope.get_all_user();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
     $scope.get_currency = function() {
         var params = {};
         params.action = "inventory_crud_function";
@@ -100,6 +101,28 @@ app.controller('userctrl', function($scope, $http) {
             console.log(error);
         });
     };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_customer";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                $scope.get_all_user();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
     $scope.get_currency();
     $scope.get_all_user();
 });
@@ -348,9 +371,9 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                   $scope.get_product();
+                $scope.get_product();
                 // },1000);
-                
+
             }
         }, function(error) {
             console.log(error);
@@ -376,7 +399,7 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                   $scope.get_product();
+                $scope.get_product();
                 // },1000);
             }
         }, function(error) {
@@ -424,6 +447,249 @@ app.controller('productctrl', function($scope, $http) {
     $scope.get_product();
 });
 
+app.controller('recipectctrl', function($scope, $http) {
+
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_recipe_category";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_category();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_recipe_cat";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.categories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_recipe_cat";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                $scope.get_category();
+                // },1000);
+
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        console.log(data);
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_recipe_category";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                $scope.get_category();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_category();
+    // $scope.get_product();
+});
+
+app.controller('recipectrl', function($scope, $http) {
+
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_recipe";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_recipe();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_recipe = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all_recipe";
+        // params.table = "inv_recipe";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.recipies = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_recipe_cat";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.categories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.get_product = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_product";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.products = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_recipe";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                $scope.get_recipe();
+                // },1000);
+
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.edit_modal = function(data) {
+        if(data.inv_recipe_inv_recipe_id==0){
+         data.ingredients='1';
+        }
+        else{
+         data.ingredients='2';
+        }
+        console.log(data);
+        $scope.edit_cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        data.action = "inventory_crud_function";
+        data.type = "update_recipe";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                $scope.get_recipe();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_recipe();
+    $scope.get_product();
+    $scope.get_category();
+});
+
 
 /*
  *
@@ -447,4 +713,18 @@ app.directive('parent', function() {
             }, 1000);
         }
     };
+});
+
+app.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value);
+      });
+    }
+  };
 });

@@ -35,13 +35,11 @@
 								<div class="form-group">
 									<label for="name">Full weight</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.fweight" required>
-									
 								</div>
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.eweight" required>
-									
 								</div>
 
 								<div class="form-group">
