@@ -17,6 +17,7 @@ function aia_load_textdomain() {
 /*********************************
 global variables
 **********************************/
+/* external db connection file*/
 
 //$aim_plugin_name = 'Inventory';
 

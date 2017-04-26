@@ -75,7 +75,7 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory_recipe_cat_func' // callback function
 );
 
-		/* Recipe submenu */
+	/* Recipe submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
 'Inventory recipe', // Page Title
@@ -87,10 +87,25 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 
 }
 
+include('db.php');
+global $db;
+$db= new DB();
+
+
 /**
 * Disply callback for the inventory home.
 */
 function inventory_home_page() {
+	global $db;
+	$data=array(
+		'inv_customer_name' => "sdfsdfd" 
+		);
+	$condition=array(
+		'id'=>1
+		// 'name'=>'supto'
+		);
+	$v=$db->update("inv_customer",$data,$condition);
+	var_dump($v);
 	?>
 	<div class="container" ng-app="inventoryHome" ng-controller="homectrl">
 		<div class="row">
@@ -99,7 +114,7 @@ function inventory_home_page() {
 
 
 				<button type="button" class="btn btn-default" ng-click="hello()">Submit</button>
-			 --></form>
+			--></form>
 		</div>
 	</div>
 	<?php
@@ -132,20 +147,20 @@ function inventory_product_cat_func() {
 * Disply callback for the inventory product supplier.
 */
 function inventory_product_supl_func() {
-include_once('templates/product_supplier.php');	
+	include_once('templates/product_supplier.php');	
 }
 
 /**
 * Disply callback for the inventory recipe category.
 */
 function inventory_recipe_cat_func() {
-include_once('templates/recipe_category.php');	
+	include_once('templates/recipe_category.php');	
 }
 
 /**
 * Disply callback for the inventory recipe category.
 */
 function inventory_recipe_func() {
-include_once('templates/recipe.php');	
+	include_once('templates/recipe.php');	
 }
 
