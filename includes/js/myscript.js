@@ -82,7 +82,7 @@ app.controller('userctrl', function($scope, $http) {
         });
     };
     $scope.get_all_user = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_user";
@@ -93,13 +93,13 @@ app.controller('userctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.users = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
         }, function(error) {
             console.log(error);
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -116,6 +116,9 @@ app.controller('userctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 $scope.get_all_user();
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -148,7 +151,7 @@ app.controller('pcatctrl', function($scope, $http) {
     };
 
     $scope.get_category = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_product_category";
@@ -159,7 +162,7 @@ app.controller('pcatctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -168,7 +171,7 @@ app.controller('pcatctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -185,6 +188,9 @@ app.controller('pcatctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 $scope.get_category();
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -243,7 +249,7 @@ app.controller('supplierctrl', function($scope, $http) {
     };
 
     $scope.get_supplier = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_supplier";
@@ -254,7 +260,7 @@ app.controller('supplierctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.suppliers = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -263,7 +269,7 @@ app.controller('supplierctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -280,6 +286,9 @@ app.controller('supplierctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 $scope.get_supplier();
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -337,7 +346,7 @@ app.controller('productctrl', function($scope, $http) {
     };
 
     $scope.get_product = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_product";
@@ -348,7 +357,7 @@ app.controller('productctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.products = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -357,7 +366,7 @@ app.controller('productctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -377,6 +386,9 @@ app.controller('productctrl', function($scope, $http) {
                 $scope.get_product();
                 // },1000);
 
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -474,7 +486,7 @@ app.controller('recipectctrl', function($scope, $http) {
     };
 
     $scope.get_category = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
@@ -486,7 +498,7 @@ app.controller('recipectctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -495,7 +507,7 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -515,6 +527,9 @@ app.controller('recipectctrl', function($scope, $http) {
                 $scope.get_category();
                 // },1000);
 
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -582,7 +597,7 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.get_recipe = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_recipe";
@@ -594,7 +609,7 @@ app.controller('recipectrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.recipies = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -643,7 +658,7 @@ app.controller('recipectrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -663,6 +678,9 @@ app.controller('recipectrl', function($scope, $http) {
                 $scope.get_recipe();
                 // },1000);
 
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -705,7 +723,7 @@ app.controller('recipectrl', function($scope, $http) {
 
 app.controller('locationctrl', function($scope, $http) {
     $scope.get_location = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
@@ -717,7 +735,7 @@ app.controller('locationctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.locations = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -773,7 +791,7 @@ app.controller('locationctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -793,6 +811,9 @@ app.controller('locationctrl', function($scope, $http) {
                 $scope.get_location();
                 // },1000);
 
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);
@@ -803,7 +824,7 @@ app.controller('locationctrl', function($scope, $http) {
 
 app.controller('inventoryctrl', function($scope, $http) {
     $scope.get_inventory = function() {
-      $scope.loading=true;
+        $scope.loading = true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_inventory";
@@ -815,7 +836,7 @@ app.controller('inventoryctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.inventories = response.data;
-            $scope.loading=false;
+            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -904,7 +925,7 @@ app.controller('inventoryctrl', function($scope, $http) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
         cat.type = "add_new_inventory";
-        cat.unit='1';
+        cat.unit = '1';
         console.log(cat);
         $http({
             url: myAjax.ajaxurl,
@@ -925,7 +946,7 @@ app.controller('inventoryctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-      $scope.loading=true;
+        $scope.loading = true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -944,7 +965,9 @@ app.controller('inventoryctrl', function($scope, $http) {
                 // setTimeout(function () {
                 $scope.get_inventory();
                 // },1000);
-
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
             }
         }, function(error) {
             console.log(error);

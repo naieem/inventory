@@ -242,7 +242,7 @@ class DBCONNECTION{
             return $delete?1:false;
         }
         catch(PDOException $e){
-            die("Failed to Delete: " . $e->getMessage());
+            die($e->getCode());
         }
         
     }
