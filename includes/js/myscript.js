@@ -1,22 +1,18 @@
-var app = angular.module('inventoryHome', []);
+var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker']);
 app.controller('homectrl', function($scope, $http) {
-    // $http.get("welcome.htm")
-    // .then(function(response) {
-    //     $scope.myWelcome = response.data;
-    // });
 
-    $scope.name = "dsfd";
-    $scope.hello = function() {
-        $http({
-            url: myAjax.ajaxurl,
-            method: "POST",
-            params: { action: "inventory_crud_function", name: "fgfd" }
-        }).then(function(response) {
-            console.log(response.data);
-        }, function(error) {
-            console.log(error);
-        });
-    };
+    // $scope.name = "dsfd";
+    // $scope.hello = function() {
+    //     $http({
+    //         url: myAjax.ajaxurl,
+    //         method: "POST",
+    //         params: { action: "inventory_crud_function", name: "fgfd" }
+    //     }).then(function(response) {
+    //         console.log(response.data);
+    //     }, function(error) {
+    //         console.log(error);
+    //     });
+    // };
 });
 
 app.controller('userctrl', function($scope, $http) {
@@ -569,7 +565,13 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(error);
         });
     };
-
+    $scope.changeIngredients = function(arg) {
+        if (arg == '1') {
+            $scope.edit_cat.inv_recipe_inv_recipe_id = 0;
+        } else {
+            $scope.edit_cat.inv_product_id_inv_product = 0;
+        }
+    }
     $scope.get_recipe = function() {
         var params = {};
         params.action = "inventory_crud_function";
@@ -633,7 +635,7 @@ app.controller('recipectrl', function($scope, $http) {
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
-        params.type = "delete";
+        params.type = "delete_recipe";
         params.table = "inv_recipe";
         params.id = id;
         $http({
@@ -655,11 +657,10 @@ app.controller('recipectrl', function($scope, $http) {
         });
     }
     $scope.edit_modal = function(data) {
-        if(data.inv_recipe_inv_recipe_id==0){
-         data.ingredients='1';
-        }
-        else{
-         data.ingredients='2';
+        if (data.inv_recipe_inv_recipe_id == 0) {
+            data.ingredients = '1';
+        } else {
+            data.ingredients = '2';
         }
         console.log(data);
         $scope.edit_cat = data;
@@ -690,6 +691,284 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.get_category();
 });
 
+app.controller('locationctrl', function($scope, $http) {
+
+    $scope.get_location = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_location";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response);
+            $scope.locations = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.edit_cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_location";
+        // console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                $scope.get_location();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_location";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_location();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_location";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                $scope.get_location();
+                // },1000);
+
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.get_location();
+});
+
+app.controller('inventoryctrl', function($scope, $http) {
+    $scope.get_inventory = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all_inventory";
+        params.table = "inv_inventory";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response);
+            $scope.inventories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_location = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_location";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response);
+            $scope.locations = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_users = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all_users";
+        // params.table = "";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response);
+            $scope.users = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.show_location = '';
+    $scope.change_location = function(id) {
+        for (var i = 0; i < $scope.locations.length; i++) {
+            if ($scope.locations[i].id == id) {
+                $scope.show_location = $scope.locations[i].inv_location_name;
+            }
+        }
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.edit_cat = data;
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_location";
+        // console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                // setTimeout(function () {
+                $scope.get_location();
+                // },1000);
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_inventory";
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_inventory();
+            }
+        }, function(error) {
+            $scope.cat = [];
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete";
+        params.table = "inv_location";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                $scope.get_location();
+                // },1000);
+
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.get_supplier = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_supplier";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.suppliers = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_product = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_product";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.products = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_product();
+    $scope.get_supplier();
+    $scope.get_location();
+    $scope.get_users();
+    $scope.get_inventory();
+});
+
 
 /*
  *
@@ -710,21 +989,36 @@ app.directive('parent', function() {
                         element.html(scope.arr[i][scope.field]);
                     }
                 }
+
             }, 1000);
         }
     };
 });
 
 app.directive('stringToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
-        return '' + value;
-      });
-      ngModel.$formatters.push(function(value) {
-        return parseFloat(value);
-      });
-    }
-  };
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function(value) {
+                return '' + value;
+            });
+            ngModel.$formatters.push(function(value) {
+                return parseFloat(value);
+            });
+        }
+    };
+});
+
+app.filter('datetime', function($filter) {
+    return function(input) {
+        if (input == null) {
+            return "";
+        }
+
+        var _date = $filter('date')(new Date(input),
+            'MMM dd yyyy - HH:mm:ss');
+
+        return _date.toUpperCase();
+
+    };
 });

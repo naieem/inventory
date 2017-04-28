@@ -7,11 +7,15 @@
  * @url       http://www.codexworld.com
  * @license   http://www.codexworld.com/license
  */
-class DB{
+class DBCONNECTION{
 	private $dbHost     = "localhost";
 	private $dbUsername = "root";
 	private $dbPassword = "";
 	private $dbName     = "inventory";
+    // private $dbHost     = "208.113.131.151";
+    // private $dbUsername = "dev1";
+    // private $dbPassword = "SSapaKtWFuzwca7D";
+    // private $dbName     = "inventory";
 
 	public function __construct(){
 		if(!isset($this->db)){
@@ -19,8 +23,10 @@ class DB{
 			try{
 				$conn = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName, $this->dbUsername, $this->dbPassword);
 				$conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn -> setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND,"SET NAMES 'utf8'");
+                // $conn ->set_charset("utf8");
 				$this->db = $conn;
-				print_r("expression")
+				// print_r("connected");
 			}catch(PDOException $e){
 				die("Failed to connect with MySQL: " . $e->getMessage());
 			}
@@ -116,6 +122,7 @@ class DB{
     		$count=0;
     		foreach($data as $key => $value) {
     			$count++;
+                $value=utf8_decode($value);
     			if($count == count($data)){
     				$k.=$key;
     				$v.='"'.$value.'"';	
@@ -129,7 +136,8 @@ class DB{
     		$sql = "INSERT INTO ".$table." (".$k.") VALUES (".$v.")";
     		$query = $this->db->prepare($sql);
     		$insert = $query->execute();
-    		return $insert?$this->db->lastInsertId():false;
+    		// return $insert?$this->db->lastInsertId():false;
+            return $insert?1:false;
     	}
     }
     /*
@@ -142,21 +150,22 @@ class DB{
     	$join=$config['join'];
     	$condition=$config['condition'];
 
-    	if(count($table)> 1 && count($table)<3 && !empty($join)){
+    	if(count($table)> 1 && count($table)<3 && !empty($join) && $join!='default'){
     		$sql = "SELECT $fields FROM $table[0] $join JOIN $table[1] $condition";
     	}elseif (count($table)> 1 && count($table)<3 && $join=='default') {
     		$sql = "SELECT $fields FROM $table[0] JOIN $table[1] $condition";
     	}else{
     		$sql = "SELECT $fields FROM $table[0] $condition";
     	}
+        // $this->db->prepare("SET NAMES UTF8");
     	$query = $this->db->prepare($sql);
     	$q = $query->execute();
     	if($q){
     		$data=$query->fetchAll(PDO::FETCH_ASSOC);
     		foreach ($data as $key => $value) {
-    			$arr[]=$value;
+                $arr[]=array_map('utf8_encode',$value);
     		}
-    		return json_encode($arr);
+    		return $arr;
     	}else
     	return false;
     }
@@ -175,11 +184,13 @@ class DB{
     		// 	$data['modified'] = date("Y-m-d H:i:s");
     		// }
     		foreach($data as $key=>$val){
+                $val=utf8_decode($val);
+                // $val=htmlspecialchars_decode($val);
     			$pre = ($i > 0)?', ':'';
     			$colvalSet .= $pre.$key."='".$val."'";
     			$i++;
     		}
-    		if(!empty($conditions)&& is_array($conditions)){
+    		if(!empty($conditions) && is_array($conditions)){
     			$whereSql .= ' WHERE ';
     			$i = 0;
     			foreach($conditions as $key => $value){
@@ -191,7 +202,7 @@ class DB{
     		$sql = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
     		$query = $this->db->prepare($sql);
     		$update = $query->execute();
-    		return $update?$query->rowCount():false;
+    		return $update?1:false;
     	}else{
     		return false;
     	}
@@ -214,8 +225,9 @@ class DB{
     		}
     	}
     	$sql = "DELETE FROM ".$table.$whereSql;
-    	$delete = $this->db->exec($sql);
-    	return $delete?$delete:false;
+        $query = $this->db->prepare($sql);
+    	$delete = $query->execute();
+    	return $delete?1:false;
     }
 }
 

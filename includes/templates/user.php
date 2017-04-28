@@ -65,14 +65,13 @@
 								</div>
 
 								<div class="form-group">
-									<label for="currency">Curerncy:</label>
-									<select class="form-control" required name="currency" ng-model="customer.currency">
+									<label for="currency">Currency:</label>
+									<select class="form-control" name="currency" ng-model="customer.currency">
 										<option ng-repeat="currencies in currency" ng-value=" currencies.id">{{currencies.inv_currency_code}}</option>
 									</select>
-									<span ng-show="new_user.currency.$touched && new_user.currency.$invalid">This field is required.</span>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="add_user(customer)">Submit</button>
+								<button type="button" class="btn btn-default" ng-click="add_user(customer)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

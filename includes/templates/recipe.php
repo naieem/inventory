@@ -58,7 +58,7 @@
 
 								<div class="form-group">
 									<label for="name">Unit</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.unit" required>
+									<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="cat.unit" ng-init="cat.unit=1" required>
 								</div>
 
 								<div class="form-group">
@@ -102,7 +102,7 @@
 								</div>
 								<div class="form-group">
 									<label for="name">Ingredients</label>
-									<select name="" ng-model="edit_cat.ingredients" class="form-control">
+									<select name="" ng-model="edit_cat.ingredients" class="form-control" ng-change="changeIngredients(edit_cat.ingredients)">
 										<option value="1">Product</option>
 										<option value="2">Recipe</option>
 									</select>
@@ -130,7 +130,7 @@
 
 								<div class="form-group">
 									<label for="name">Unit</label>
-									<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_inventory_units_inv_inventory_units_id" required>
+									<input type="text" ng-disabled="true" class="form-control" name="name" ng-init="edit_cat.inv_inventory_units_inv_inventory_units_id=1;" ng-model="edit_cat.inv_inventory_units_inv_inventory_units_id" required>
 								</div>
 
 								<div class="form-group">

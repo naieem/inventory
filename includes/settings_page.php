@@ -84,28 +84,32 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory-recipe', // slug
 'inventory_recipe_func' // callback function
 );
+		/* Location submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory Location', // Page Title
+'Inventory location', // menu Title
+'manage_options', // capability
+'inventory-location', // slug
+'inventory_location_func' // callback function
+);
+		/* Inventory submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory Inventory', // Page Title
+'Inventory Inventory', // menu Title
+'manage_options', // capability
+'inventory-inventory', // slug
+'inventory_inventory_func' // callback function
+);
 
 }
-
-include('db.php');
-global $db;
-$db= new DB();
 
 
 /**
 * Disply callback for the inventory home.
 */
 function inventory_home_page() {
-	global $db;
-	$data=array(
-		'inv_customer_name' => "sdfsdfd" 
-		);
-	$condition=array(
-		'id'=>1
-		// 'name'=>'supto'
-		);
-	$v=$db->update("inv_customer",$data,$condition);
-	var_dump($v);
 	?>
 	<div class="container" ng-app="inventoryHome" ng-controller="homectrl">
 		<div class="row">
@@ -114,7 +118,8 @@ function inventory_home_page() {
 
 
 				<button type="button" class="btn btn-default" ng-click="hello()">Submit</button>
-			--></form>
+			-->
+			</form>
 		</div>
 	</div>
 	<?php
@@ -164,3 +169,16 @@ function inventory_recipe_func() {
 	include_once('templates/recipe.php');	
 }
 
+/**
+* Disply callback for the inventory location.
+*/
+function inventory_location_func() {
+	include_once('templates/location.php');	
+}
+
+/**
+* Disply callback for the inventory listing page.
+*/
+function inventory_inventory_func() {
+	include_once('templates/inventory.php');	
+}
