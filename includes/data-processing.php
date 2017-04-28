@@ -101,9 +101,12 @@ function inventory_crud_function(){
     case 'get_all_inventory':
     get_all_inventory($data);
     break;
-    // case 'update_location':
-    // update_location($data);
-    // break;
+    case 'update_inventory':
+    update_inventory($data);
+    break;
+    case 'delete_inventory':
+    delete_inventory($data);
+    break;
     case 'get_all_users':
     get_all_users();
     break;
@@ -526,8 +529,7 @@ function add_new_inventory($data){
       'inv_inventory_line_user_id' => $data['wp_users_id_users'],
       'inv_inventory_line_date_time' => $data['inv_inventory_date'],
       'inv_location_line_inv_location_id' => 
-      $data['inv_location_inv_location_id'],
-      
+      $data['inv_location_inv_location_id']
       );
     $insert_result=$db->insert('inv_inventory_line',$datas1);
   }
@@ -537,11 +539,53 @@ function get_all_inventory(){
   global $db;
   $config=array(
     'tables'=>array("inv_inventory","inv_inventory_line"),
-    'fields'=>"inv_inventory.*,inv_inventory_line.inv_supplier_inv_supplier_id,inv_inventory_line.inv_product_id_inv_product",
+    'fields'=>"inv_inventory.*,inv_inventory_line.inv_supplier_inv_supplier_id,inv_inventory_line.inv_product_id_inv_product,inv_inventory_line.inv_inventory_line_amount,inv_inventory_line.inv_inventory_units_inv_inventory_units_id,inv_inventory_line.inv_inventory_line_amount",
     'join'=>"INNER",
     'condition'=>"ON inv_inventory.id=inv_inventory_line.inv_inventory_inv_inventory_id" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
 }
+
+function update_inventory($data){
+  // var_dump($data);
+  global $db;
+  $datas = array(
+    'inv_inventory_date' =>$data['inv_inventory_date'],
+    'wp_users_id_users' => $data['wp_users_id_users'],
+    'inv_location_inv_location_id' => $data['inv_location_inv_location_id']  
+    );
+  $insert_result=$db->update('inv_inventory',$datas,
+    array( 'id' => $data['id'] ));
+  if($insert_result){
+    $datas1=array(
+      'inv_inventory_line_amount'=>$data['inv_inventory_line_amount'],
+      'inv_inventory_units_inv_inventory_units_id' => $data['inv_inventory_units_inv_inventory_units_id'],
+      'inv_supplier_inv_supplier_id' => $data['inv_supplier_inv_supplier_id'],
+      'inv_product_id_inv_product' => 
+      $data['inv_product_id_inv_product'],
+      'inv_inventory_line_user_id' => $data['wp_users_id_users'],
+      'inv_inventory_line_date_time' => $data['inv_inventory_date'],
+      'inv_location_line_inv_location_id' => 
+      $data['inv_location_inv_location_id']
+      );
+    $insert_result=$db->update('inv_inventory_line',$datas1,array( 'inv_inventory_inv_inventory_id' => $data['id'] ));
+  }
+  echo $insert_result;
+}
+function delete_inventory($data){
+  global $db;
+  $condition=array(
+    'inv_inventory_inv_inventory_id'=>$data['id']
+    );
+  $ret=$db->delete('inv_inventory_line',$condition);
+  if($ret){
+    $condition=array(
+    'id'=>$data['id']
+    );
+  $ret=$db->delete('inv_inventory',$condition);
+  }
+  echo $ret;
+}
+
 ?>

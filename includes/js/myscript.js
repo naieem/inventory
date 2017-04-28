@@ -16,7 +16,6 @@ app.controller('homectrl', function($scope, $http) {
 });
 
 app.controller('userctrl', function($scope, $http) {
-
     $scope.add_user = function(customer) {
         // console.log(customer);
         customer.action = "inventory_crud_function";
@@ -83,6 +82,7 @@ app.controller('userctrl', function($scope, $http) {
         });
     };
     $scope.get_all_user = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_user";
@@ -93,11 +93,13 @@ app.controller('userctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.users = response.data;
+            $scope.loading=false;
         }, function(error) {
             console.log(error);
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -124,7 +126,6 @@ app.controller('userctrl', function($scope, $http) {
 });
 
 app.controller('pcatctrl', function($scope, $http) {
-
     $scope.add_cat = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -147,6 +148,7 @@ app.controller('pcatctrl', function($scope, $http) {
     };
 
     $scope.get_category = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_product_category";
@@ -157,6 +159,7 @@ app.controller('pcatctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -165,6 +168,7 @@ app.controller('pcatctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -216,7 +220,6 @@ app.controller('pcatctrl', function($scope, $http) {
 });
 
 app.controller('supplierctrl', function($scope, $http) {
-
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -240,6 +243,7 @@ app.controller('supplierctrl', function($scope, $http) {
     };
 
     $scope.get_supplier = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_supplier";
@@ -250,6 +254,7 @@ app.controller('supplierctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.suppliers = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -258,6 +263,7 @@ app.controller('supplierctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -307,9 +313,7 @@ app.controller('supplierctrl', function($scope, $http) {
     $scope.get_supplier();
 });
 
-
 app.controller('productctrl', function($scope, $http) {
-
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -333,6 +337,7 @@ app.controller('productctrl', function($scope, $http) {
     };
 
     $scope.get_product = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_product";
@@ -343,6 +348,7 @@ app.controller('productctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.products = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -351,6 +357,7 @@ app.controller('productctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -444,7 +451,6 @@ app.controller('productctrl', function($scope, $http) {
 });
 
 app.controller('recipectctrl', function($scope, $http) {
-
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -468,6 +474,7 @@ app.controller('recipectctrl', function($scope, $http) {
     };
 
     $scope.get_category = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
@@ -479,6 +486,7 @@ app.controller('recipectctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -487,6 +495,7 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -573,6 +582,7 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.get_recipe = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_recipe";
@@ -584,6 +594,7 @@ app.controller('recipectrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.recipies = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -632,6 +643,7 @@ app.controller('recipectrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -692,8 +704,8 @@ app.controller('recipectrl', function($scope, $http) {
 });
 
 app.controller('locationctrl', function($scope, $http) {
-
     $scope.get_location = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
@@ -705,6 +717,7 @@ app.controller('locationctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.locations = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -760,6 +773,7 @@ app.controller('locationctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
@@ -789,6 +803,7 @@ app.controller('locationctrl', function($scope, $http) {
 
 app.controller('inventoryctrl', function($scope, $http) {
     $scope.get_inventory = function() {
+      $scope.loading=true;
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all_inventory";
@@ -800,6 +815,7 @@ app.controller('inventoryctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.inventories = response.data;
+            $scope.loading=false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -856,13 +872,18 @@ app.controller('inventoryctrl', function($scope, $http) {
     $scope.edit_modal = function(data) {
         console.log(data);
         $scope.edit_cat = data;
+        for (var i = 0; i < $scope.locations.length; i++) {
+            if ($scope.locations[i].id == data.inv_location_inv_location_id) {
+                $scope.show_location = $scope.locations[i].inv_location_name;
+            }
+        }
         jQuery("#editModal").modal("show");
     }
     $scope.edit = function(data) {
         // var params = {};
         data.action = "inventory_crud_function";
-        data.type = "update_location";
-        // console.log(data);
+        data.type = "update_inventory";
+        console.log(data);
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -872,7 +893,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_location();
+                $scope.get_inventory();
                 // },1000);
             }
         }, function(error) {
@@ -883,6 +904,7 @@ app.controller('inventoryctrl', function($scope, $http) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
         cat.type = "add_new_inventory";
+        cat.unit='1';
         console.log(cat);
         $http({
             url: myAjax.ajaxurl,
@@ -894,19 +916,21 @@ app.controller('inventoryctrl', function($scope, $http) {
                 console.log('successful');
                 jQuery("#newUserModal").modal('hide');
                 $scope.cat = [];
+                $scope.show_location = '';
                 $scope.get_inventory();
             }
         }, function(error) {
-            $scope.cat = [];
+            // $scope.cat = [];
             console.log(error);
         });
     };
     $scope.delete = function(id) {
+      $scope.loading=true;
         console.log(id);
         var params = {};
         params.action = "inventory_crud_function";
-        params.type = "delete";
-        params.table = "inv_location";
+        params.type = "delete_inventory";
+        // params.table = "inv_inventory";
         params.id = id;
         $http({
             url: myAjax.ajaxurl,
@@ -918,7 +942,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_location();
+                $scope.get_inventory();
                 // },1000);
 
             }
@@ -1014,7 +1038,6 @@ app.filter('datetime', function($filter) {
         if (input == null) {
             return "";
         }
-
         var _date = $filter('date')(new Date(input),
             'MMM dd yyyy - HH:mm:ss');
 

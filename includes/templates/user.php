@@ -1,5 +1,10 @@
 <?php ?>
-<div class="container" ng-app="inventoryHome" ng-controller="userctrl">
+<style type="text/css" media="screen">
+	[ng\:cloak], [ng-cloak], .ng-cloak {
+		display: none !important;
+	}
+</style>
+<div class="container" ng-app="inventoryHome" ng-controller="userctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
 			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New User</button>
@@ -165,6 +170,9 @@
 
 			<!--List of all users -->
 			<h2>All Users</h2>
+			<p>
+				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
+			</p>
 			<div class="table-responsive">          
 				<table class="table">
 					<thead>

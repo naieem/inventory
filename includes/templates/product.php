@@ -1,8 +1,13 @@
 <?php ?>
-<div class="container" ng-app="inventoryHome" ng-controller="productctrl">
+<style type="text/css" media="screen">
+	[ng\:cloak], [ng-cloak], .ng-cloak {
+		display: none !important;
+	}
+</style>
+<div class="container" ng-app="inventoryHome" ng-controller="productctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Product</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Product</button>
 
 			<!-- Add Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
@@ -141,8 +146,11 @@
 
 			<!--List of all categories -->
 			<h2>All Product</h2>
+			<p>
+				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
+			</p>
 			<div class="table-responsive">          
-					<table class="table">
+				<table class="table">
 					<thead>
 						<tr>
 							<th>#</th>

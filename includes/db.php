@@ -25,13 +25,13 @@ class DBCONNECTION{
 				$conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $conn -> setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND,"SET NAMES 'utf8'");
                 // $conn ->set_charset("utf8");
-				$this->db = $conn;
+                $this->db = $conn;
 				// print_r("connected");
-			}catch(PDOException $e){
-				die("Failed to connect with MySQL: " . $e->getMessage());
-			}
-		}
-	}
+            }catch(PDOException $e){
+                die("Failed to connect with MySQL: " . $e->getMessage());
+            }
+        }
+    }
 
     /*
      * Returns rows from the database based on the conditions
@@ -123,22 +123,28 @@ class DBCONNECTION{
     		foreach($data as $key => $value) {
     			$count++;
                 $value=utf8_decode($value);
-    			if($count == count($data)){
-    				$k.=$key;
-    				$v.='"'.$value.'"';	
-    			}
-    			else{
-    				$k.=$key.",";
-    				$v.='"'.$value.'",';	
-    			}
-    			
-    		}
-    		$sql = "INSERT INTO ".$table." (".$k.") VALUES (".$v.")";
-    		$query = $this->db->prepare($sql);
-    		$insert = $query->execute();
-    		// return $insert?$this->db->lastInsertId():false;
-            return $insert?1:false;
-    	}
+                if($count == count($data)){
+                    $k.=$key;
+                    $v.='"'.$value.'"';	
+                }
+                else{
+                    $k.=$key.",";
+                    $v.='"'.$value.'",';	
+                }
+
+            }
+            $sql = "INSERT INTO ".$table." (".$k.") VALUES (".$v.")";
+            try{
+                $query = $this->db->prepare($sql);
+                $insert = $query->execute();
+            // return $insert?$this->db->lastInsertId():false;
+                return $insert?1:false;
+            }
+            catch(PDOException $e){
+                die("Failed to insert: " . $e->getMessage());
+            }
+
+        }
     }
     /*
     *get all data from a table
@@ -164,10 +170,10 @@ class DBCONNECTION{
     		$data=$query->fetchAll(PDO::FETCH_ASSOC);
     		foreach ($data as $key => $value) {
                 $arr[]=array_map('utf8_encode',$value);
-    		}
-    		return $arr;
-    	}else
-    	return false;
+            }
+            return $arr;
+        }else
+        return false;
     }
     /*
      * Update data into the database
@@ -186,28 +192,33 @@ class DBCONNECTION{
     		foreach($data as $key=>$val){
                 $val=utf8_decode($val);
                 // $val=htmlspecialchars_decode($val);
-    			$pre = ($i > 0)?', ':'';
-    			$colvalSet .= $pre.$key."='".$val."'";
-    			$i++;
-    		}
-    		if(!empty($conditions) && is_array($conditions)){
-    			$whereSql .= ' WHERE ';
-    			$i = 0;
-    			foreach($conditions as $key => $value){
-    				$pre = ($i > 0)?' AND ':'';
-    				$whereSql .= $pre.$key." = '".$value."'";
-    				$i++;
-    			}
-    		}
-    		$sql = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
-    		$query = $this->db->prepare($sql);
-    		$update = $query->execute();
-    		return $update?1:false;
-    	}else{
-    		return false;
-    	}
-    }
-    
+                $pre = ($i > 0)?', ':'';
+                $colvalSet .= $pre.$key."='".$val."'";
+                $i++;
+            }
+            if(!empty($conditions) && is_array($conditions)){
+             $whereSql .= ' WHERE ';
+             $i = 0;
+             foreach($conditions as $key => $value){
+                $pre = ($i > 0)?' AND ':'';
+                $whereSql .= $pre.$key." = '".$value."'";
+                $i++;
+            }
+        }
+        $sql = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
+        try{
+            $query = $this->db->prepare($sql);
+            $update = $query->execute();
+            return $update?1:false;
+        }
+        catch(PDOException $e){
+            die("Failed to Update: " . $e->getMessage());
+        }
+    }else{
+      return false;
+  }
+}
+
     /*
      * Delete data from the database
      * @param string name of the table
@@ -225,9 +236,15 @@ class DBCONNECTION{
     		}
     	}
     	$sql = "DELETE FROM ".$table.$whereSql;
-        $query = $this->db->prepare($sql);
-    	$delete = $query->execute();
-    	return $delete?1:false;
+        try{
+            $query = $this->db->prepare($sql);
+            $delete = $query->execute();
+            return $delete?1:false;
+        }
+        catch(PDOException $e){
+            die("Failed to Delete: " . $e->getMessage());
+        }
+        
     }
 }
 
