@@ -96,11 +96,21 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 		/* Inventory submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
-'Inventory Inventory', // Page Title
-'Inventory Inventory', // menu Title
+'Inventory', // Page Title
+'Inventory', // menu Title
 'manage_options', // capability
 'inventory-inventory', // slug
 'inventory_inventory_func' // callback function
+);
+
+		/* Inventory submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory Order', // Page Title
+'Inventory Order', // menu Title
+'manage_options', // capability
+'inventory-order', // slug
+'inventory_order_func' // callback function
 );
 
 }
@@ -182,3 +192,10 @@ function inventory_location_func() {
 function inventory_inventory_func() {
 	include_once('templates/inventory.php');	
 }
+/**
+* Disply callback for the inventory order page.
+*/
+function inventory_order_func() {
+	include_once('templates/order.php');	
+}
+

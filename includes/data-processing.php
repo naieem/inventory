@@ -107,6 +107,31 @@ function inventory_crud_function(){
     case 'delete_inventory':
     delete_inventory($data);
     break;
+
+    /*Order crud*/
+    case 'add_new_order':
+    add_new_order($data);
+    break;
+    case 'get_all_orders':
+    get_all_orders();
+    break;
+    case 'update_order':
+    update_orders($data);
+    break;
+    case 'delete_order':
+    delete_orders($data);
+    break;
+    // case 'get_all_inventory':
+    // get_all_inventory($data);
+    // break;
+    // case 'update_inventory':
+    // update_inventory($data);
+    // break;
+    // case 'delete_inventory':
+    // delete_inventory($data);
+    // break;
+
+
     case 'get_all_users':
     get_all_users();
     break;
@@ -588,4 +613,75 @@ function delete_inventory($data){
   echo $ret;
 }
 
+function add_new_order($data){
+  unset($data['action']);
+  unset($data['type']);
+  // var_dump($data);
+  global $db;
+  // $res=$db->insert('inv_inventory',$data);
+  // echo $res;
+  $datas = array(
+    'inv_order_datetime' =>$data['datetime'],
+    'inv_customer_inv_customer_id' => $data['customer'],
+    'inv_order_total' => $data['total']  
+    );
+  $insert_result=$db->insert('inv_order_data',$datas);
+  $inventory_id=$db->db->lastInsertId();
+  if($insert_result){
+    $datas1=array(
+      'inv_recipe_id_inv_recipe'=>$data['recipe'],
+      'inv_order_line_qty' =>$data['quantity'],
+      'inv_currency_inv_currency_id' => $data['currency'],
+      'inv_order_data_inv_orderid' => $inventory_id
+      );
+    $insert_result=$db->insert('inv_order_details',$datas1);
+  }
+  echo $insert_result;
+}
+function get_all_orders(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_order_data","inv_order_details"),
+    'fields'=>"inv_order_data.*,inv_order_details.inv_recipe_id_inv_recipe,inv_order_details.inv_order_line_qty,inv_order_details.inv_currency_inv_currency_id",
+    'join'=>"INNER",
+    'condition'=>"ON inv_order_data.inv_order_orderid=inv_order_details.inv_order_data_inv_orderid" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+function update_orders($data){
+  // var_dump($data);
+  global $db;
+  
+  $datas=array(
+      'inv_recipe_id_inv_recipe'=>$data['inv_recipe_id_inv_recipe'],
+      'inv_order_line_qty' =>$data['inv_order_line_qty'],
+      'inv_currency_inv_currency_id' => $data['inv_currency_inv_currency_id']
+      );
+  $insert_result=$db->update('inv_order_details',$datas,
+    array( 'inv_order_data_inv_orderid' => $data['inv_order_orderid'] ));
+  if($insert_result){
+    $datas1 = array(
+    'inv_order_datetime' =>$data['inv_order_datetime'],
+    'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
+    'inv_order_total' => $data['inv_order_total']  
+    );
+    $insert_result=$db->update('inv_order_data',$datas1,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
+  }
+  echo $insert_result;
+}
+function delete_orders($data){
+  global $db;
+  $condition=array(
+    'inv_order_data_inv_orderid'=>$data['id']
+    );
+  $ret=$db->delete('inv_order_details',$condition);
+  if($ret){
+    $condition=array(
+    'inv_order_orderid'=>$data['id']
+    );
+  $ret=$db->delete('inv_order_data',$condition);
+  }
+  echo $ret;
+}
 ?>

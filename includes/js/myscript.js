@@ -1016,6 +1016,196 @@ app.controller('inventoryctrl', function($scope, $http) {
     $scope.get_inventory();
 });
 
+app.controller('orderctrl', function($scope, $http) {
+    $scope.get_order = function() {
+        $scope.loading = true;
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all_orders";
+        // params.table = "inv_";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response);
+            $scope.orders = response.data;
+            $scope.loading = false;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.show_location = '';
+    $scope.change_customer = function(id) {
+        for (var i = 0; i < $scope.customers.length; i++) {
+            if ($scope.customers[i].id == id) {
+                $scope.show_location = $scope.customers[i].inv_customer_name;
+            }
+        }
+    }
+    $scope.edit_modal = function(data) {
+        console.log(data);
+        $scope.edit_cat = data;
+        for (var i = 0; i < $scope.customers.length; i++) {
+            if ($scope.customers[i].id == data.inv_customer_inv_customer_id) {
+                $scope.show_location = $scope.customers[i].inv_customer_name;
+            }
+        }
+        jQuery("#editModal").modal("show");
+    }
+    $scope.edit = function(data) {
+        // var params = {};
+        data.action = "inventory_crud_function";
+        data.type = "update_order";
+        console.log(data);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: data
+        }).then(function(response) {
+            console.log(response.data);
+            if (response.data == '1') {
+                jQuery("#editModal").modal("hide");
+                $scope.show_location = '';
+                $scope.get_order();
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.add = function(cat) {
+        // console.log(cat);
+        cat.action = "inventory_crud_function";
+        cat.type = "add_new_order";
+        // cat.unit = '1';
+        console.log(cat);
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: cat
+        }).then(function(response) {
+            console.log(response);
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.show_location = '';
+                $scope.get_order ();
+            }
+        }, function(error) {
+            // $scope.cat = [];
+            console.log(error);
+        });
+    };
+    $scope.delete = function(id) {
+        $scope.loading = true;
+        console.log(id);
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "delete_order";
+        // params.table = "inv_inventory";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            // $scope.delete = response.data;
+            if (response.data === '1') {
+                console.log('successful');
+                // setTimeout(function () {
+                $scope.get_order();
+                // },1000);
+            } else if (response.data === '23000') {
+                alert("you can not delete this.Because it is used in somewhere else.");
+                $scope.loading = false;
+            }
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    $scope.get_supplier = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_supplier";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.suppliers = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_customer = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table="inv_customer";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.customers = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_recipe = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all_recipe";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.recipes = response.data;
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_currency = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table="inv_currency";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.currencies = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_recipe();
+    $scope.get_supplier();
+    $scope.get_customer();
+    $scope.get_currency();
+    $scope.get_order();
+});
+
 
 /*
  *

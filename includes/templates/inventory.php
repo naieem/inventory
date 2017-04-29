@@ -18,7 +18,7 @@
 							<h4 class="modal-title">Add new Inventory</h4>
 						</div>
 						<div class="modal-body">
-							<h1>Date:{{cat.inv_inventory_date | datetime}}</h1>
+							<h2>Date:{{cat.inv_inventory_date | datetime}}</h2>
 							<h2>Location:{{show_location}}</h2>
 							<form name="new_user">
 								<div class="form-group">
@@ -91,7 +91,7 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<h1>Date:{{edit_cat.inv_inventory_date | datetime}}</h1>
+							<h2>Date:{{edit_cat.inv_inventory_date | datetime}}</h2>
 							<h2>Location:{{show_location}}</h2>
 							<form name="new_user">
 								<div class="form-group">
