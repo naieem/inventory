@@ -1030,12 +1030,12 @@ app.controller('orderctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.orders = response.data;
-            $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
         }, function(error) {
             console.log(error);
+            $scope.loading = false;
         });
     };
     $scope.show_location = '';
