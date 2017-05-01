@@ -7,7 +7,7 @@
 <div class="container" ng-app="inventoryHome" ng-controller="userctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New User</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Customer</button>
 
 			<!-- Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
@@ -16,7 +16,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Add new user</h4>
+							<h4 class="modal-title">Add new customer</h4>
 						</div>
 						<div class="modal-body">
 							<form name="new_user">
@@ -169,7 +169,7 @@
 			</div>	
 
 			<!--List of all users -->
-			<h2>All Users</h2>
+			<h2>All Customer</h2>
 			<p>
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>

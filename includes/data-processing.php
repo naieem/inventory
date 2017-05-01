@@ -35,6 +35,9 @@ function inventory_crud_function(){
     case 'get_product_category':
     get_product_category();
     break;
+    case 'get_product_category_parent':
+    get_product_category_parent();
+    break;
     case 'update_product_category':
     update_product_category($data);
     break;
@@ -251,6 +254,17 @@ function get_product_category(){
     'fields'=>"*",
     'join'=>"",
     'condition'=>"WHERE id!='0'" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+function get_product_category_parent(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_product_cat"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE id!='0' AND inv_product_cat_parent=0" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);

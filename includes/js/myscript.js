@@ -55,7 +55,7 @@ app.controller('userctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_all_user();
+                    $scope.get_all_user();
                 // },1000);
             }
         }, function(error) {
@@ -143,6 +143,7 @@ app.controller('pcatctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 jQuery("#newUserModal").modal('hide');
+                $scope.get_parent_category();
                 $scope.get_category();
             }
         }, function(error) {
@@ -163,9 +164,6 @@ app.controller('pcatctrl', function($scope, $http) {
             console.log(response.data);
             $scope.categories = response.data;
             $scope.loading = false;
-            // if(response.data){
-            //    console.log('new user adding successful');
-            // }
         }, function(error) {
             console.log(error);
         });
@@ -187,6 +185,7 @@ app.controller('pcatctrl', function($scope, $http) {
             // $scope.delete = response.data;
             if (response.data === '1') {
                 console.log('successful');
+                $scope.get_parent_category();
                 $scope.get_category();
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -216,12 +215,32 @@ app.controller('pcatctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 $scope.cat = [];
+                $scope.get_parent_category();
                 $scope.get_category();
             }
         }, function(error) {
             console.log(error);
         });
     };
+    $scope.get_parent_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_product_category_parent";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.parentCategories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_parent_category();
     $scope.get_category();
 });
 
@@ -383,7 +402,7 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_product();
+                    $scope.get_product();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -414,7 +433,7 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_product();
+                    $scope.get_product();
                 // },1000);
             }
         }, function(error) {
@@ -450,6 +469,50 @@ app.controller('productctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
+            /* Code for separating parent and child category */
+            $scope.obj = response.data;
+            $scope.parent = [];
+            $scope.children = [];
+            for (var i = 0; i < $scope.obj.length; i++) {
+                if ($scope.obj[i]['inv_product_cat_parent'] == 0) {
+                    $scope.parent.push($scope.obj[i]);
+                }
+                if ($scope.obj[i]['inv_product_cat_parent'] != 0) {
+                    $scope.children.push($scope.obj[i]);
+                }
+            }
+
+            $scope.grandParent = [];
+            for (var i = 0; i < $scope.parent.length; i++) {
+                $scope.temparr = [];
+                $scope.temparr.children = [];
+                for (var j = 0; j < $scope.children.length; j++) {
+                    if ($scope.parent[i]['id'] == $scope.children[j]['inv_product_cat_parent']) {
+                        $scope.temparr.children.push($scope.children[j]);
+                    }
+                }
+                $scope.temparr.push($scope.parent[i]);
+                $scope.grandParent.push($scope.temparr);
+            }
+            console.log("parent", $scope.parent);
+            console.log("children", $scope.children);
+            console.log('grandParent', $scope.grandParent);
+            /* Parent and child separing code end */
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_parent_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_product_category_parent";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.parentCategories = response.data;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
@@ -459,6 +522,7 @@ app.controller('productctrl', function($scope, $http) {
     };
     $scope.get_supplier();
     $scope.get_category();
+    $scope.get_parent_category();
     $scope.get_product();
 });
 
@@ -524,7 +588,7 @@ app.controller('recipectctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_category();
+                    $scope.get_category();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -555,7 +619,7 @@ app.controller('recipectctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_category();
+                    $scope.get_category();
                 // },1000);
             }
         }, function(error) {
@@ -675,7 +739,7 @@ app.controller('recipectrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_recipe();
+                    $scope.get_recipe();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -709,7 +773,7 @@ app.controller('recipectrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_recipe();
+                    $scope.get_recipe();
                 // },1000);
             }
         }, function(error) {
@@ -762,7 +826,7 @@ app.controller('locationctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_location();
+                    $scope.get_location();
                 // },1000);
             }
         }, function(error) {
@@ -808,7 +872,7 @@ app.controller('locationctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_location();
+                    $scope.get_location();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -914,7 +978,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                $scope.get_inventory();
+                    $scope.get_inventory();
                 // },1000);
             }
         }, function(error) {
@@ -963,7 +1027,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_inventory();
+                    $scope.get_inventory();
                 // },1000);
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -1093,7 +1157,7 @@ app.controller('orderctrl', function($scope, $http) {
                 jQuery("#newUserModal").modal('hide');
                 $scope.cat = [];
                 $scope.show_location = '';
-                $scope.get_order ();
+                $scope.get_order();
             }
         }, function(error) {
             // $scope.cat = [];
@@ -1118,7 +1182,7 @@ app.controller('orderctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                $scope.get_order();
+                    $scope.get_order();
                 // },1000);
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -1150,7 +1214,7 @@ app.controller('orderctrl', function($scope, $http) {
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
-        params.table="inv_customer";
+        params.table = "inv_customer";
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -1184,7 +1248,7 @@ app.controller('orderctrl', function($scope, $http) {
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_all";
-        params.table="inv_currency";
+        params.table = "inv_currency";
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -1211,7 +1275,7 @@ app.controller('orderctrl', function($scope, $http) {
  *
  * Custom directive for showing parent category
  */
-app.directive('parent', function() {
+ app.directive('parent', function() {
     return {
         restrict: 'E',
         scope: {
@@ -1232,7 +1296,7 @@ app.directive('parent', function() {
     };
 });
 
-app.directive('stringToNumber', function() {
+ app.directive('stringToNumber', function() {
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
@@ -1246,7 +1310,7 @@ app.directive('stringToNumber', function() {
     };
 });
 
-app.filter('datetime', function($filter) {
+ app.filter('datetime', function($filter) {
     return function(input) {
         if (input == null) {
             return "";

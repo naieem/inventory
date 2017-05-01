@@ -28,8 +28,8 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 	/* User submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
-'Inventory Users', // Page Title
-'Inventory user', // menu Title
+'Inventory Customer', // Page Title
+'Inventory Customer', // menu Title
 'manage_options', // capability
 'inventory-user', // slug
 'inventory_user_func' // callback function

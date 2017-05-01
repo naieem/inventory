@@ -52,12 +52,23 @@
 									<input type="text" class="form-control" name="name" ng-model="cat.cost" required>
 									
 								</div>
+								<!-- <div class="form-group">
+									<label for="name">Category</label>
+									<select name="" ng-model="cat.category" class="form-control">
+										<option value="{{ category.id }}" ng-repeat="category in parentCategories">{{ category.inv_product_cat_name }}</option>
+									</select>
+								</div> -->
+
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="cat.category" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_product_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
+										</optgroup>
+
 									</select>
 								</div>
+
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="" class="form-control" ng-model="cat.supplier">
@@ -124,7 +135,9 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="cat.inv_product_category_id" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_product_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
+										</optgroup>
 									</select>
 								</div>
 								<div class="form-group">
