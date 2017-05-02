@@ -55,7 +55,7 @@ app.controller('userctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_all_user();
+                $scope.get_all_user();
                 // },1000);
             }
         }, function(error) {
@@ -402,7 +402,7 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_product();
+                $scope.get_product();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -433,7 +433,7 @@ app.controller('productctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_product();
+                $scope.get_product();
                 // },1000);
             }
         }, function(error) {
@@ -588,7 +588,7 @@ app.controller('recipectctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_category();
+                $scope.get_category();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -619,7 +619,7 @@ app.controller('recipectctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_category();
+                $scope.get_category();
                 // },1000);
             }
         }, function(error) {
@@ -631,24 +631,45 @@ app.controller('recipectctrl', function($scope, $http) {
 });
 
 app.controller('recipectrl', function($scope, $http) {
-
+    $scope.newProducts = [];
+    $scope.newReciepe = [];
+    $scope.add_element = function(val) {
+        var obj = {
+            ID: '',
+            qty: '',
+            unit: '',
+            type: ''
+        };
+        if (val == "product") {
+            obj.type = "product";
+            $scope.newProducts.push(obj);
+            console.log($scope.newProducts);
+        } else {
+            obj.type = "recipe";
+            $scope.newReciepe.push(obj);
+            console.log($scope.newReciepe);
+        }
+    }
     $scope.add = function(cat) {
         // console.log(cat);
-        cat.action = "inventory_crud_function";
-        cat.type = "add_new_recipe";
-        console.log(cat);
+        // console.log(cat);
+        var newarr = $scope.newProducts.concat($scope.newReciepe);
+        newarr.config = cat;
+        newarr.action = "inventory_crud_function";
+        newarr.type = "add_new_recipe";
+        console.log(newarr);
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
-            params: cat
+            params: newarr
         }).then(function(response) {
             console.log(response);
-            if (response.data === '1') {
-                console.log('successful');
-                jQuery("#newUserModal").modal('hide');
-                $scope.cat = [];
-                $scope.get_recipe();
-            }
+            // if (response.data === '1') {
+            //     console.log('successful');
+            //     jQuery("#newUserModal").modal('hide');
+            //     $scope.cat = [];
+            //     $scope.get_recipe();
+            // }
         }, function(error) {
             console.log(error);
         });
@@ -739,7 +760,7 @@ app.controller('recipectrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_recipe();
+                $scope.get_recipe();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -773,7 +794,7 @@ app.controller('recipectrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_recipe();
+                $scope.get_recipe();
                 // },1000);
             }
         }, function(error) {
@@ -826,7 +847,7 @@ app.controller('locationctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_location();
+                $scope.get_location();
                 // },1000);
             }
         }, function(error) {
@@ -872,7 +893,7 @@ app.controller('locationctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_location();
+                $scope.get_location();
                 // },1000);
 
             } else if (response.data === '23000') {
@@ -978,7 +999,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
-                    $scope.get_inventory();
+                $scope.get_inventory();
                 // },1000);
             }
         }, function(error) {
@@ -1027,7 +1048,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_inventory();
+                $scope.get_inventory();
                 // },1000);
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -1182,7 +1203,7 @@ app.controller('orderctrl', function($scope, $http) {
             if (response.data === '1') {
                 console.log('successful');
                 // setTimeout(function () {
-                    $scope.get_order();
+                $scope.get_order();
                 // },1000);
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -1275,7 +1296,7 @@ app.controller('orderctrl', function($scope, $http) {
  *
  * Custom directive for showing parent category
  */
- app.directive('parent', function() {
+app.directive('parent', function() {
     return {
         restrict: 'E',
         scope: {
@@ -1296,7 +1317,7 @@ app.controller('orderctrl', function($scope, $http) {
     };
 });
 
- app.directive('stringToNumber', function() {
+app.directive('stringToNumber', function() {
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
@@ -1310,7 +1331,7 @@ app.controller('orderctrl', function($scope, $http) {
     };
 });
 
- app.filter('datetime', function($filter) {
+app.filter('datetime', function($filter) {
     return function(input) {
         if (input == null) {
             return "";
