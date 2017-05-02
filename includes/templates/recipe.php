@@ -81,6 +81,7 @@
 
 					</div>
 				</div>
+				<div>
 
 				<!-- Edit Modal -->
 				<div class="modal fade" id="editModal" role="dialog">
@@ -152,8 +153,7 @@
 							</div>
 
 						</div>
-					</div>				
-
+					</div>	
 					<!--List of all categories -->
 					<h2>All Recipe</h2>
 					<p>

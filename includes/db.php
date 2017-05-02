@@ -8,14 +8,14 @@
  * @license   http://www.codexworld.com/license
  */
 class DBCONNECTION{
-	// private $dbHost     = "localhost";
-	// private $dbUsername = "root";
-	// private $dbPassword = "";
-	// private $dbName     = "inventory";
-    private $dbHost     = "208.113.131.151";
-    private $dbUsername = "dev1";
-    private $dbPassword = "SSapaKtWFuzwca7D";
-    private $dbName     = "inventory";
+	private $dbHost     = "localhost";
+	private $dbUsername = "root";
+	private $dbPassword = "";
+	private $dbName     = "inventory";
+    // private $dbHost     = "208.113.131.151";
+    // private $dbUsername = "dev1";
+    // private $dbPassword = "SSapaKtWFuzwca7D";
+    // private $dbName     = "inventory";
 
 	public function __construct(){
 		if(!isset($this->db)){
