@@ -651,17 +651,18 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
-        // console.log(cat);
-        // console.log(cat);
+        var temparr = {};
+        temparr.mapping = [];
         var newarr = $scope.newProducts.concat($scope.newReciepe);
-        newarr.config = cat;
-        newarr.action = "inventory_crud_function";
-        newarr.type = "add_new_recipe";
-        console.log(newarr);
+        temparr.mapping.push(newarr);
+        temparr.config = cat;
+        temparr.action = "inventory_crud_function";
+        temparr.type = "add_new_recipe";
+        console.log(temparr);
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
-            params: newarr
+            params: temparr
         }).then(function(response) {
             console.log(response);
             // if (response.data === '1') {
