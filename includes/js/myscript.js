@@ -638,6 +638,7 @@ app.controller('recipectctrl', function($scope, $http) {
 app.controller('recipectrl', function($scope, $http) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
+
     $scope.add_element = function(val) {
         var obj = {
             ID: '',
@@ -840,8 +841,16 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(response.data);
             $scope.loading = false;
             $scope.edit_cat = data;
-            $scope.editProducts = response.data.product;
-            $scope.editReciepe = response.data.recipe;
+            if (response.data.product != null)
+                $scope.editProducts = response.data.product;
+            else {
+                $scope.editProducts = [];
+            }
+            if (response.data.recipe != null)
+                $scope.editReciepe = response.data.recipe;
+            else {
+                $scope.editReciepe = [];
+            }
             jQuery("#editModal").modal("show");
             // $scope.products = response.data;
             // if(response.data){
@@ -862,17 +871,17 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.edit = function(data) {
         var temparr = {};
         temparr.mapping = [];
-        if ($scope.editProducts) {
-            for (var i = 0; i < $scope.editProducts.length; i++) {
-                $scope.editProducts[i].type = "product";
+        if ($scope.edit)
+            if ($scope.editProducts) {
+                for (var i = 0; i < $scope.editProducts.length; i++) {
+                    $scope.editProducts[i].type = "product";
+                }
             }
-        }
         if ($scope.editReciepe) {
             for (var i = 0; i < $scope.editReciepe.length; i++) {
                 $scope.editReciepe[i].type = "recipe";
             }
         }
-
         var newarr = $scope.editProducts.concat($scope.editReciepe);
         temparr.mapping.push(newarr);
         temparr.recipe = data;
