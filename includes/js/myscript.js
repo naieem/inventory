@@ -1,3 +1,8 @@
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
 var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker']);
 app.controller('homectrl', function($scope, $http) {
 
@@ -650,12 +655,40 @@ app.controller('recipectrl', function($scope, $http) {
             console.log($scope.newReciepe);
         }
     }
+    $scope.add_element_edit = function(val) {
+        var obj = {
+            inv_product_has_inv_recipe_qty: '',
+            inv_inventory_units_inv_inventory_units_id: '',
+            type: ''
+        };
+        if (val == "product") {
+            obj.type = "product";
+            obj.inv_product_id_inv_product = '';
+            if ($scope.editProducts) {
+                $scope.editProducts.push(obj);
+            } else {
+                $scope.editProducts = [];
+                $scope.editProducts.push(obj);
+            }
+            console.log($scope.editProducts);
+        } else {
+            obj.type = "recipe";
+            obj.inv_recipe_inv_recipe_id = '';
+            if ($scope.editReciepe) {
+                $scope.editReciepe.push(obj);
+            } else {
+                $scope.editReciepe = [];
+                $scope.editReciepe.push(obj);
+            }
+            console.log($scope.editReciepe);
+        }
+    }
     $scope.add = function(cat) {
         var temparr = {};
         temparr.mapping = [];
         var newarr = $scope.newProducts.concat($scope.newReciepe);
         temparr.mapping.push(newarr);
-        temparr.config = cat;
+        temparr.recipe = cat;
         temparr.action = "inventory_crud_function";
         temparr.type = "add_new_recipe";
         console.log(temparr);
@@ -665,16 +698,34 @@ app.controller('recipectrl', function($scope, $http) {
             params: temparr
         }).then(function(response) {
             console.log(response);
-            // if (response.data === '1') {
-            //     console.log('successful');
-            //     jQuery("#newUserModal").modal('hide');
-            //     $scope.cat = [];
-            //     $scope.get_recipe();
-            // }
+            if (response.data === '1') {
+                console.log('successful');
+                jQuery("#newUserModal").modal('hide');
+                $scope.cat = [];
+                $scope.get_recipe();
+                $scope.newProducts = [];
+                $scope.newReciepe = [];
+            }
         }, function(error) {
             console.log(error);
         });
     };
+    $scope.removeField = function(index, type) {
+        if (type == 'product') {
+            $scope.newProducts.remove(index);
+        }
+        if (type == 'recipe') {
+            $scope.newReciepe.remove(index);
+        }
+    }
+    $scope.removeField_edit = function(index, type) {
+        if (type == 'product') {
+            $scope.editProducts.remove(index);
+        }
+        if (type == 'recipe') {
+            $scope.editReciepe.remove(index);
+        }
+    }
     $scope.changeIngredients = function(arg) {
         if (arg == '1') {
             $scope.edit_cat.inv_recipe_inv_recipe_id = 0;
@@ -760,9 +811,9 @@ app.controller('recipectrl', function($scope, $http) {
             // $scope.delete = response.data;
             if (response.data === '1') {
                 console.log('successful');
-                // setTimeout(function () {
-                $scope.get_recipe();
-                // },1000);
+                setTimeout(function() {
+                    $scope.get_recipe();
+                }, 1000);
 
             } else if (response.data === '23000') {
                 alert("you can not delete this.Because it is used in somewhere else.");
@@ -772,31 +823,75 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(error);
         });
     }
-    $scope.edit_modal = function(data) {
-        if (data.inv_recipe_inv_recipe_id == 0) {
-            data.ingredients = '1';
-        } else {
-            data.ingredients = '2';
-        }
-        console.log(data);
-        $scope.edit_cat = data;
-        jQuery("#editModal").modal("show");
+    $scope.edit_modal = function(data, id) {
+        $scope.loading = true;
+        $scope.editProducts = [];
+        $scope.editReciepe = [];
+        var params = [];
+        params.action = "inventory_crud_function";
+        params.type = "get_recipe_mapping";
+        // params.table = "inv_product";
+        params.id = id;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.loading = false;
+            $scope.edit_cat = data;
+            $scope.editProducts = response.data.product;
+            $scope.editReciepe = response.data.recipe;
+            jQuery("#editModal").modal("show");
+            // $scope.products = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+        // if (data.inv_recipe_inv_recipe_id == 0) {
+        //     data.ingredients = '1';
+        // } else {
+        //     data.ingredients = '2';
+        // }
+        // console.log(data);
+        // $scope.edit_cat = data;
+        // jQuery("#editModal").modal("show");
     }
     $scope.edit = function(data) {
-        data.action = "inventory_crud_function";
-        data.type = "update_recipe";
+        var temparr = {};
+        temparr.mapping = [];
+        if ($scope.editProducts) {
+            for (var i = 0; i < $scope.editProducts.length; i++) {
+                $scope.editProducts[i].type = "product";
+            }
+        }
+        if ($scope.editReciepe) {
+            for (var i = 0; i < $scope.editReciepe.length; i++) {
+                $scope.editReciepe[i].type = "recipe";
+            }
+        }
+
+        var newarr = $scope.editProducts.concat($scope.editReciepe);
+        temparr.mapping.push(newarr);
+        temparr.recipe = data;
+        temparr.action = "inventory_crud_function";
+        temparr.type = "update_recipe";
         console.log(data);
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
-            params: data
+            params: temparr
         }).then(function(response) {
             console.log(response.data);
             if (response.data == '1') {
                 jQuery("#editModal").modal("hide");
-                // setTimeout(function () {
-                $scope.get_recipe();
-                // },1000);
+                setTimeout(function() {
+                    $scope.get_recipe();
+                    $scope.editProducts = [];
+                    $scope.editReciepe = [];
+                }, 1000);
             }
         }, function(error) {
             console.log(error);
