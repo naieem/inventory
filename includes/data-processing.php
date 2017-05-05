@@ -536,10 +536,11 @@ function update_recipe($data){
   $all_ids = $db->get_data($config);// all existing ids from database
   $tempid=[];
   foreach ($map as $value) {
-    $tempid[]=$value->id;
+    if($value->id){
+      $tempid[]=$value->id;
+    }
   }
   // var_dump($tempid);
-  // if(count($map) < count($all_ids)){
   /**
    *
    * check if any old data is missing.if missing

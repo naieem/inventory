@@ -871,15 +871,26 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.edit = function(data) {
         var temparr = {};
         temparr.mapping = [];
-        if ($scope.edit)
-            if ($scope.editProducts) {
-                for (var i = 0; i < $scope.editProducts.length; i++) {
+        if ($scope.editProducts) {
+            for (var i = 0; i < $scope.editProducts.length; i++) {
+                var res = checkDuplicate('product', $scope.editProducts[i].inv_product_id_inv_product, $scope.editProducts);
+                if (!res) {
                     $scope.editProducts[i].type = "product";
+                } else {
+                    alert("Duplicate product entry");
+                    return false;
                 }
             }
+        }
         if ($scope.editReciepe) {
             for (var i = 0; i < $scope.editReciepe.length; i++) {
-                $scope.editReciepe[i].type = "recipe";
+                var res = checkDuplicate('recipe', $scope.editReciepe[i].inv_recipe_inv_recipe_id, $scope.editReciepe);
+                if (!res) {
+                    $scope.editReciepe[i].type = "recipe";
+                } else {
+                    alert("Duplicate recipe entry");
+                    return false;
+                }
             }
         }
         var newarr = $scope.editProducts.concat($scope.editReciepe);
@@ -909,6 +920,40 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.get_recipe();
     $scope.get_product();
     $scope.get_category();
+
+    function checkDuplicate(type, id, arr) {
+        var result = false;
+        if (type == 'product') {
+            // for (var i = 0; i < arr.length; i++) {
+            //     if (arr[i].inv_product_id_inv_product == id) {
+            //         result = true;
+            //         break;
+            //     } else {
+            //         result = false;
+            //     }
+            // }
+            var valueArr = arr.map(function(item) {
+                return item.inv_product_id_inv_product
+            });
+            var isDuplicate = valueArr.some(function(item, idx) {
+                console.log(item);
+                return valueArr.indexOf(item) != idx
+            });
+            console.log(isDuplicate);
+            return isDuplicate;
+        }
+        if (type == 'recipe') {
+            var valueArr = arr.map(function(item) {
+                return item.inv_recipe_inv_recipe_id
+            });
+            var isDuplicate = valueArr.some(function(item, idx) {
+                console.log(item);
+                return valueArr.indexOf(item) != idx
+            });
+            console.log(isDuplicate);
+            return isDuplicate;
+        }
+    }
 });
 
 app.controller('locationctrl', function($scope, $http) {
