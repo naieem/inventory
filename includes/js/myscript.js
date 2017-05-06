@@ -905,7 +905,34 @@ app.controller('recipectrl', function($scope, $http) {
             params: temparr
         }).then(function(response) {
             console.log(response.data);
-            if (response.data == '1') {
+            //if (response.data == '1') {
+            // jQuery("#editModal").modal("hide");
+            // setTimeout(function() {
+            //     $scope.get_recipe();
+            //     $scope.editProducts = [];
+            //     $scope.editReciepe = [];
+            // }, 1000);
+            var cnt = 0;
+            for (var i = 0; i < newarr.length; i++) {
+                var arr = [];
+                arr.data = newarr[i];
+                arr.action = "inventory_crud_function";
+                arr.type = "update_recipe_mapping";
+                arr.id = data.id;
+                $http({
+                    url: myAjax.ajaxurl,
+                    method: "POST",
+                    params: arr
+                }).then(function(response) {
+                    console.log(response.data);
+                    if (response.data == '1') {
+                        cnt++;
+                    }
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+            if (cnt == newarr.length) {
                 jQuery("#editModal").modal("hide");
                 setTimeout(function() {
                     $scope.get_recipe();
@@ -913,6 +940,7 @@ app.controller('recipectrl', function($scope, $http) {
                     $scope.editReciepe = [];
                 }, 1000);
             }
+            //}
         }, function(error) {
             console.log(error);
         });
