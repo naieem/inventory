@@ -928,18 +928,19 @@ app.controller('recipectrl', function($scope, $http) {
                     if (response.data == '1') {
                         cnt++;
                     }
+                    if (cnt == newarr.length) {
+                        jQuery("#editModal").modal("hide");
+                        setTimeout(function() {
+                            $scope.get_recipe();
+                            $scope.editProducts = [];
+                            $scope.editReciepe = [];
+                        }, 1000);
+                    }
                 }, function(error) {
                     console.log(error);
                 });
             }
-            if (cnt == newarr.length) {
-                jQuery("#editModal").modal("hide");
-                setTimeout(function() {
-                    $scope.get_recipe();
-                    $scope.editProducts = [];
-                    $scope.editReciepe = [];
-                }, 1000);
-            }
+
             //}
         }, function(error) {
             console.log(error);
