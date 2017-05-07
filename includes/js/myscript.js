@@ -638,6 +638,7 @@ app.controller('recipectctrl', function($scope, $http) {
 app.controller('recipectrl', function($scope, $http) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
+    $scope.showloader=false;
 
     $scope.add_element = function(val) {
         var obj = {
@@ -685,6 +686,7 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
+        $scope.showloader=true;
         var temparr = {};
         temparr.mapping = [];
         var newarr = $scope.newProducts.concat($scope.newReciepe);
@@ -701,6 +703,7 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(response);
             if (response.data === '1') {
                 console.log('successful');
+                $scope.showloader=false;
                 jQuery("#newUserModal").modal('hide');
                 $scope.cat = [];
                 $scope.get_recipe();
@@ -870,6 +873,7 @@ app.controller('recipectrl', function($scope, $http) {
     }
     $scope.edit = function(data) {
         var temparr = {};
+        $scope.showloader=true;
         temparr.mapping = [];
         if ($scope.editProducts) {
             for (var i = 0; i < $scope.editProducts.length; i++) {
@@ -878,6 +882,7 @@ app.controller('recipectrl', function($scope, $http) {
                     $scope.editProducts[i].type = "product";
                 } else {
                     alert("Duplicate product entry");
+                    $scope.showloader=false;
                     return false;
                 }
             }
@@ -889,6 +894,7 @@ app.controller('recipectrl', function($scope, $http) {
                     $scope.editReciepe[i].type = "recipe";
                 } else {
                     alert("Duplicate recipe entry");
+                    $scope.showloader=false;
                     return false;
                 }
             }
@@ -905,13 +911,13 @@ app.controller('recipectrl', function($scope, $http) {
             params: temparr
         }).then(function(response) {
             console.log(response.data);
-            //if (response.data == '1') {
-            // jQuery("#editModal").modal("hide");
-            // setTimeout(function() {
-            //     $scope.get_recipe();
-            //     $scope.editProducts = [];
-            //     $scope.editReciepe = [];
-            // }, 1000);
+            
+            /**            
+                Adding mapping ingredients:
+                - Adding product one by one
+                - Adding recipe one by one
+            */           
+            
             var cnt = 0;
             for (var i = 0; i < newarr.length; i++) {
                 var arr = [];
@@ -929,6 +935,7 @@ app.controller('recipectrl', function($scope, $http) {
                         cnt++;
                     }
                     if (cnt == newarr.length) {
+                        $scope.showloader=false;
                         jQuery("#editModal").modal("hide");
                         setTimeout(function() {
                             $scope.get_recipe();
@@ -940,8 +947,13 @@ app.controller('recipectrl', function($scope, $http) {
                     console.log(error);
                 });
             }
-
-            //}
+            /**
+             *
+             * Ingredients adding coding ends
+             *
+             */
+            
+            
         }, function(error) {
             console.log(error);
         });

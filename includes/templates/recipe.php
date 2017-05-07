@@ -100,7 +100,9 @@
 									<textarea name="" ng-model="cat.instructions" class="form-control"></textarea>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
+								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+								</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -195,7 +197,9 @@
 										<textarea name="" ng-model="edit_cat.inv_recipe_instructions" class="form-control"></textarea>
 									</div>
 
-									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit</button>
+									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
+									<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+									</button>
 								</form>
 							</div>
 							<div class="modal-footer">
