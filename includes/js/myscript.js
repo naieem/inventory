@@ -554,6 +554,24 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
 
+    $scope.get_parent_category = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_recipe_category_parent";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.parentCategories = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
     $scope.get_category = function() {
         $scope.loading = true;
         var params = {};
@@ -566,6 +584,7 @@ app.controller('recipectctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
+            $scope.get_parent_category();
             $scope.categories = response.data;
             $scope.loading = false;
             // if(response.data){
@@ -632,7 +651,6 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
     $scope.get_category();
-    // $scope.get_product();
 });
 
 app.controller('recipectrl', function($scope, $http) {
@@ -771,9 +789,35 @@ app.controller('recipectrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.categories = response.data;
-            // if(response.data){
-            //    console.log('new user adding successful');
-            // }
+            /* Code for separating parent and child category */
+            $scope.obj = response.data;
+            $scope.parent = [];
+            $scope.children = [];
+            for (var i = 0; i < $scope.obj.length; i++) {
+                if ($scope.obj[i]['inv_recipe_cat_parent'] == 0) {
+                    $scope.parent.push($scope.obj[i]);
+                }
+                if ($scope.obj[i]['inv_recipe_cat_parent'] != 0) {
+                    $scope.children.push($scope.obj[i]);
+                }
+            }
+
+            $scope.grandParent = [];
+            for (var i = 0; i < $scope.parent.length; i++) {
+                $scope.temparr = [];
+                $scope.temparr.children = [];
+                for (var j = 0; j < $scope.children.length; j++) {
+                    if ($scope.parent[i]['id'] == $scope.children[j]['inv_recipe_cat_parent']) {
+                        $scope.temparr.children.push($scope.children[j]);
+                    }
+                }
+                $scope.temparr.push($scope.parent[i]);
+                $scope.grandParent.push($scope.temparr);
+            }
+            console.log("parent", $scope.parent);
+            console.log("children", $scope.children);
+            console.log('grandParent', $scope.grandParent);
+            /* Parent and child separing code end */
         }, function(error) {
             console.log(error);
         });
@@ -1306,9 +1350,7 @@ app.controller('orderctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response);
             $scope.orders = response.data;
-            // if(response.data){
-            //    console.log('new user adding successful');
-            // }
+            $scope.loading = false;
         }, function(error) {
             console.log(error);
             $scope.loading = false;

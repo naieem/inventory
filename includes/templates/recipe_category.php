@@ -31,6 +31,14 @@
 									<label for="email">Category Description</label>
 									<textarea name="description" class="form-control"  ng-model="cat.desc"></textarea>
 								</div>
+								<div class="form-group">
+									<label for="">Category parent</label>
+									<select class="form-control" name="parent" ng-model="cat.parent">
+										<option value="0">Self</option>
+										<option value="{{category.id}}" ng-repeat="category in parentCategories">{{category.inv_recipe_cat_name}} 
+										</option>
+									</select>
+								</div>
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
@@ -63,6 +71,14 @@
 									<label for="email">Category Description</label>
 									<textarea name="description" class="form-control"  ng-model="cat.inv_recipe_cat_desc"></textarea>
 								</div>
+								<div class="form-group">
+									<label for="">Category parent</label>
+									<select class="form-control" name="parent" ng-model="cat.inv_recipe_cat_parent">
+										<option value="0">Self</option>
+										<option value="{{category.id}}" ng-repeat="category in parentCategories">{{category.inv_recipe_cat_name}} 
+										</option>
+									</select>
+								</div>
 								<button type="button" class="btn btn-default" ng-click="edit(cat)">Submit</button>
 							</form>
 						</div>
@@ -86,6 +102,7 @@
 							<th>#</th>
 							<th>Name</th>
 							<th>Description</th>
+							<th>Parent</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -94,7 +111,7 @@
 							<td>{{category.id}}</td>
 							<td>{{category.inv_recipe_cat_name}}</td>
 							<td>{{category.inv_recipe_cat_desc}}</td>
-
+							<td><parent info="categories" cid="category.inv_recipe_cat_parent" field="inv_recipe_cat_name"></parent></td>
 							<td>
 								<button type="button" class="btn btn-default" ng-click="edit_modal(category)">Edit</button>
 								<button type="button" class="btn btn-default" ng-click="delete(category.id)">Delete</button>

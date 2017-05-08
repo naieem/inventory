@@ -30,7 +30,10 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="cat.category" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_recipe_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_recipe_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_recipe_cat_name}}</option>
+										</optgroup>
+
 									</select>
 								</div>
 								<div class="form-group">
@@ -132,16 +135,11 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="edit_cat.inv_recipe_category_inv_recipe_category_id" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_recipe_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_recipe_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_recipe_cat_name}}</option>
+										</optgroup>
 									</select>
 								</div>
-								<!-- <div class="form-group">
-									<label for="name">Ingredients</label>
-									<select name="" ng-model="edit_cat.ingredients" class="form-control" ng-change="changeIngredients(edit_cat.ingredients)">
-										<option value="1">Product</option>
-										<option value="2">Recipe</option>
-									</select>
-								</div> -->
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('product')">Add Product</button>
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('recipe')">Add Recipe</button>

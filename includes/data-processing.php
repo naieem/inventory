@@ -71,6 +71,10 @@ function inventory_crud_function(){
     update_recipe_category($data);
     break;
 
+    case 'get_recipe_category_parent':
+    get_recipe_category_parent();
+    break;
+
     /* recipe crud */
     case 'add_new_recipe':
     add_new_recipe($data);
@@ -252,6 +256,17 @@ function get_product_category_parent(){
   $all=$db->get_data($config);
   echo json_encode($all);
 }
+function get_recipe_category_parent(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_recipe_cat"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE id!='0' AND inv_recipe_cat_parent=0" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
 function delete($data){
   global $db;
   $condition=array(
@@ -382,6 +397,7 @@ function add_new_recipe_category($data){
     'inv_i18n_entity_name' => 1,
     'inv_recipe_cat_name' => $data['name'],
     'inv_recipe_cat_desc' => $data['desc'],
+    'inv_recipe_cat_parent' => $data['parent'],
     );
   $insert_result=$db->insert('inv_recipe_cat',$datas);
   echo $insert_result;
@@ -394,6 +410,7 @@ function update_recipe_category($data){
     'inv_recipe_cat_name' => $data['inv_recipe_cat_name'],
     'inv_recipe_cat_desc' => $data['inv_recipe_cat_desc'],
     'inv_i18n_entity_name' => 1,
+    'inv_recipe_cat_parent' => $data['inv_recipe_cat_parent']
     );
   $insert_result=$db->update('inv_recipe_cat',$datas,array( 'id' => $data['id'] ));
   echo $insert_result;
