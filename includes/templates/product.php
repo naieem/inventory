@@ -3,6 +3,9 @@
 	[ng\:cloak], [ng-cloak], .ng-cloak {
 		display: none !important;
 	}
+	.error{
+		color: red;
+	}
 </style>
 <div class="container" ng-app="inventoryHome" ng-controller="productctrl" ng-cloak>
 	<div class="row">
@@ -23,59 +26,59 @@
 								<div class="form-group">
 									<label for="name">Name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.name" required>
-									
+									<span class="error" ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Barcode</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.barcode" required>
+									<input type="text" class="form-control" name="barcode" ng-model="cat.barcode" required>
+									<span class="error" ng-show="new_user.barcode.$touched && new_user.barcode.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Size</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.size" required>
-									
+									<input type="text" class="form-control" name="size" ng-model="cat.size" required>
+									<span class="error" ng-show="new_user.size.$touched && new_user.size.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Full weight</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.fweight" required>
+									<input type="text" class="form-control" name="fweight" ng-model="cat.fweight" required>
+									<span class="error" ng-show="new_user.fweight.$touched && new_user.fweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.eweight" required>
+									<input type="text" class="form-control" name="eweight" ng-model="cat.eweight" required>
+									<span class="error" ng-show="new_user.eweight.$touched && new_user.eweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Cost</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.cost" required>
+									<input type="text" class="form-control" name="cost" ng-model="cat.cost" required>
+									<span class="error" ng-show="new_user.cost.$touched && new_user.cost.$invalid">This field is required.</span>
 									
 								</div>
-								<!-- <div class="form-group">
-									<label for="name">Category</label>
-									<select name="" ng-model="cat.category" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in parentCategories">{{ category.inv_product_cat_name }}</option>
-									</select>
-								</div> -->
 
 								<div class="form-group">
 									<label for="name">Category</label>
-									<select name="" ng-model="cat.category" class="form-control">
+									<select name="category" ng-model="cat.category" class="form-control">
 										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
 
 									</select>
+									<span class="error" ng-show="new_user.category.$touched && new_user.category.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Supplier</label>
-									<select name="" class="form-control" ng-model="cat.supplier">
+									<select name="supplier" class="form-control" ng-model="cat.supplier">
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
+									<span class="error" ng-show="new_user.supplier.$touched && new_user.supplier.$invalid">This field is required.</span>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -97,56 +100,59 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user_edit">
 								<div class="form-group">
 									<label for="name">Name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_name" required>
-									
+									<span class="error" ng-show="new_user_edit.name.$touched && new_user_edit.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Barcode</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_barcode" required>
+									<input type="text" class="form-control" name="barcode" ng-model="cat.inv_product_barcode" required>
+									<span class="error" ng-show="new_user_edit.barcode.$touched && new_user_edit.barcode.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Size</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_size" required>
-									
+									<input type="text" class="form-control" name="size" ng-model="cat.inv_product_size" required>
+									<span class="error" ng-show="new_user_edit.size.$touched && new_user_edit.size.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Full weight</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_full_weight" required>
-									
+									<input type="text" class="form-control" name="fweight" ng-model="cat.inv_product_full_weight" required>
+									<span class="error" ng-show="new_user_edit.fweight.$touched && new_user_edit.fweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_empty_weight" required>
-									
+									<input type="text" class="form-control" name="eweight" ng-model="cat.inv_product_empty_weight" required>
+									<span class="error" ng-show="new_user_edit.eweight.$touched && new_user_edit.eweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Cost</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_cost" required>
-									
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_cost" required>
+									<span class="error" ng-show="new_user_edit.cost.$touched && new_user_edit.cost.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="name">Category</label>
-									<select name="" ng-model="cat.inv_product_category_id" class="form-control">
+									<select name="category" ng-model="cat.inv_product_category_id" class="form-control">
 										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
 									</select>
+									<span class="error" ng-show="new_user_edit.category.$touched && new_user_edit.category.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="name">Supplier</label>
-									<select name="" class="form-control" ng-model="cat.inv_product_supplier_id">
+									<select name="supplier" class="form-control" ng-model="cat.inv_product_supplier_id">
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
+									<span class="error" ng-show="new_user_edit.supplier.$touched && new_user_edit.supplier.$invalid">This field is required.</span>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="edit(cat)">Submit</button>
+								<button type="button" class="btn btn-default" ng-disabled="new_user_edit.$invalid"  ng-click="edit(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

@@ -3,6 +3,9 @@
 	[ng\:cloak], [ng-cloak], .ng-cloak {
 		display: none !important;
 	}
+	.error{
+		color: red;
+	}
 </style>
 <div class="container" ng-app="inventoryHome" ng-controller="userctrl" ng-cloak>
 	<div class="row">
@@ -23,50 +26,50 @@
 								<div class="form-group">
 									<label for="name">Customer name</label>
 									<input type="text" class="form-control" name="name" ng-model="customer.name" required>
-									<span ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="email">Customer Email</label>
 									<input type="email" class="form-control" name="email" ng-model="customer.email" required>
-									<span ng-show="new_user.email.$touched && new_user.email.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.email.$touched && new_user.email.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="phonenumber">Customer Phone number</label>
 									<input type="number" class="form-control" name="phone" ng-model="customer.phone" required>
-									<span ng-show="new_user.phone.$touched && new_user.phone.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.phone.$touched && new_user.phone.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="company">Customer Company</label>
 									<input type="text" name="company" class="form-control" ng-model="customer.company" required>
-									<span ng-show="new_user.company.$touched && new_user.company.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.company.$touched && new_user.company.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="streat">Customer Street Address</label>
 									<input type="text" class="form-control" name="street" ng-model="customer.street" required>
-									<span ng-show="new_user.street.$touched && new_user.street.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.street.$touched && new_user.street.$invalid">This field is required.</span>
 								</div>
 
 
 								<div class="form-group">
 									<label for="email">Customer City</label>
 									<input type="text" class="form-control" name="city" ng-model="customer.city" required>
-									<span ng-show="new_user.city.$touched && new_user.city.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.city.$touched && new_user.city.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="province">Customer Province</label>
 									<input type="text" name="province" class="form-control" ng-model="customer.province" required>
-									<span ng-show="new_user.province.$touched && new_user.province.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.province.$touched && new_user.province.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="postal">Customer Postal</label>
 									<input type="text" name="postal" class="form-control" ng-model="customer.postal" required>
-									<span ng-show="new_user.postal.$touched && new_user.postal.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.postal.$touched && new_user.postal.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="Country">Customer Country</label>
 									<input type="text" class="form-control" name="country" ng-model="customer.country" required>
-									<span ng-show="new_user.country.$touched && new_user.country.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user.country.$touched && new_user.country.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
@@ -76,7 +79,7 @@
 									</select>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add_user(customer)">Submit</button>
+								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="add_user(customer)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -98,55 +101,55 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user_edit">
 								<div class="form-group">
 									<label for="name">Customer name</label>
 									<input type="text" class="form-control" name="name" ng-model="customer.inv_customer_name" required>
-									<span ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.name.$touched && new_user_edit.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="email">Customer Email</label>
 									<input type="email" class="form-control" name="email" ng-model="customer.inv_customer_email" required>
-									<span ng-show="new_user.email.$touched && new_user.email.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.email.$touched && new_user_edit.email.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="phonenumber">Customer Phone number</label>
 									<input type="number" string-to-number class="form-control" name="phone" 
 									ng-model="customer.inv_customer_phone_number" required>
-									<span ng-show="new_user.phone.$touched && new_user.phone.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.phone.$touched && new_user_edit.phone.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="company">Customer Company</label>
 									<input type="text" name="company" class="form-control" ng-model="customer.inv_customer_company" required>
-									<span ng-show="new_user.company.$touched && new_user.company.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.company.$touched && new_user_edit.company.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="streat">Customer Street Address</label>
 									<input type="text" class="form-control" name="street" ng-model="customer.inv_customer_street_address" required>
-									<span ng-show="new_user.street.$touched && new_user.street.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.street.$touched && new_user_edit.street.$invalid">This field is required.</span>
 								</div>
 
 
 								<div class="form-group">
 									<label for="email">Customer City</label>
 									<input type="text" class="form-control" name="city" ng-model="customer.inv_customer_city" required>
-									<span ng-show="new_user.city.$touched && new_user.city.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.city.$touched && new_user_edit.city.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="province">Customer Province</label>
 									<input type="text" name="province" class="form-control" ng-model="customer.inv_customer_province" required>
-									<span ng-show="new_user.province.$touched && new_user.province.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.province.$touched && new_user_edit.province.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="postal">Customer Postal</label>
 									<input type="text" name="postal" class="form-control" ng-model="customer.inv_customer_postal_code" required>
-									<span ng-show="new_user.postal.$touched && new_user.postal.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.postal.$touched && new_user_edit.postal.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="Country">Customer Country</label>
 									<input type="text" class="form-control" name="country" ng-model="customer.inv_customer_country" required>
-									<span ng-show="new_user.country.$touched && new_user.country.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.country.$touched && new_user_edit.country.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
@@ -154,10 +157,10 @@
 									<select class="form-control" required name="currency" ng-model="customer.inv_currency_inv_currency_id">
 										<option ng-repeat="currencies in currency" value="{{currencies.id}}">{{currencies.inv_currency_code}}</option>
 									</select>
-									<span ng-show="new_user.currency.$touched && new_user.currency.$invalid">This field is required.</span>
+									<span class="error" ng-show="new_user_edit.currency.$touched && new_user_edit.currency.$invalid">This field is required.</span>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="edit(customer)">Submit</button>
+								<button type="button" class="btn btn-default" ng-disabled="new_user_edit.$invalid" ng-click="edit(customer)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
