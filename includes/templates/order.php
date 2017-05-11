@@ -33,6 +33,15 @@
 										</ul>
 									</div>
 								</div>
+
+								<div class="form-group">
+									<label for="name">Location</label>
+									<select name="" ng-model="cat.location" class="form-control">
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										</optgroup>
+									</select>
+								</div>
 								<div class="form-group">
 									<label for="name">Customer</label>
 									<select name="parent" ng-model="cat.customer" class="form-control" ng-change="change_customer(cat.customer)">
@@ -41,25 +50,35 @@
 								</div>
 								<div class="form-group">
 									<label for="name">Total</label>
-									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.total">
+									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.total" numbers-only>
 								</div>
 								<div class="form-group">
-									<label for="name">Recipe</label>
-									<select name="parent" ng-model="cat.recipe" class="form-control">
-										<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
-									</select>
+									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element('recipe')">Add Line</button>
 								</div>
+								{{newReciepe}}
+								<div class="panel panel-default" ng-repeat="recipe in newReciepe">
+									<div class="panel-body">
+										<div class="form-inline">
+											<div class="form-group">
+												<label for="name">Recipe</label>
+												<select name="parent" ng-model="recipe.ID" class="form-control">
+													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
+												</select>
+											</div>
 
-								<div class="form-group">
-									<label for="name">Quantity</label>
-									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.quantity">
-								</div>
-
-								<div class="form-group">
-									<label for="name">Currency</label>
-									<select name="parent" ng-model="cat.currency" class="form-control">
-										<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
-									</select>
+											<div class="form-group">
+												<label for="name">Quantity</label>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.qty" numbers-only>
+											</div>
+											<div class="form-group">
+												<label for="name">Currency</label>
+												<select name="parent" ng-model="recipe.currency" class="form-control">
+													<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
+												</select>
+											</div>
+											<button class="remove" ng-click="removeField($index,'recipe')">X</button>
+										</div>
+									</div>
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>

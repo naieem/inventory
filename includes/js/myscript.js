@@ -1445,6 +1445,24 @@ app.controller('orderctrl', function($scope, $http) {
             console.log(error);
         });
     };
+    $scope.newReciepe=[];
+    $scope.add_element = function(val) {
+        var obj = {
+            ID: '',
+            qty: '',
+            currency: ''
+        };
+        if (val == "recipe"){
+            // obj.type = "recipe";
+            $scope.newReciepe.push(obj);
+            console.log($scope.newReciepe);
+        }
+    }
+    $scope.removeField = function(index, type) {
+        if (type == 'recipe') {
+            $scope.newReciepe.remove(index);
+        }
+    }
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -1627,4 +1645,25 @@ app.filter('datetime', function($filter) {
         return _date.toUpperCase();
 
     };
+});
+
+app.directive('numbersOnly', function(){
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+       modelCtrl.$parsers.push(function (inputValue) {
+           // this next if is necessary for when using ng-required on your input. 
+           // In such cases, when a letter is typed first, this parser will be called
+           // again, and the 2nd time, the value will be undefined
+           if (inputValue == undefined) return '' 
+           var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
+           if (transformedInput!=inputValue) {
+              modelCtrl.$setViewValue(transformedInput);
+              modelCtrl.$render();
+           }         
+
+           return transformedInput;         
+       });
+     }
+   };
 });

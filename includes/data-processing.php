@@ -871,27 +871,28 @@ function delete_inventory($data){
 function add_new_order($data){
   unset($data['action']);
   unset($data['type']);
-  //  var_dump($data);
-  global $db;
-  //  $res=$db->insert('inv_inventory',$data);
-  //  echo $res;
-  $datas = array(
-    'inv_order_datetime' =>$data['datetime'],
-    'inv_customer_inv_customer_id' => $data['customer'],
-    'inv_order_total' => $data['total']  
-    );
-  $insert_result=$db->insert('inv_order_data',$datas);
-  $inventory_id=$db->db->lastInsertId();
-  if($insert_result){
-    $datas1=array(
-      'inv_recipe_id_inv_recipe'=>$data['recipe'],
-      'inv_order_line_qty' =>$data['quantity'],
-      'inv_currency_inv_currency_id' => $data['currency'],
-      'inv_order_data_inv_orderid' => $inventory_id
-      );
-    $insert_result=$db->insert('inv_order_details',$datas1);
-  }
-  echo $insert_result;
+  var_dump($data);
+  // global $db;
+  // //  $res=$db->insert('inv_inventory',$data);
+  // //  echo $res;
+  // $datas = array(
+  //   'inv_order_datetime' =>$data['datetime'],
+  //   'inv_customer_inv_customer_id' => $data['customer'],
+  //   'inv_order_total' => $data['total'],
+  //   'inv_order_location_id'=>$data['location']
+  //   );
+  // $insert_result=$db->insert('inv_order_data',$datas);
+  // $inventory_id=$db->db->lastInsertId();
+  // if($insert_result){
+  //   $datas1=array(
+  //     'inv_recipe_id_inv_recipe'=>$data['recipe'],
+  //     'inv_order_line_qty' =>$data['quantity'],
+  //     'inv_currency_inv_currency_id' => $data['currency'],
+  //     'inv_order_data_inv_orderid' => $inventory_id
+  //     );
+  //   $insert_result=$db->insert('inv_order_details',$datas1);
+  // }
+  // echo $insert_result;
 }
 function get_all_orders(){
   global $db;
