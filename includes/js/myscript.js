@@ -777,6 +777,12 @@ app.controller('recipectrl', function($scope, $http) {
         });
     };
 
+    /**
+     *
+     * Parent children dropdown list
+     *
+     */
+    
     $scope.get_category = function() {
         var params = {};
         params.action = "inventory_crud_function";
@@ -1364,6 +1370,51 @@ app.controller('orderctrl', function($scope, $http) {
             }
         }
     }
+    $scope.get_location = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = "inv_location";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.locations = response.data;
+            /* Code for separating parent and child category */
+            $scope.obj = response.data;
+            $scope.parent = [];
+            $scope.children = [];
+            for (var i = 0; i < $scope.obj.length; i++) {
+                if ($scope.obj[i]['inv_location_parent'] == 0) {
+                    $scope.parent.push($scope.obj[i]);
+                }
+                if ($scope.obj[i]['inv_location_parent'] != 0) {
+                    $scope.children.push($scope.obj[i]);
+                }
+            }
+
+            $scope.grandParent = [];
+            for (var i = 0; i < $scope.parent.length; i++) {
+                $scope.temparr = [];
+                $scope.temparr.children = [];
+                for (var j = 0; j < $scope.children.length; j++) {
+                    if ($scope.parent[i]['id'] == $scope.children[j]['inv_location_parent']) {
+                        $scope.temparr.children.push($scope.children[j]);
+                    }
+                }
+                $scope.temparr.push($scope.parent[i]);
+                $scope.grandParent.push($scope.temparr);
+            }
+            console.log("parent", $scope.parent);
+            console.log("children", $scope.children);
+            console.log('grandParent', $scope.grandParent);
+            /* Parent and child separing code end */
+        }, function(error) {
+            console.log(error);
+        });
+    };
     $scope.edit_modal = function(data) {
         console.log(data);
         $scope.edit_cat = data;
@@ -1522,6 +1573,7 @@ app.controller('orderctrl', function($scope, $http) {
     $scope.get_customer();
     $scope.get_currency();
     $scope.get_order();
+    $scope.get_location();
 });
 
 

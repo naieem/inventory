@@ -754,8 +754,8 @@ function get_recipe_mapping($data){
 function update_location($data){
   unset($data['action']);
   unset($data['type']);
-  unset($data['$hashKey']);
-  //  var_dump($data);
+  unset($data['$$hashKey']);
+   // var_dump($data);
   global $db;
   $insert_result=$db->update('inv_location',$data,array( 'id' => $data['id'] ));
   echo $insert_result;

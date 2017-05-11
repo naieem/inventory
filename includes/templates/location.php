@@ -27,6 +27,7 @@
 								<div class="form-group">
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="cat.inv_location_parent" class="form-control">
+									<option value="0">Self</option>
 										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
@@ -86,6 +87,7 @@
 								<div class="form-group">
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="edit_cat.inv_location_parent" class="form-control">
+									<option value="0">Self</option>
 										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
@@ -149,7 +151,9 @@
 						<tr ng-repeat="location in locations">
 							<td>{{location.id}}</td>
 							<td>{{location.inv_location_name}}</td>
-							<td><parent info="locations" cid="location.inv_location_parent" field="inv_location_name"></parent></td>
+							<td>
+							<span ng-show="location.inv_location_parent=='0'">Self</span>
+							<parent ng-show="location.inv_location_parent!='0'" info="locations" cid="location.inv_location_parent" field="inv_location_name"></parent></td>
 							<td>{{location.inv_location_street_address}}</td>
 							<td>{{location.inv_location_city}}</td>
 							<td>{{location.inv_location_province}}</td>
