@@ -656,7 +656,7 @@ app.controller('recipectctrl', function($scope, $http) {
 app.controller('recipectrl', function($scope, $http) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
-    $scope.showloader=false;
+    $scope.showloader = false;
 
     $scope.add_element = function(val) {
         var obj = {
@@ -704,7 +704,7 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
-        $scope.showloader=true;
+        $scope.showloader = true;
         var temparr = {};
         temparr.mapping = [];
         var newarr = $scope.newProducts.concat($scope.newReciepe);
@@ -721,7 +721,7 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(response);
             if (response.data === '1') {
                 console.log('successful');
-                $scope.showloader=false;
+                $scope.showloader = false;
                 jQuery("#newUserModal").modal('hide');
                 $scope.cat = [];
                 $scope.get_recipe();
@@ -782,7 +782,7 @@ app.controller('recipectrl', function($scope, $http) {
      * Parent children dropdown list
      *
      */
-    
+
     $scope.get_category = function() {
         var params = {};
         params.action = "inventory_crud_function";
@@ -923,7 +923,7 @@ app.controller('recipectrl', function($scope, $http) {
     }
     $scope.edit = function(data) {
         var temparr = {};
-        $scope.showloader=true;
+        $scope.showloader = true;
         temparr.mapping = [];
         if ($scope.editProducts) {
             for (var i = 0; i < $scope.editProducts.length; i++) {
@@ -932,7 +932,7 @@ app.controller('recipectrl', function($scope, $http) {
                     $scope.editProducts[i].type = "product";
                 } else {
                     alert("Duplicate product entry");
-                    $scope.showloader=false;
+                    $scope.showloader = false;
                     return false;
                 }
             }
@@ -944,7 +944,7 @@ app.controller('recipectrl', function($scope, $http) {
                     $scope.editReciepe[i].type = "recipe";
                 } else {
                     alert("Duplicate recipe entry");
-                    $scope.showloader=false;
+                    $scope.showloader = false;
                     return false;
                 }
             }
@@ -961,13 +961,13 @@ app.controller('recipectrl', function($scope, $http) {
             params: temparr
         }).then(function(response) {
             console.log(response.data);
-            
+
             /**            
                 Adding mapping ingredients:
                 - Adding product one by one
                 - Adding recipe one by one
-            */           
-            
+            */
+
             var cnt = 0;
             for (var i = 0; i < newarr.length; i++) {
                 var arr = [];
@@ -985,7 +985,7 @@ app.controller('recipectrl', function($scope, $http) {
                         cnt++;
                     }
                     if (cnt == newarr.length) {
-                        $scope.showloader=false;
+                        $scope.showloader = false;
                         jQuery("#editModal").modal("hide");
                         setTimeout(function() {
                             $scope.get_recipe();
@@ -1002,8 +1002,8 @@ app.controller('recipectrl', function($scope, $http) {
              * Ingredients adding coding ends
              *
              */
-            
-            
+
+
         }, function(error) {
             console.log(error);
         });
@@ -1363,6 +1363,7 @@ app.controller('orderctrl', function($scope, $http) {
         });
     };
     $scope.show_location = '';
+    $scope.showloader = false;
     $scope.change_customer = function(id) {
         for (var i = 0; i < $scope.customers.length; i++) {
             if ($scope.customers[i].id == id) {
@@ -1445,14 +1446,14 @@ app.controller('orderctrl', function($scope, $http) {
             console.log(error);
         });
     };
-    $scope.newReciepe=[];
+    $scope.newReciepe = [];
     $scope.add_element = function(val) {
         var obj = {
             ID: '',
             qty: '',
             currency: ''
         };
-        if (val == "recipe"){
+        if (val == "recipe") {
             // obj.type = "recipe";
             $scope.newReciepe.push(obj);
             console.log($scope.newReciepe);
@@ -1464,10 +1465,10 @@ app.controller('orderctrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
-        // console.log(cat);
+        $scope.showloader = true;
+        console.log($scope.newReciepe.length);
         cat.action = "inventory_crud_function";
         cat.type = "add_new_order";
-        // cat.unit = '1';
         console.log(cat);
         $http({
             url: myAjax.ajaxurl,
@@ -1475,12 +1476,41 @@ app.controller('orderctrl', function($scope, $http) {
             params: cat
         }).then(function(response) {
             console.log(response);
-            if (response.data === '1') {
-                console.log('successful');
-                jQuery("#newUserModal").modal('hide');
-                $scope.cat = [];
-                $scope.show_location = '';
-                $scope.get_order();
+            if (response.data) {
+                /**                
+                    Repeating Data Adding:
+                    - Adding lines for recipe in order table
+                 */
+                var cnt = 0;
+                for (var i = 0; i < $scope.newReciepe.length; i++) {
+                    var arr = [];
+                    arr.data=[];
+                    arr.data.push($scope.newReciepe[i]);
+                    arr.action = "inventory_crud_function";
+                    arr.type = "update_order_mapping";
+                    arr.id = response.data;
+                    debugger;
+                    $http({
+                        url: myAjax.ajaxurl,
+                        method: "POST",
+                        params: arr
+                    }).then(function(response) {
+                        console.log(response);
+                        if (response.data == '1') {
+                            cnt++;
+                        }
+                        if (cnt == $scope.newReciepe.length) {
+                            $scope.showloader = false;
+                            console.log('successful');
+                            jQuery("#newUserModal").modal('hide');
+                            $scope.cat = [];
+                            $scope.show_location = '';
+                            $scope.get_order();
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                }
             }
         }, function(error) {
             // $scope.cat = [];
@@ -1647,23 +1677,23 @@ app.filter('datetime', function($filter) {
     };
 });
 
-app.directive('numbersOnly', function(){
-   return {
-     require: 'ngModel',
-     link: function(scope, element, attrs, modelCtrl) {
-       modelCtrl.$parsers.push(function (inputValue) {
-           // this next if is necessary for when using ng-required on your input. 
-           // In such cases, when a letter is typed first, this parser will be called
-           // again, and the 2nd time, the value will be undefined
-           if (inputValue == undefined) return '' 
-           var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
-           if (transformedInput!=inputValue) {
-              modelCtrl.$setViewValue(transformedInput);
-              modelCtrl.$render();
-           }         
+app.directive('numbersOnly', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function(inputValue) {
+                // this next if is necessary for when using ng-required on your input. 
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
 
-           return transformedInput;         
-       });
-     }
-   };
+                return transformedInput;
+            });
+        }
+    };
 });

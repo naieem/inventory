@@ -28,7 +28,9 @@ class DBCONNECTION{
                 $this->db = $conn;
                 // print_r("connected");
             }catch(PDOException $e){
-                die("Failed to connect with MySQL: " . $e->getMessage());
+               echo'<div class="notice notice-warning is-dismissible">';
+               echo'<p>Failed to connect with Remote Database: '. $e->getMessage().'</p>';
+               echo'</div>';
             }
         }
     }

@@ -81,7 +81,8 @@
 									</div>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
+								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>"></button>
 							</form>
 						</div>
 						<div class="modal-footer">

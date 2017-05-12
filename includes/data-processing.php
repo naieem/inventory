@@ -130,6 +130,9 @@ function inventory_crud_function(){
     case 'delete_order':
     delete_orders($data);
     break;
+    case 'update_order_mapping':
+    update_order_mapping($data);
+    break;
 
     case 'get_all_users':
     get_all_users();
@@ -499,32 +502,6 @@ function get_all_recipe($data){
 
 
 function update_recipe($data){
-    // var_dump($data);
-  // global $db;
-  // $datas1=array(
- //    'inv_recipe_inv_recipe_id_is_main_recipe'=>$data['id'],
- //    'inv_product_id_inv_product' => $data['inv_product_id_inv_product'],
- //    'inv_recipe_inv_recipe_id' => $data['inv_recipe_inv_recipe_id'],
- //    'inv_product_has_inv_recipe_qty' => $data['inv_product_has_inv_recipe_qty'],
- //    'inv_inventory_units_inv_inventory_units_id' => 
- //    $data['inv_inventory_units_inv_inventory_units_id']
- //    );
-  // $insert_result=$db->update('inv_product_recipe_mapping',$datas1,
- //    array( 'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'] ));
-  // if($insert_result){
-  //  $datas = array(
- //      'inv_i18n_entity_name' => 1,
- //      'inv_recipe_name' => $data['inv_recipe_name'],
- //      'inv_recipe_instructions' => $data['inv_recipe_instructions'],
- //      'inv_recipe_category_inv_recipe_category_id'=>
- //      $data['inv_recipe_category_inv_recipe_category_id'],
- //      'inv_image_inv_image'=>1,    
- //      );
-  //  $insert_result=$db->update('inv_recipe',$datas,array( 'id' => $data['id'] ));
-  // }
-  // echo $insert_result;
-
-  ///
 
   $str=$data['recipe'];
   $mappings=$data['mapping'];
@@ -551,115 +528,6 @@ function update_recipe($data){
     'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id
     );
   $db->delete('inv_product_recipe_mapping',$data);
-  // $recipe_id=$db->db->lastInsertId();
-  // $config=array(
-  //   'tables'=>array('inv_product_recipe_mapping'),
-  //   'fields'=>"id",
-  //   'join'=>"",
-  //   'condition'=>"WHERE inv_recipe_inv_recipe_id_is_main_recipe=".$result->id
-  //   );
-  // $all_ids = $db->get_data($config);// all existing ids from database
-  // $tempid=[];
-  // foreach ($map as $value) {
-  //   if($value->id){
-  //     $tempid[]=$value->id;
-  //   }
-  // }
-  // // var_dump($tempid);
-  // /**
-  //  *
-  //  * check if any old data is missing.if missing
-  //  * then remove that and keep new data tables
-  //  */
-
-  //   for ($i=0; $i < count($all_ids); $i++) {
-  //       if(in_array($all_ids[$i]['id'], $tempid)){
-  //       }
-  //       else{
-  //         $datas = array(
-  //           'id' => $all_ids[$i]['id']
-  //           );
-  //         $db->delete('inv_product_recipe_mapping',$datas);
-  //       }
-  //     }
-  //   //}
-  // // }
-  // // var_dump($map);
-  // $count=0;
-  // $remove=0;
-  // foreach ($map as $value) {
-  //   if(is_null($value))
-  //     $remove++;
-  //   if($value && $value->type =='product'){
-  //     // $config=array(
-  //     //   'tables'=>array('inv_product_recipe_mapping'),
-  //     //   'fields'=>"*",
-  //     //   'join'=>"",
-  //     //   'condition'=>"WHERE inv_product_id_inv_product=".$value->inv_product_id_inv_product." AND inv_product_has_inv_recipe_qty=".$value->inv_product_has_inv_recipe_qty." AND inv_recipe_inv_recipe_id_is_main_recipe=".$value->inv_inventory_units_inv_inventory_units_id
-  //     //   );
-  //     // $fivesdrafts = $db->get_data($config);
-  //     if(!$value->id){
-  //       $datas1=array(
-  //        'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id,
-  //        'inv_product_id_inv_product' => $value->inv_product_id_inv_product,
-  //        'inv_recipe_inv_recipe_id' => null,
-  //        'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-  //        'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-  //        );
-  //       $res=$db->insert('inv_product_recipe_mapping',$datas1);
-  //       if($res)
-  //         $count++;
-  //     }
-  //     else{
-  //       $datas1=array(
-  //        'inv_product_id_inv_product' => $value->inv_product_id_inv_product,
-  //        'inv_recipe_inv_recipe_id' => null,
-  //        'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-  //        'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-  //        );
-  //       $res=$db->update('inv_product_recipe_mapping',$datas1,array( 'id' => $value->id ));
-  //       if($res)
-  //         $count++;
-  //     }
-  //     // echo count($fivesdrafts);
-  //   }
-  //   if($value && $value->type =='recipe'){
-  //     // $config=array(
-  //     //   'tables'=>array('inv_product_recipe_mapping'),
-  //     //   'fields'=>"*",
-  //     //   'join'=>"",
-  //     //   'condition'=>"WHERE inv_recipe_inv_recipe_id=".$value->inv_recipe_inv_recipe_id." AND inv_product_has_inv_recipe_qty=".$value->inv_product_has_inv_recipe_qty." AND inv_recipe_inv_recipe_id_is_main_recipe=".$value->inv_inventory_units_inv_inventory_units_id
-  //     //   );
-  //     // $fivesdrafts = $db->get_data($config);
-  //     if(!$value->id){
-  //       $datas1=array(
-  //         'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id,
-  //        'inv_product_id_inv_product' => null,
-  //        'inv_recipe_inv_recipe_id' => $value->inv_recipe_inv_recipe_id,
-  //        'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-  //        'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-  //        );
-  //       $res=$db->insert('inv_product_recipe_mapping',$datas1);
-  //       if($res)
-  //       $count++;
-  //       // echo $res;
-  //     }else{
-  //       $datas1=array(
-  //        'inv_product_id_inv_product' => null,
-  //        'inv_recipe_inv_recipe_id' => $value->inv_recipe_inv_recipe_id,
-  //        'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-  //        'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-  //        );
-  //       $res=$db->update('inv_product_recipe_mapping',$datas1,array( 'id' => $value->id ));
-  //       if($res)
-  //       $count++;
-  //     }
-  //   }
-  // }
-  // // echo $count;
-  // // echo count($map);
-  // (count($map)-$remove)== $count? $ret=1:$ret=0;
-  //   echo $ret;
 }
 
 function update_recipe_mapping($data){
@@ -672,24 +540,24 @@ function update_recipe_mapping($data){
   // var_dump($info);
   if($info->type == 'product'){
     $insert_data=array(
-   'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
-   'inv_product_id_inv_product' => $info->inv_product_id_inv_product,
-   'inv_recipe_inv_recipe_id' => null,
-   'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
-   'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
-   );
+     'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
+     'inv_product_id_inv_product' => $info->inv_product_id_inv_product,
+     'inv_recipe_inv_recipe_id' => null,
+     'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
+     'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
+     );
     $res=$db->insert('inv_product_recipe_mapping',$insert_data);
     if(!$res)
       var_dump($res);
   }
   if($info->type == 'recipe'){
     $insert_data=array(
-   'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
-   'inv_product_id_inv_product' =>null,
-   'inv_recipe_inv_recipe_id' => $info->inv_recipe_inv_recipe_id,
-   'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
-   'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
-   );
+     'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
+     'inv_product_id_inv_product' =>null,
+     'inv_recipe_inv_recipe_id' => $info->inv_recipe_inv_recipe_id,
+     'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
+     'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
+     );
     $res=$db->insert('inv_product_recipe_mapping',$insert_data);
     if(!$res)
       var_dump($res);
@@ -869,30 +737,38 @@ function delete_inventory($data){
 }
 
 function add_new_order($data){
-  unset($data['action']);
-  unset($data['type']);
-  var_dump($data);
+  global $db;
+  $datas = array(
+    'inv_order_datetime' =>$data['datetime'],
+    'inv_customer_inv_customer_id' => $data['customer'],
+    'inv_order_total' => $data['total'],
+    'inv_order_location_id'=>$data['location']
+    );
+  $insert_result=$db->insert('inv_order_data',$datas);
+  $inventory_id=$db->db->lastInsertId();
+  echo $inventory_id;
+}
+
+function update_order_mapping($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  var_dump($lineArray);
   // global $db;
-  // //  $res=$db->insert('inv_inventory',$data);
-  // //  echo $res;
-  // $datas = array(
-  //   'inv_order_datetime' =>$data['datetime'],
-  //   'inv_customer_inv_customer_id' => $data['customer'],
-  //   'inv_order_total' => $data['total'],
-  //   'inv_order_location_id'=>$data['location']
-  //   );
-  // $insert_result=$db->insert('inv_order_data',$datas);
-  // $inventory_id=$db->db->lastInsertId();
-  // if($insert_result){
-  //   $datas1=array(
-  //     'inv_recipe_id_inv_recipe'=>$data['recipe'],
-  //     'inv_order_line_qty' =>$data['quantity'],
-  //     'inv_currency_inv_currency_id' => $data['currency'],
-  //     'inv_order_data_inv_orderid' => $inventory_id
-  //     );
-  //   $insert_result=$db->insert('inv_order_details',$datas1);
+  // foreach ($lineArray as $value) {
+  //   var_dump($value);
+  //   // $datas1=array(
+  //   //   'inv_recipe_id_inv_recipe'=>$value->ID,
+  //   //   'inv_order_line_qty' =>$value->qty,
+  //   //   'inv_currency_inv_currency_id' => $value->currency,
+  //   //   'inv_order_data_inv_orderid' => $order_id
+  //   //   );
+  //   // $insert_result=$db->insert('inv_order_details',$datas1);
+  //   // echo $insert_result;
   // }
-  // echo $insert_result;
 }
 function get_all_orders(){
   global $db;

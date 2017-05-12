@@ -13,7 +13,6 @@ add_action( 'plugins_loaded', 'aia_load_textdomain' );
 function aia_load_textdomain() {
   load_plugin_textdomain( 'aia', dirname( plugin_basename( __FILE__ ) ) . '/inventory/languages' ); 
 }
-
 /*********************************
 global variables
 **********************************/
