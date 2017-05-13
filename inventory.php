@@ -11,21 +11,12 @@
 add_action( 'plugins_loaded', 'aia_load_textdomain' );
 
 function aia_load_textdomain() {
-  load_plugin_textdomain( 'aia', dirname( plugin_basename( __FILE__ ) ) . '/inventory/languages' ); 
+	load_plugin_textdomain( 'aia', dirname( plugin_basename( __FILE__ ) ) . '/inventory/languages' ); 
 }
-/*********************************
-global variables
-**********************************/
-/* external db connection file*/
-include('includes/db.php');
-global $db;
-$db= new DBCONNECTION();
-//$aim_plugin_name = 'Inventory';
 
 /*********************************
 includes
 **********************************/
-
 /*
 * All js and css file inclusion
 */
@@ -33,6 +24,19 @@ include('includes/scripts.php');
 /*
 * admin menu initializing codes
 */
+include('includes/settings_api.php');
 include('includes/settings_page.php');
 include('includes/data-processing.php'); //this saves data
-// include('includes/display-functions.php'); //display content functions
+
+/*********************************
+global variables
+**********************************/
+/* external db connection file*/
+$options = get_option('db_config');
+$dbHost     = $options['host'];
+$dbUsername = $options['username'];
+$dbPassword = $options['password'];
+$dbName     = $options['db'];
+include('includes/db.php');
+global $db;
+$db= new DBCONNECTION($dbHost,$dbUsername,$dbPassword,$dbName);

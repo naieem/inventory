@@ -1015,14 +1015,6 @@ app.controller('recipectrl', function($scope, $http) {
     function checkDuplicate(type, id, arr) {
         var result = false;
         if (type == 'product') {
-            // for (var i = 0; i < arr.length; i++) {
-            //     if (arr[i].inv_product_id_inv_product == id) {
-            //         result = true;
-            //         break;
-            //     } else {
-            //         result = false;
-            //     }
-            // }
             var valueArr = arr.map(function(item) {
                 return item.inv_product_id_inv_product
             });
@@ -1343,6 +1335,10 @@ app.controller('inventoryctrl', function($scope, $http) {
 });
 
 app.controller('orderctrl', function($scope, $http) {
+    $scope.show_location = '';
+    $scope.showloader = false;
+    $scope.newReciepe = [];
+    $scope.editReciepe = [];
     $scope.get_order = function() {
         $scope.loading = true;
         var params = {};
@@ -1362,8 +1358,6 @@ app.controller('orderctrl', function($scope, $http) {
             $scope.loading = false;
         });
     };
-    $scope.show_location = '';
-    $scope.showloader = false;
     $scope.change_customer = function(id) {
         for (var i = 0; i < $scope.customers.length; i++) {
             if ($scope.customers[i].id == id) {
@@ -1418,16 +1412,35 @@ app.controller('orderctrl', function($scope, $http) {
     };
     $scope.edit_modal = function(data) {
         console.log(data);
+        $scope.loading = true;
         $scope.edit_cat = data;
         for (var i = 0; i < $scope.customers.length; i++) {
             if ($scope.customers[i].id == data.inv_customer_inv_customer_id) {
                 $scope.show_location = $scope.customers[i].inv_customer_name;
             }
         }
-        jQuery("#editModal").modal("show");
+        var params = [];
+        params.action = "inventory_crud_function";
+        params.type = "get_order_lines";
+        // params.table = "inv_product";
+        params.id = data.inv_order_orderid;
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.loading = false;
+            $scope.edit_cat = data;
+            $scope.editReciepe = response.data;
+            jQuery("#editModal").modal("show");
+        }, function(error) {
+            console.log(error);
+        });
+        // jQuery("#editModal").modal("show");
     }
     $scope.edit = function(data) {
-        // var params = {};
+        $scope.showloader = true;
         data.action = "inventory_crud_function";
         data.type = "update_order";
         console.log(data);
@@ -1437,16 +1450,48 @@ app.controller('orderctrl', function($scope, $http) {
             params: data
         }).then(function(response) {
             console.log(response.data);
-            if (response.data == '1') {
-                jQuery("#editModal").modal("hide");
-                $scope.show_location = '';
-                $scope.get_order();
+            if (response.data) {
+                /**                
+                    Repeating Data Adding:
+                    - Adding lines for recipe in order table
+                 */
+                var cnt = 0;
+                for (var i = 0; i < $scope.editReciepe.length; i++) {
+                    var arr = [];
+                    arr.data = [];
+                    arr.data.push($scope.editReciepe[i]);
+                    arr.action = "inventory_crud_function";
+                    arr.type = "update_order_mapping_while_edit";
+                    arr.id = data.inv_order_orderid;
+                    debugger;
+                    $http({
+                        url: myAjax.ajaxurl,
+                        method: "POST",
+                        params: arr
+                    }).then(function(response) {
+                        console.log(response);
+                        if (response.data == '1') {
+                            cnt++;
+                        }
+                        if (cnt == $scope.editReciepe.length) {
+                            $scope.showloader = false;
+                            console.log('successful');
+                            jQuery("#editModal").modal("hide");
+                            $scope.cat = [];
+                            $scope.show_location = '';
+                            $scope.editReciepe = [];
+                            $scope.get_order();
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                }
             }
         }, function(error) {
             console.log(error);
         });
     };
-    $scope.newReciepe = [];
+
     $scope.add_element = function(val) {
         var obj = {
             ID: '',
@@ -1459,9 +1504,33 @@ app.controller('orderctrl', function($scope, $http) {
             console.log($scope.newReciepe);
         }
     }
+    $scope.add_element_edit = function(val) {
+        var obj = {
+            inv_recipe_id_inv_recipe: '',
+            inv_order_line_qty: '',
+            inv_currency_inv_currency_id: ''
+        };
+        if ($scope.editReciepe != 'null') {
+            if (val == "recipe") {
+                $scope.editReciepe.push(obj);
+                console.log($scope.editReciepe);
+            }
+        } else {
+            $scope.editReciepe = [];
+            if (val == "recipe") {
+                $scope.editReciepe.push(obj);
+                console.log($scope.editReciepe);
+            }
+        }
+    }
     $scope.removeField = function(index, type) {
         if (type == 'recipe') {
             $scope.newReciepe.remove(index);
+        }
+    }
+    $scope.removeFieldEdit = function(index, type) {
+        if (type == 'recipe') {
+            $scope.editReciepe.remove(index);
         }
     }
     $scope.add = function(cat) {
@@ -1484,7 +1553,7 @@ app.controller('orderctrl', function($scope, $http) {
                 var cnt = 0;
                 for (var i = 0; i < $scope.newReciepe.length; i++) {
                     var arr = [];
-                    arr.data=[];
+                    arr.data = [];
                     arr.data.push($scope.newReciepe[i]);
                     arr.action = "inventory_crud_function";
                     arr.type = "update_order_mapping";
@@ -1505,6 +1574,7 @@ app.controller('orderctrl', function($scope, $http) {
                             jQuery("#newUserModal").modal('hide');
                             $scope.cat = [];
                             $scope.show_location = '';
+                            $scope.newReciepe = [];
                             $scope.get_order();
                         }
                     }, function(error) {

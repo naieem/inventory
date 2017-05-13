@@ -133,10 +133,16 @@ function inventory_crud_function(){
     case 'update_order_mapping':
     update_order_mapping($data);
     break;
-
+    case 'update_order_mapping_while_edit':
+    update_order_mapping_while_edit($data);
+    break;
     case 'get_all_users':
     get_all_users();
     break;
+    case 'get_order_lines':
+    get_order_lines($data);
+    break;
+
 
     /* generic all call*/
     case 'delete':
@@ -619,6 +625,21 @@ function get_recipe_mapping($data){
   echo $json;
 }
 
+function get_order_lines($data){
+  // var_dump($data);
+  global $db;
+  $config=array(
+    'tables'=>array('inv_order_details'),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_data_inv_orderid=".$data['id']
+    );
+  $fivesdrafts= $db->get_data($config);
+  $json = json_encode($fivesdrafts);
+  echo $json;
+}
+
+
 function update_location($data){
   unset($data['action']);
   unset($data['type']);
@@ -756,27 +777,43 @@ function update_order_mapping($data){
   $line=str_replace("\\","",$lines);
   $lineArray= json_decode ($line);
   // echo count($lineArray);
-  var_dump($lineArray);
-  // global $db;
-  // foreach ($lineArray as $value) {
-  //   var_dump($value);
-  //   // $datas1=array(
-  //   //   'inv_recipe_id_inv_recipe'=>$value->ID,
-  //   //   'inv_order_line_qty' =>$value->qty,
-  //   //   'inv_currency_inv_currency_id' => $value->currency,
-  //   //   'inv_order_data_inv_orderid' => $order_id
-  //   //   );
-  //   // $insert_result=$db->insert('inv_order_details',$datas1);
-  //   // echo $insert_result;
-  // }
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->ID,
+    'inv_order_line_qty' =>$lineArray->qty,
+    'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+
+function update_order_mapping_while_edit($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->inv_recipe_id_inv_recipe,
+    'inv_order_line_qty' =>$lineArray->inv_order_line_qty,
+    'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
 }
 function get_all_orders(){
   global $db;
   $config=array(
-    'tables'=>array("inv_order_data","inv_order_details"),
-    'fields'=>"inv_order_data.*,inv_order_details.inv_recipe_id_inv_recipe,inv_order_details.inv_order_line_qty,inv_order_details.inv_currency_inv_currency_id",
-    'join'=>"INNER",
-    'condition'=>"ON inv_order_data.inv_order_orderid=inv_order_details.inv_order_data_inv_orderid" 
+    'tables'=>array("inv_order_data"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
@@ -784,23 +821,20 @@ function get_all_orders(){
 function update_orders($data){
   //  var_dump($data);
   global $db;
-  
-  $datas=array(
-    'inv_recipe_id_inv_recipe'=>$data['inv_recipe_id_inv_recipe'],
-    'inv_order_line_qty' =>$data['inv_order_line_qty'],
-    'inv_currency_inv_currency_id' => $data['inv_currency_inv_currency_id']
+  $datas= array(
+    'inv_order_datetime' =>$data['inv_order_datetime'],
+    'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
+    'inv_order_total' => $data['inv_order_total']  
     );
-  $insert_result=$db->update('inv_order_details',$datas,
-    array( 'inv_order_data_inv_orderid' => $data['inv_order_orderid'] ));
+  $insert_result=$db->update('inv_order_data',$datas,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
   if($insert_result){
-    $datas1 = array(
-      'inv_order_datetime' =>$data['inv_order_datetime'],
-      'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
-      'inv_order_total' => $data['inv_order_total']  
+    $condition=array(
+      'inv_order_data_inv_orderid'=>$data['inv_order_orderid']
       );
-    $insert_result=$db->update('inv_order_data',$datas1,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
+    $insert_result=$db->delete('inv_order_details',$condition);
+    if($insert_result)
+      echo $insert_result;
   }
-  echo $insert_result;
 }
 function delete_orders($data){
   global $db;

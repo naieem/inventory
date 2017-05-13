@@ -84,7 +84,7 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory-recipe', // slug
 'inventory_recipe_func' // callback function
 );
-		/* Location submenu */
+	/* Location submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
 'Inventory Location', // Page Title
@@ -93,7 +93,7 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory-location', // slug
 'inventory_location_func' // callback function
 );
-		/* Inventory submenu */
+	/* Inventory submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
 'Inventory', // Page Title
@@ -103,7 +103,7 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory_inventory_func' // callback function
 );
 
-		/* Inventory submenu */
+	/* Inventory submenu */
 	add_submenu_page(
 'inventory-home', // Parent slug
 'Inventory Order', // Page Title
@@ -115,7 +115,6 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 
 }
 
-
 /**
 * Disply callback for the inventory home.
 */
@@ -123,16 +122,20 @@ function inventory_home_page() {
 	?>
 	<div class="container" ng-app="inventoryHome" ng-controller="homectrl">
 		<div class="row">
-			<h1>Inventory Home</h1>
-			<!-- <form name="new_user">
-
-
-				<button type="button" class="btn btn-default" ng-click="hello()">Submit</button>
-			-->
+			<form method="post" action="options.php">
+				<?php
+		// This prints out all hidden setting fields
+		// settings_fields( $option_group )
+				settings_fields( 'database-configuration-fields' );
+		// do_settings_sections( $page )
+				do_settings_sections( 'inventory-db-config' );
+				?>
+				<?php submit_button('Save Changes'); ?>
 			</form>
-		</div>
+		</form>
 	</div>
-	<?php
+</div>
+<?php
 }
 
 /**

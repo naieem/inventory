@@ -8,20 +8,21 @@
  * @license   http://www.codexworld.com/license
  */
 class DBCONNECTION{
-    private $dbHost     = "localhost";
-    private $dbUsername = "root";
-    private $dbPassword = "";
-    private $dbName     = "inventory";
+    // private $dbHost     = "localhost";
+    // private $dbUsername = "root";
+    // private $dbPassword = "";
+    // private $dbName     = "inventory";
+    
     // private $dbHost     = "208.113.131.151";
     // private $dbUsername = "dev1";
-    // private $dbPassword = "SSapaKtWFuzwca7D";
+    // private $dbPassword = "4xBzrvx29RPM49SS";
     // private $dbName     = "inventory";
 
-    public function __construct(){
+    public function __construct($dbHost,$dbUsername,$dbPassword,$dbName){
         if(!isset($this->db)){
             // Connect to the database
             try{
-                $conn = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName, $this->dbUsername, $this->dbPassword);
+                $conn = new PDO('mysql:host='.$dbHost.';dbname='.$dbName, $dbUsername, $dbPassword);
                 $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $conn -> setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND,"SET NAMES 'utf8'");
                 // $conn ->set_charset("utf8");
