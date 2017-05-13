@@ -1463,7 +1463,7 @@ app.controller('orderctrl', function($scope, $http) {
                     arr.action = "inventory_crud_function";
                     arr.type = "update_order_mapping_while_edit";
                     arr.id = data.inv_order_orderid;
-                    debugger;
+                    
                     $http({
                         url: myAjax.ajaxurl,
                         method: "POST",
@@ -1558,7 +1558,7 @@ app.controller('orderctrl', function($scope, $http) {
                     arr.action = "inventory_crud_function";
                     arr.type = "update_order_mapping";
                     arr.id = response.data;
-                    debugger;
+                    
                     $http({
                         url: myAjax.ajaxurl,
                         method: "POST",

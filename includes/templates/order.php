@@ -55,7 +55,6 @@
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element('recipe')">Add Line</button>
 								</div>
-								{{newReciepe}}
 								<div class="panel panel-default" ng-repeat="recipe in newReciepe">
 									<div class="panel-body">
 										<div class="form-inline">
