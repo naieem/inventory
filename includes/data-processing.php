@@ -117,6 +117,9 @@ function inventory_crud_function(){
     case 'update_inventory_mapping':
     update_inventory_mapping($data);
     break;
+    case 'update_inventory_mapping_edit':
+    update_inventory_mapping_edit($data);
+    break;
     case 'delete_inventory':
     delete_inventory($data);
     break;
@@ -716,6 +719,29 @@ function update_inventory_mapping($data){
   echo $insert_result;
 }
 
+function update_inventory_mapping_edit($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $data=array(
+    'inv_product_id_inv_product'=>$lineArray->ID,
+    'inv_inventory_line_amount' =>$lineArray->amount,
+    'inv_inventory_units_inv_inventory_units_id' => $lineArray->unit,
+    'inv_inventory_inv_inventory_id' => $order_id,
+    'inv_supplier_inv_supplier_id' => $data['supplier'],
+    'inv_inventory_line_user_id' => $data['user'],
+    'inv_inventory_line_date_time' => $data['date_time'],
+    'inv_location_line_inv_location_id' =>$data['location_']
+
+    );
+  $insert_result=$db->insert('inv_inventory_line',$data);
+  echo $insert_result;
+}
 function get_inventory_lines($data){
   // var_dump($data);
   global $db;
@@ -753,20 +779,14 @@ function update_inventory($data){
   $insert_result=$db->update('inv_inventory',$datas,
     array( 'id' => $data['id'] ));
   if($insert_result){
-    $datas1=array(
-      'inv_inventory_line_amount'=>$data['inv_inventory_line_amount'],
-      'inv_inventory_units_inv_inventory_units_id' => $data['inv_inventory_units_inv_inventory_units_id'],
-      'inv_supplier_inv_supplier_id' => $data['inv_supplier_inv_supplier_id'],
-      'inv_product_id_inv_product' => 
-      $data['inv_product_id_inv_product'],
-      'inv_inventory_line_user_id' => $data['wp_users_id_users'],
-      'inv_inventory_line_date_time' => $data['inv_inventory_date'],
-      'inv_location_line_inv_location_id' => 
-      $data['inv_location_inv_location_id']
+    $condition=array(
+      'inv_inventory_inv_inventory_id'=>$data['id']
       );
-    $insert_result=$db->update('inv_inventory_line',$datas1,array( 'inv_inventory_inv_inventory_id' => $data['id'] ));
+    $ret=$db->delete('inv_inventory_line',$condition);
+    if($ret){
+      echo $ret;
+    }
   }
-  echo $insert_result;
 }
 function delete_inventory($data){
   global $db;

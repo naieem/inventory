@@ -1,6 +1,8 @@
 app.controller('inventoryctrl', function($scope, $http) {
-    $scope.newProduct=[];
+    $scope.newProduct = [];
+    $scope.editProduct = [];
     $scope.show_location = '';
+    $scope.supplier = '';
     $scope.get_inventory = function() {
         $scope.loading = true;
         var params = {};
@@ -93,7 +95,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             }
         }
     }
-    $scope.supplier='';
+
     $scope.edit_modal = function(data) {
         $scope.loading = true;
         console.log(data);
@@ -108,7 +110,6 @@ app.controller('inventoryctrl', function($scope, $http) {
         params.type = "get_inventory_lines";
         // params.table = "inv_product";
         params.id = data.id;
-        debugger;
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -118,7 +119,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             $scope.loading = false;
             $scope.edit_cat = data;
             $scope.editProduct = response.data;
-            $scope.supplier=response.data[0].inv_supplier_inv_supplier_id;
+            $scope.supplier = response.data[0].inv_supplier_inv_supplier_id;
             jQuery("#editModal").modal("show");
         }, function(error) {
             console.log(error);
@@ -136,11 +137,45 @@ app.controller('inventoryctrl', function($scope, $http) {
             params: data
         }).then(function(response) {
             console.log(response.data);
-            if (response.data == '1') {
-                jQuery("#editModal").modal("hide");
-                // setTimeout(function () {
-                $scope.get_inventory();
-                // },1000);
+
+            if (response.data) {
+                /**                
+                    Repeating Data Adding:
+                    - Adding lines for inventory in inventory table
+                 */
+                var cnt = 0;
+                for (var i = 0; i < $scope.editProduct.length; i++) {
+                    var arr = [];
+                    arr.data = [];
+                    arr.data.push($scope.editProduct[i]);
+                    arr.action = "inventory_crud_function";
+                    arr.type = "update_inventory_mapping_edit";
+                    arr.id = data.id;
+                    arr.supplier = data.supplier;
+                    arr.user = data.wp_users_id_users;
+                    arr.date_time = cat.inv_inventory_date;
+                    arr.location = data.inv_location_inv_location_id;
+                    $http({
+                        url: myAjax.ajaxurl,
+                        method: "POST",
+                        params: arr
+                    }).then(function(response) {
+                        console.log(response);
+                        if (response.data == '1') {
+                            cnt++;
+                        }
+                        if (cnt == $scope.editProduct.length) {
+                            $scope.showloader = false;
+                            jQuery("#editModal").modal("hide");
+                            $scope.cat = [];
+                            $scope.show_location = '';
+                            $scope.editProduct = [];
+                            $scope.get_inventory();
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                }
             }
         }, function(error) {
             console.log(error);
@@ -150,11 +185,11 @@ app.controller('inventoryctrl', function($scope, $http) {
         var obj = {
             ID: '',
             amount: '',
-            unit:''
+            unit: ''
         };
-            // obj.type = "recipe";
-            $scope.newProduct.push(obj);
-            console.log($scope.newProduct);
+        // obj.type = "recipe";
+        $scope.newProduct.push(obj);
+        console.log($scope.newProduct);
     }
     $scope.add_element_edit = function(val) {
         var obj = {
@@ -162,21 +197,11 @@ app.controller('inventoryctrl', function($scope, $http) {
             inv_order_line_qty: '',
             inv_currency_inv_currency_id: ''
         };
-        if ($scope.editReciepe != 'null') {
-            if (val == "recipe") {
-                $scope.editReciepe.push(obj);
-                console.log($scope.editReciepe);
-            }
-        } else {
-            $scope.editReciepe = [];
-            if (val == "recipe") {
-                $scope.editReciepe.push(obj);
-                console.log($scope.editReciepe);
-            }
-        }
+        $scope.editProduct.push(obj);
+        console.log($scope.editProduct);
     }
     $scope.removeField = function(index) {
-            $scope.newProduct.remove(index);
+        $scope.newProduct.remove(index);
     }
     $scope.add = function(cat) {
         cat.action = "inventory_crud_function";
@@ -200,10 +225,10 @@ app.controller('inventoryctrl', function($scope, $http) {
                     arr.action = "inventory_crud_function";
                     arr.type = "update_inventory_mapping";
                     arr.id = response.data;
-                    arr.supplier=cat.supplier;
-                    arr.user=cat.wp_users_id_users;
-                    arr.date_time=cat.inv_inventory_date;
-                    arr.location=cat.inv_location_inv_location_id;
+                    arr.supplier = cat.supplier;
+                    arr.user = cat.wp_users_id_users;
+                    arr.date_time = cat.inv_inventory_date;
+                    arr.location = cat.inv_location_inv_location_id;
                     $http({
                         url: myAjax.ajaxurl,
                         method: "POST",
@@ -218,7 +243,7 @@ app.controller('inventoryctrl', function($scope, $http) {
                             jQuery("#newUserModal").modal('hide');
                             $scope.cat = [];
                             $scope.show_location = '';
-                            $scope.newProduct=[];
+                            $scope.newProduct = [];
                             $scope.get_inventory();
                         }
                     }, function(error) {

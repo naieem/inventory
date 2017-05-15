@@ -53,7 +53,6 @@
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 								</div>
-								{{newProduct}}
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element()">Add Product</button>
 								</div>
@@ -96,7 +95,6 @@
 			<!-- Edit Modal -->
 			<div class="modal fade" id="editModal" role="dialog">
 				<div class="modal-dialog">
-
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
@@ -139,6 +137,9 @@
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 								</div>
+								<div class="form-group">
+									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit()">Add Product</button>
+								</div>
 								<div class="panel panel-default" ng-repeat="product in editProduct">
 									<div class="panel-body">
 										<div class="form-inline">
@@ -171,7 +172,6 @@
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
-
 				</div>
 			</div>				
 
