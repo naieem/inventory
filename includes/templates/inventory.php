@@ -123,14 +123,24 @@
 										<option value="{{ user.data.ID }}" ng-repeat="user in users">{{ user.data.display_name }}</option>
 									</select>
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="edit_cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(edit_cat.inv_location_inv_location_id)">
 										<option value="{{ location.id }}" ng-repeat="location in locations">
 											{{ location.inv_location_name }}
 										</option>
 									</select>
+								</div> -->
+
+								<div class="form-group">
+									<label for="name">Location</label>
+									<select name="" ng-model="edit_cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(edit_cat.inv_location_inv_location_id)">
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										</optgroup>
+									</select>
 								</div>
+								
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="" class="form-control" ng-model="supplier">
@@ -146,7 +156,7 @@
 											<div class="form-group">
 												<label for="name">Product</label>
 												<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
-													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
+													<option value="{{ prd.id }}" ng-repeat="prd in products">{{ prd.inv_product_name }}</option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -160,7 +170,7 @@
 													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
 												</select>
 											</div>
-											<button class="remove" ng-click="removeField($index)">X</button>
+											<button class="remove" ng-click="removeFieldEdit($index)">X</button>
 										</div>
 									</div>
 								</div>

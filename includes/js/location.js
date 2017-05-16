@@ -11,7 +11,11 @@ app.controller('locationctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response);
-            $scope.locations = response.data;
+            if (response.data == "null") {
+                $scope.locations = [];
+            } else {
+                $scope.locations = response.data;
+            }
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');

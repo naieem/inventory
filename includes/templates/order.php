@@ -33,7 +33,12 @@
 										</ul>
 									</div>
 								</div>
-
+								<div class="form-group">
+									<label for="name">Customer</label>
+									<select name="parent" ng-model="cat.customer" class="form-control" ng-change="change_customer(cat.customer)">
+										<option value="{{ customer.id }}" ng-repeat="customer in customers">{{ customer.inv_customer_name }}</option>
+									</select>
+								</div>
 								<div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="cat.location" class="form-control">
@@ -42,12 +47,7 @@
 										</optgroup>
 									</select>
 								</div>
-								<div class="form-group">
-									<label for="name">Customer</label>
-									<select name="parent" ng-model="cat.customer" class="form-control" ng-change="change_customer(cat.customer)">
-										<option value="{{ customer.id }}" ng-repeat="customer in customers">{{ customer.inv_customer_name }}</option>
-									</select>
-								</div>
+								
 								<div class="form-group">
 									<label for="name">Total</label>
 									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.total" numbers-only>

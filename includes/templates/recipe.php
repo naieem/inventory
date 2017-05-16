@@ -52,10 +52,16 @@
 												<input type="text" class="form-control" name="name" ng-model="product.qty" required>
 											</div>
 
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Unit</label>
 												<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="product.unit"
 												ng-init="product.unit=1" required>
+											</div> -->
+											<div class="form-group">
+												<label for="name">Unit</label>
+												<select name="" ng-model="product.unit" class="form-control">
+													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+												</select>
 											</div>
 											<button class="remove" ng-click="removeField($index,'product')">X</button>
 										</div>
@@ -76,10 +82,16 @@
 													<input type="text" class="form-control" name="name" ng-model="recipe.qty" required>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="name">Unit</label>
 													<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="recipe.unit"
 													ng-init="recipe.unit=1" required>
+												</div> -->
+												<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="recipe.unit" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
 												</div>
 												<button class="remove" ng-click="removeField($index,'recipe')">X</button>
 											</div>
@@ -104,7 +116,7 @@
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
-								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+									<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
 								</button>
 							</form>
 						</div>
@@ -156,11 +168,17 @@
 												<input type="text" class="form-control" name="name" ng-model="product.inv_product_has_inv_recipe_qty" required>
 											</div>
 
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Unit</label>
 												<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="product.inv_inventory_units_inv_inventory_units_id"
 												ng-init="product.inv_inventory_units_inv_inventory_units_id=1" required>
-											</div>
+											</div> -->
+											<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="product.inv_inventory_units_inv_inventory_units_id" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
+												</div>
 											<button class="remove" ng-click="removeField_edit($index,'product')">X</button>
 										</div>
 									</div>
@@ -180,10 +198,16 @@
 													<input type="text" class="form-control" name="name" ng-model="recipe.inv_product_has_inv_recipe_qty" required>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="name">Unit</label>
 													<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="recipe.inv_inventory_units_inv_inventory_units_id"
 													ng-init="recipe.inv_inventory_units_inv_inventory_units_id=1" required>
+												</div> -->
+												<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="recipe.inv_inventory_units_inv_inventory_units_id" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
 												</div>
 												<button class="remove" ng-click="removeField_edit($index,'recipe')">X</button>
 											</div>
@@ -196,7 +220,7 @@
 									</div>
 
 									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
-									<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+										<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
 									</button>
 								</form>
 							</div>

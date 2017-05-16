@@ -32,7 +32,11 @@ app.controller('pcatctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
-            $scope.categories = response.data;
+            if (response.data == "null") {
+                $scope.categories = [];
+            } else {
+                $scope.categories = response.data;
+            }
             $scope.loading = false;
         }, function(error) {
             console.log(error);

@@ -32,7 +32,11 @@ app.controller('supplierctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
-            $scope.suppliers = response.data;
+            if (response.data == "null") {
+                $scope.suppliers = [];
+            } else {
+                $scope.suppliers = response.data;
+            }
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');

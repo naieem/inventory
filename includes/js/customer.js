@@ -75,7 +75,11 @@ app.controller('userctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
-            $scope.users = response.data;
+            if (response.data == "null") {
+                $scope.users = [];
+            } else {
+                $scope.users = response.data;
+            }
             $scope.loading = false;
         }, function(error) {
             console.log(error);

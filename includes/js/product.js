@@ -32,7 +32,11 @@ app.controller('productctrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
-            $scope.products = response.data;
+            if (response.data == "null") {
+                $scope.products = [];
+            } else {
+                $scope.products = response.data;
+            }
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');

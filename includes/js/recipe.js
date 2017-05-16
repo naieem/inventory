@@ -112,11 +112,31 @@ app.controller('recipectrl', function($scope, $http) {
             params: params
         }).then(function(response) {
             console.log(response.data);
-            $scope.recipies = response.data;
+            if (response.data == "null") {
+                $scope.recipies = [];
+            } else {
+                $scope.recipies = response.data;
+            }
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
             // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_units = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = 'inv_inventory_units';
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log('units', response.data);
+            $scope.units = response.data;
         }, function(error) {
             console.log(error);
         });
@@ -314,34 +334,45 @@ app.controller('recipectrl', function($scope, $http) {
             */
 
             var cnt = 0;
-            for (var i = 0; i < newarr.length; i++) {
-                var arr = [];
-                arr.data = newarr[i];
-                arr.action = "inventory_crud_function";
-                arr.type = "update_recipe_mapping";
-                arr.id = data.id;
-                $http({
-                    url: myAjax.ajaxurl,
-                    method: "POST",
-                    params: arr
-                }).then(function(response) {
-                    console.log(response.data);
-                    if (response.data == '1') {
-                        cnt++;
-                    }
-                    if (cnt == newarr.length) {
-                        $scope.showloader = false;
-                        jQuery("#editModal").modal("hide");
-                        setTimeout(function() {
-                            $scope.get_recipe();
-                            $scope.editProducts = [];
-                            $scope.editReciepe = [];
-                        }, 1000);
-                    }
-                }, function(error) {
-                    console.log(error);
-                });
+            if (newarr.length > 0) {
+                for (var i = 0; i < newarr.length; i++) {
+                    var arr = [];
+                    arr.data = newarr[i];
+                    arr.action = "inventory_crud_function";
+                    arr.type = "update_recipe_mapping";
+                    arr.id = data.id;
+                    $http({
+                        url: myAjax.ajaxurl,
+                        method: "POST",
+                        params: arr
+                    }).then(function(response) {
+                        console.log(response.data);
+                        if (response.data == '1') {
+                            cnt++;
+                        }
+                        if (cnt == newarr.length) {
+                            $scope.showloader = false;
+                            jQuery("#editModal").modal("hide");
+                            setTimeout(function() {
+                                $scope.get_recipe();
+                                $scope.editProducts = [];
+                                $scope.editReciepe = [];
+                            }, 1000);
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                }
+            } else {
+                $scope.showloader = false;
+                jQuery("#editModal").modal("hide");
+                setTimeout(function() {
+                    $scope.get_recipe();
+                    $scope.editProducts = [];
+                    $scope.editReciepe = [];
+                }, 1000);
             }
+
             /**
              *
              * Ingredients adding coding ends
@@ -353,6 +384,7 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(error);
         });
     };
+    $scope.get_units();
     $scope.get_recipe();
     $scope.get_product();
     $scope.get_category();

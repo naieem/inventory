@@ -52,7 +52,11 @@ app.controller('recipectctrl', function($scope, $http) {
         }).then(function(response) {
             console.log(response.data);
             $scope.get_parent_category();
-            $scope.categories = response.data;
+            if (response.data == "null") {
+                $scope.categories = [];
+            } else {
+                $scope.categories = response.data;
+            }
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');

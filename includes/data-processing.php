@@ -729,14 +729,14 @@ function update_inventory_mapping_edit($data){
   // var_dump($lineArray);
   global $db;
   $data=array(
-    'inv_product_id_inv_product'=>$lineArray->ID,
-    'inv_inventory_line_amount' =>$lineArray->amount,
-    'inv_inventory_units_inv_inventory_units_id' => $lineArray->unit,
+    'inv_product_id_inv_product'=>$lineArray->inv_product_id_inv_product,
+    'inv_inventory_line_amount' =>$lineArray->inv_inventory_line_amount,
+    'inv_inventory_units_inv_inventory_units_id' => $lineArray->inv_inventory_units_inv_inventory_units_id,
     'inv_inventory_inv_inventory_id' => $order_id,
     'inv_supplier_inv_supplier_id' => $data['supplier'],
     'inv_inventory_line_user_id' => $data['user'],
     'inv_inventory_line_date_time' => $data['date_time'],
-    'inv_location_line_inv_location_id' =>$data['location_']
+    'inv_location_line_inv_location_id' =>$data['location']
 
     );
   $insert_result=$db->insert('inv_inventory_line',$data);
