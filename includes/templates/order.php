@@ -48,10 +48,10 @@
 									</select>
 								</div>
 								
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label for="name">Total</label>
 									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.total" numbers-only>
-								</div>
+								</div> -->
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element('recipe')">Add Line</button>
 								</div>
@@ -123,10 +123,10 @@
 										<option value="{{ customer.id }}" ng-repeat="customer in customers">{{ customer.inv_customer_name }}</option>
 									</select>
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label for="name">Total</label>
 									<input type="text" name="amount" class="form-control" name="name" ng-model="edit_cat.inv_order_total">
-								</div>
+								</div> -->
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('recipe')">Add Line</button>
 								</div>
@@ -196,7 +196,7 @@
 						<tr>
 							<th>#</th>
 							<th>Date</th>
-							<th>Total</th>
+							<!-- <th>Total</th> -->
 							<!-- <th>Recipe</th> -->
 							<th>Customer</th>
 							<!-- <th>Quantity</th>
@@ -208,7 +208,7 @@
 						<tr ng-repeat="order in orders">
 							<td>{{order.inv_order_orderid}}</td>
 							<td>{{order.inv_order_datetime | datetime }}</td>
-							<td>{{order.inv_order_total}}</td>
+							<!-- <td>{{order.inv_order_total}}</td> -->
 							<!-- <td>
 								<parent info="recipes" cid="order.inv_recipe_id_inv_recipe" field="inv_recipe_name"></parent>
 							</td> -->

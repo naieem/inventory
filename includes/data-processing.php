@@ -808,7 +808,7 @@ function add_new_order($data){
   $datas = array(
     'inv_order_datetime' =>$data['datetime'],
     'inv_customer_inv_customer_id' => $data['customer'],
-    'inv_order_total' => $data['total'],
+    // 'inv_order_total' => $data['total'],
     'inv_order_location_id'=>$data['location']
     );
   $insert_result=$db->insert('inv_order_data',$datas);
@@ -870,7 +870,7 @@ function update_orders($data){
   $datas= array(
     'inv_order_datetime' =>$data['inv_order_datetime'],
     'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
-    'inv_order_total' => $data['inv_order_total']  
+    // 'inv_order_total' => $data['inv_order_total']  
     );
   $insert_result=$db->update('inv_order_data',$datas,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
   if($insert_result){
