@@ -24,7 +24,7 @@
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
-										<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
 											<div class="input-group"><input type="text" class="form-control" ng-model="cat.datetime"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>
@@ -108,7 +108,7 @@
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
-										<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
 											<div class="input-group"><input type="text" class="form-control" ng-model="edit_cat.inv_order_datetime"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>

@@ -116,6 +116,23 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 }
 
 /**
+ *
+ * shortcodes settings
+ * adding shortcode code form home page
+ *
+ */
+
+add_shortcode( 'userForm', 'inventory_user_func' );
+add_shortcode( 'productForm', 'inventory_product_func' );
+add_shortcode( 'productCatForm', 'inventory_product_cat_func' );
+add_shortcode( 'supplierForm', 'inventory_product_supl_func' );
+add_shortcode( 'recipeCatForm', 'inventory_recipe_cat_func' );
+add_shortcode( 'recipeForm', 'inventory_recipe_func' );
+add_shortcode( 'locationForm', 'inventory_location_func' );
+add_shortcode( 'inventoryForm', 'inventory_inventory_func' );
+add_shortcode( 'orderForm', 'inventory_order_func' );
+
+/**
 * Disply callback for the inventory home.
 */
 function inventory_home_page() {
@@ -137,58 +154,48 @@ function inventory_home_page() {
 </div>
 <?php
 }
-
 /**
 * Disply callback for the inventory user.
 */
 function inventory_user_func() {
 	include_once('templates/user.php');
 }
-
-
 /**
 * Disply callback for the inventory product.
 */
 function inventory_product_func() {
 	include_once('templates/product.php');
 }
-
-
 /**
 * Disply callback for the inventory product category.
 */
 function inventory_product_cat_func() {
 	include_once('templates/product_category.php');
 }
-
 /**
 * Disply callback for the inventory product supplier.
 */
 function inventory_product_supl_func() {
 	include_once('templates/product_supplier.php');	
 }
-
 /**
 * Disply callback for the inventory recipe category.
 */
 function inventory_recipe_cat_func() {
 	include_once('templates/recipe_category.php');	
 }
-
 /**
-* Disply callback for the inventory recipe category.
+* Disply callback for the inventory recipe.
 */
 function inventory_recipe_func() {
 	include_once('templates/recipe.php');	
 }
-
 /**
 * Disply callback for the inventory location.
 */
 function inventory_location_func() {
 	include_once('templates/location.php');	
 }
-
 /**
 * Disply callback for the inventory listing page.
 */
@@ -201,4 +208,3 @@ function inventory_inventory_func() {
 function inventory_order_func() {
 	include_once('templates/order.php');	
 }
-
