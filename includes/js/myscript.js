@@ -3,10 +3,17 @@ Array.prototype.remove = function(from, to) {
     this.length = from < 0 ? this.length + from : from;
     return this.push.apply(this, rest);
 };
-var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker','ui.bootstrap']);
+
+var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker', 'ui.bootstrap']);
 app.controller('homectrl', function($scope, $http) {
 
 });
+
+app.config([function () {
+    jQuery(".select2").select2({
+        allowClear: true
+    });
+}]);
 /*
  *
  * Custom directive for showing parent category

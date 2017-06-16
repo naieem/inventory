@@ -42,6 +42,14 @@
 								</div>
 
 								<div class="form-group">
+									<label for="name">Unit</label>
+									<select name="unit" ng-model="cat.inv_product_size_unit" class="form-control">
+											<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+									</select>
+								</div>
+
+
+								<div class="form-group">
 									<label for="name">Full weight</label>
 									<input type="text" class="form-control" name="fweight" ng-model="cat.fweight" required>
 									<span class="error" ng-show="new_user.fweight.$touched && new_user.fweight.$invalid">This field is required.</span>
@@ -77,6 +85,55 @@
 									</select>
 									<span class="error" ng-show="new_user.supplier.$touched && new_user.supplier.$invalid">This field is required.</span>
 								</div>
+
+								<div class="form-group">
+									<label for="name">Supplier's Product code</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_supplier_prodcode">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Country</label>
+									<!-- <input type="text" class="form-control" name="name" ng-model="cat.inv_location_country" required> -->
+									<select class="form-control select2" name="currency" ng-model="cat.inv_product_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Region</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_region">
+								</div>
+								<div class="form-group">
+									<label for="name">Supplier's Product code</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_supplier_prodcode">
+								</div>
+								<div class="form-group">
+									<label for="name">Sous-region</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_sous_region">
+								</div>
+								<div class="form-group">
+									<label for="name">Appellation</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_aoc">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Classification</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_classification">
+								</div>
+								<div class="form-group">
+									<label for="name">Producteur</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_producteur">
+								</div>
+								<div class="form-group">
+									<label for="name">Color</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_couleur">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Image url</label>
+									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_image_url">
+								</div>
+
 								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
@@ -102,42 +159,49 @@
 							<form name="new_user_edit">
 								<div class="form-group">
 									<label for="name">Name</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_name" required>
+									<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_product_name" required>
 									<span class="error" ng-show="new_user_edit.name.$touched && new_user_edit.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Barcode</label>
-									<input type="text" class="form-control" name="barcode" ng-model="cat.inv_product_barcode" required>
+									<input type="text" class="form-control" name="barcode" ng-model="edit_cat.inv_product_barcode" required>
 									<span class="error" ng-show="new_user_edit.barcode.$touched && new_user_edit.barcode.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Size</label>
-									<input type="text" class="form-control" name="size" ng-model="cat.inv_product_size" required>
+									<input type="text" class="form-control" name="size" ng-model="edit_cat.inv_product_size" required>
 									<span class="error" ng-show="new_user_edit.size.$touched && new_user_edit.size.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
+									<label for="name">Unit</label>
+									<select name="unit" ng-model="edit_cat.inv_product_size_unit" class="form-control">
+											<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
 									<label for="name">Full weight</label>
-									<input type="text" class="form-control" name="fweight" ng-model="cat.inv_product_full_weight" required>
+									<input type="text" class="form-control" name="fweight" ng-model="edit_cat.inv_product_full_weight" required>
 									<span class="error" ng-show="new_user_edit.fweight.$touched && new_user_edit.fweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
-									<input type="text" class="form-control" name="eweight" ng-model="cat.inv_product_empty_weight">
+									<input type="text" class="form-control" name="eweight" ng-model="edit_cat.inv_product_empty_weight">
 									<span class="error" ng-show="new_user_edit.eweight.$touched && new_user_edit.eweight.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Cost</label>
-									<input type="text" class="form-control" name="cost" ng-model="cat.inv_product_cost" required>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_cost" required>
 									<span class="error" ng-show="new_user_edit.cost.$touched && new_user_edit.cost.$invalid">This field is required.</span>
 								</div>
 								<div class="form-group">
 									<label for="name">Category</label>
-									<select name="category" ng-model="cat.inv_product_category_id" class="form-control">
+									<select name="category" ng-model="edit_cat.inv_product_category_id" class="form-control">
 										<optgroup ng-repeat="x in grandParent" label="{{x.inv_product_cat_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
@@ -146,12 +210,63 @@
 								</div>
 								<div class="form-group">
 									<label for="name">Supplier</label>
-									<select name="supplier" class="form-control" ng-model="cat.inv_product_supplier_id">
+									<select name="supplier" class="form-control" ng-model="edit_cat.inv_product_supplier_id">
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 									<span class="error" ng-show="new_user_edit.supplier.$touched && new_user_edit.supplier.$invalid">This field is required.</span>
 								</div>
-								<button type="button" class="btn btn-default" ng-disabled="new_user_edit.$invalid"  ng-click="edit(cat)">Submit</button>
+
+
+								<div class="form-group">
+									<label for="name">Supplier's Product code</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_supplier_prodcode">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Country</label>
+									<!-- <input type="text" class="form-control" name="name" ng-model="edit_cat.inv_location_country" required> -->
+									<select class="form-control select2" name="currency" ng-model="edit_cat.inv_product_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Region</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_region">
+								</div>
+								<div class="form-group">
+									<label for="name">Supplier's Product code</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_supplier_prodcode">
+								</div>
+								<div class="form-group">
+									<label for="name">Sous-region</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_sous_region">
+								</div>
+								<div class="form-group">
+									<label for="name">Appellation</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_aoc">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Classification</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_classification">
+								</div>
+								<div class="form-group">
+									<label for="name">Producteur</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_producteur">
+								</div>
+								<div class="form-group">
+									<label for="name">Color</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_couleur">
+								</div>
+
+								<div class="form-group">
+									<label for="name">Image url</label>
+									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_image_url">
+								</div>
+
+
+								<button type="button" class="btn btn-default" ng-disabled="new_user_edit.$invalid"  ng-click="edit(edit_cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

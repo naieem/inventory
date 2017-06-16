@@ -6,6 +6,10 @@ load javascript and css
 
 function aim_load_styles() {
  wp_enqueue_style('pstyle', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+
+ wp_enqueue_style('select2css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css');
+
+
  wp_enqueue_style('datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/css/datetimepicker.css');
  wp_enqueue_style('style', WP_PLUGIN_URL . '/inventory/includes/css/style.css');
 
@@ -55,6 +59,8 @@ function aim_load_js() {
 
  wp_enqueue_script( 'datetimecustom', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js');
   wp_enqueue_script( 'pagination', 'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js');
+
+    wp_enqueue_script( 'Select2js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js');
 
 /**
  *

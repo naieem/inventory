@@ -155,6 +155,10 @@ function inventory_crud_function(){
     get_order_lines($data);
     break;
 
+    case 'get_customer':
+    get_customer($data);
+    break;
+
 
     /* generic all call*/
     case 'delete':
@@ -378,11 +382,22 @@ function add_new_product($data){
     'inv_product_name' => $data['name'],
     'inv_product_barcode' => $data['barcode'],
     'inv_product_size' => $data['size'],
+    'inv_product_size_unit' => $data['inv_product_size_unit'],
     'inv_product_full_weight' => $data['fweight'],
     'inv_product_empty_weight' => $data['eweight'],
     'inv_product_cost' => $data['cost'],
     'inv_product_category_id' => $data['category'],
-    'inv_product_supplier_id' => $data['supplier']
+    'inv_product_supplier_id' => $data['supplier'],    
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_country' => $data['inv_product_country'],
+    'inv_product_region' => $data['inv_product_region'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_sous_region' => $data['inv_product_sous_region'],
+    'inv_product_aoc' => $data['inv_product_aoc'],
+    'inv_product_classification' => $data['inv_product_classification'],
+    'inv_product_producteur' => $data['inv_product_producteur'],
+    'inv_product_couleur' => $data['inv_product_couleur'],
+    'inv_product_image_url' => $data['inv_product_image_url']
     );
   $insert_result=$db->insert('inv_product',$datas);
   echo $insert_result;
@@ -407,11 +422,22 @@ function update_product($data){
     'inv_product_name' => $data['inv_product_name'],
     'inv_product_barcode' => $data['inv_product_barcode'],
     'inv_product_size' => $data['inv_product_size'],
+    'inv_product_size_unit' => $data['inv_product_size_unit'],
     'inv_product_full_weight' => $data['inv_product_full_weight'],
     'inv_product_empty_weight' => $data['inv_product_empty_weight'],
     'inv_product_cost' => $data['inv_product_cost'],
     'inv_product_category_id' => $data['inv_product_category_id'],
-    'inv_product_supplier_id' => $data['inv_product_supplier_id']
+    'inv_product_supplier_id' => $data['inv_product_supplier_id'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_country' => $data['inv_product_country'],
+    'inv_product_region' => $data['inv_product_region'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_sous_region' => $data['inv_product_sous_region'],
+    'inv_product_aoc' => $data['inv_product_aoc'],
+    'inv_product_classification' => $data['inv_product_classification'],
+    'inv_product_producteur' => $data['inv_product_producteur'],
+    'inv_product_couleur' => $data['inv_product_couleur'],
+    'inv_product_image_url' => $data['inv_product_image_url']
     );
   $insert_result=$db->update('inv_product',$datas,array( 'id' => $data['id'] ));
   echo $insert_result;
@@ -904,5 +930,18 @@ function delete_orders($data){
     $ret=$db->delete('inv_order_data',$condition);
   }
   echo $ret;
+}
+
+function get_customer($data){
+ global $db;
+  $config=array(
+    'tables'=>array('inv_customer'),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>""
+    );
+  $fivesdrafts= $db->get_data($config);
+  $json = json_encode($fivesdrafts);
+  echo $json;
 }
 ?>

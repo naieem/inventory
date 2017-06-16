@@ -85,7 +85,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
     }
     $scope.edit_modal = function(data) {
         console.log(data);
-        $scope.cat = data;
+        $scope.edit_cat = data;
         jQuery("#editModal").modal("show");
     }
     $scope.edit = function(data) {
@@ -101,6 +101,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
         }).then(function(response) {
             console.log(response.data);
             if (response.data == '1') {
+                $scope.cat = {};
                 jQuery("#editModal").modal("hide");
                 // setTimeout(function () {
                 $scope.get_product();
@@ -213,6 +214,42 @@ app.controller('productctrl', function($scope, $http, $timeout) {
             console.log(error);
         });
     };
+    $scope.get_units = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = 'inv_inventory_units';
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log('units', response.data);
+            $scope.units = response.data;
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_country = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_country";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.country = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_country();
+    $scope.get_units();
     $scope.get_supplier();
     $scope.get_category();
     // $scope.get_parent_category();

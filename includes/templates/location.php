@@ -54,8 +54,15 @@
 								<div class="form-group">
 									<label for="name">Country</label>
 									<!-- <input type="text" class="form-control" name="name" ng-model="cat.inv_location_country" required> -->
-									<select class="form-control" name="currency" ng-model="cat.inv_location_country">
-										<option ng-repeat="countries in country" ng-value=" countries.id">{{countries.country_name}}</option>
+									<select class="form-control select2" name="currency" ng-model="cat.inv_location_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Customer</label>
+									<select class="form-control" name="currency" ng-model="cat.inv_location_inv_customer_id">
+										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
 									</select>
 								</div>
 
@@ -117,8 +124,15 @@
 								<div class="form-group">
 									<label for="name">Country</label>
 									<!-- <input type="text" class="form-control" name="name" ng-model="edit_cat.inv_location_country" required> -->
-									<select class="form-control" name="currency" ng-model="edit_cat.inv_location_country">
-										<option ng-repeat="countries in country" ng-value=" countries.id">{{countries.country_name}}</option>
+									<select class="form-control select2" name="country" ng-model="edit_cat.inv_location_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Customer</label>
+									<select class="form-control" name="currency" ng-model="edit_cat.inv_location_inv_customer_id">
+										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
 									</select>
 								</div>
 

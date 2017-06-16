@@ -1,4 +1,5 @@
 app.controller('locationctrl', function($scope, $http) {
+
     $scope.get_location = function() {
         $scope.loading = true;
         var params = {};
@@ -26,6 +27,7 @@ app.controller('locationctrl', function($scope, $http) {
     };
     $scope.edit_modal = function(data) {
         console.log(data);
+        debugger;
         $scope.edit_cat = data;
         jQuery("#editModal").modal("show");
     }
@@ -122,6 +124,26 @@ app.controller('locationctrl', function($scope, $http) {
             console.log(error);
         });
     };
+
+    $scope.get_customer = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_customer";
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log(response.data);
+            $scope.customer = response.data;
+            // if(response.data){
+            //    console.log('new user adding successful');
+            // }
+        }, function(error) {
+            console.log(error);
+        });
+    };
+    $scope.get_customer();
     $scope.get_country();
     $scope.get_location();
 });

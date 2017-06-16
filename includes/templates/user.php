@@ -69,8 +69,8 @@
 								<div class="form-group">
 									<label for="Country">Customer Country</label>
 									<!-- <input type="text" class="form-control" name="country" ng-model="customer.country" required> -->
-									<select class="form-control" name="currency" ng-model="customer.country">
-										<option ng-repeat="countries in country" ng-value=" countries.id">{{countries.country_name}}</option>
+									<select class="form-control select2" name="currency" ng-model="customer.country">
+										<option ng-repeat="countries in country" ng-value="countries.id">{{countries.country_name}}</option>
 									</select>
 									<span class="error" ng-show="new_user.country.$touched && new_user.country.$invalid">This field is required.</span>
 								</div>
@@ -153,7 +153,7 @@
 									<label for="Country">Customer Country</label>
 									<!-- <input type="text" class="form-control" name="country" ng-model="customer.inv_customer_country" required> -->
 
-									<select class="form-control" name="country" ng-model="customer.inv_customer_country">
+									<select class="form-control select2" name="country" ng-model="customer.inv_customer_country">
 										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
 									</select>
 
