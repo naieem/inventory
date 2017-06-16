@@ -3,21 +3,9 @@ Array.prototype.remove = function(from, to) {
     this.length = from < 0 ? this.length + from : from;
     return this.push.apply(this, rest);
 };
-var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker']);
+var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker','ui.bootstrap']);
 app.controller('homectrl', function($scope, $http) {
 
-    // $scope.name = "dsfd";
-    // $scope.hello = function() {
-    //     $http({
-    //         url: myAjax.ajaxurl,
-    //         method: "POST",
-    //         params: { action: "inventory_crud_function", name: "fgfd" }
-    //     }).then(function(response) {
-    //         console.log(response.data);
-    //     }, function(error) {
-    //         console.log(error);
-    //     });
-    // };
 });
 /*
  *

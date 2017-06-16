@@ -49,7 +49,7 @@
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
-									<input type="text" class="form-control" name="eweight" ng-model="cat.eweight" required>
+									<input type="text" class="form-control" name="eweight" ng-model="cat.eweight" >
 									<span class="error" ng-show="new_user.eweight.$touched && new_user.eweight.$invalid">This field is required.</span>
 								</div>
 
@@ -63,10 +63,9 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="category" ng-model="cat.category" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
+										<optgroup ng-repeat="x in grandParent" label="{{x.inv_product_cat_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
-
 									</select>
 									<span class="error" ng-show="new_user.category.$touched && new_user.category.$invalid">This field is required.</span>
 								</div>
@@ -127,7 +126,7 @@
 
 								<div class="form-group">
 									<label for="name">Empty Weight</label>
-									<input type="text" class="form-control" name="eweight" ng-model="cat.inv_product_empty_weight" required>
+									<input type="text" class="form-control" name="eweight" ng-model="cat.inv_product_empty_weight">
 									<span class="error" ng-show="new_user_edit.eweight.$touched && new_user_edit.eweight.$invalid">This field is required.</span>
 								</div>
 
@@ -139,7 +138,7 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="category" ng-model="cat.inv_product_category_id" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_product_cat_name}}">
+										<optgroup ng-repeat="x in grandParent" label="{{x.inv_product_cat_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
 									</select>
@@ -185,7 +184,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="product in products">
+						<tr ng-repeat="product in products.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
 							<td>{{product.id}}</td>
 							<td>{{product.inv_product_name}}</td>
 							<td>{{product.inv_product_barcode}}</td>
@@ -203,6 +202,8 @@
 						</tr>
 					</tbody>
 				</table>
+				View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>3</option><option>5</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option></select> records at a time.
+				<pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination>
 			</div>
 		</div>
 	</div>

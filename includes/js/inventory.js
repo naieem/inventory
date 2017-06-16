@@ -285,33 +285,37 @@ app.controller('inventoryctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-        $scope.loading = true;
-        console.log(id);
-        var params = {};
-        params.action = "inventory_crud_function";
-        params.type = "delete_inventory";
-        // params.table = "inv_inventory";
-        debugger;
-        params.id = id;
-        $http({
-            url: myAjax.ajaxurl,
-            method: "POST",
-            params: params
-        }).then(function(response) {
-            console.log(response.data);
-            // $scope.delete = response.data;
-            if (response.data === '1') {
-                console.log('successful');
-                setTimeout(function() {
-                    $scope.get_inventory();
-                }, 1000);
-            } else if (response.data === '23000') {
-                alert("you can not delete this.Because it is used in somewhere else.");
-                $scope.loading = false;
-            }
-        }, function(error) {
-            console.log(error);
-        });
+        var DeleteConfirmation = confirm("Do you wish to proceed?");
+        if (DeleteConfirmation == true) {
+            $scope.loading = true;
+            console.log(id);
+            var params = {};
+            params.action = "inventory_crud_function";
+            params.type = "delete_inventory";
+            // params.table = "inv_inventory";
+            debugger;
+            params.id = id;
+            $http({
+                url: myAjax.ajaxurl,
+                method: "POST",
+                params: params
+            }).then(function(response) {
+                console.log(response.data);
+                // $scope.delete = response.data;
+                if (response.data === '1') {
+                    console.log('successful');
+                    setTimeout(function() {
+                        $scope.get_inventory();
+                    }, 1000);
+                } else if (response.data === '23000') {
+                    alert("you can not delete this.Because it is used in somewhere else.");
+                    $scope.loading = false;
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        }
+
     }
     $scope.get_supplier = function() {
         var params = {};

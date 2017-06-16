@@ -13,7 +13,19 @@ function aim_load_styles() {
 add_action('admin_enqueue_scripts', 'aim_load_styles');
 add_action('wp_enqueue_scripts', 'aim_load_styles');
 function aim_load_js() {
+/**
+ *
+ * Custom initilization scripts
+ *
+ */
+	
  wp_register_script('ajax_script', WP_PLUGIN_URL . '/inventory/includes/js/myscript.js');
+
+/**
+ *
+ * Scripts for individual pages
+ *
+ */
 
  wp_register_script('customer', WP_PLUGIN_URL . '/inventory/includes/js/customer.js');
  wp_register_script('pcat', WP_PLUGIN_URL . '/inventory/includes/js/product_category.js');
@@ -27,14 +39,29 @@ function aim_load_js() {
 
  wp_localize_script( 'ajax_script', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
 
+/**
+ *
+ * Third party script included
+ *
+ */
+
  wp_enqueue_script( 'jquery' );
  wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
+
  wp_enqueue_script( 'momentjs', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js');
 
  wp_enqueue_script( 'angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js');
  wp_enqueue_script( 'datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js');
 
  wp_enqueue_script( 'datetimecustom', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js');
+  wp_enqueue_script( 'pagination', 'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js');
+
+/**
+ *
+ * including custom scripts
+ *
+ */
+
  wp_enqueue_script( 'ajax_script' );
  wp_enqueue_script( 'customer' );
  wp_enqueue_script( 'pcat' );

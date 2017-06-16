@@ -46,30 +46,33 @@ app.controller('supplierctrl', function($scope, $http) {
         });
     };
     $scope.delete = function(id) {
-        $scope.loading = true;
-        console.log(id);
-        var params = {};
-        params.action = "inventory_crud_function";
-        params.type = "delete";
-        params.table = "inv_supplier";
-        params.id = id;
-        $http({
-            url: myAjax.ajaxurl,
-            method: "POST",
-            params: params
-        }).then(function(response) {
-            console.log(response.data);
-            // $scope.delete = response.data;
-            if (response.data === '1') {
-                console.log('successful');
-                $scope.get_supplier();
-            } else if (response.data === '23000') {
-                alert("you can not delete this.Because it is used in somewhere else.");
-                $scope.loading = false;
-            }
-        }, function(error) {
-            console.log(error);
-        });
+        var DeleteConfirmation = confirm("Do you wish to proceed?");
+        if (DeleteConfirmation == true) {
+            $scope.loading = true;
+            console.log(id);
+            var params = {};
+            params.action = "inventory_crud_function";
+            params.type = "delete";
+            params.table = "inv_supplier";
+            params.id = id;
+            $http({
+                url: myAjax.ajaxurl,
+                method: "POST",
+                params: params
+            }).then(function(response) {
+                console.log(response.data);
+                // $scope.delete = response.data;
+                if (response.data === '1') {
+                    console.log('successful');
+                    $scope.get_supplier();
+                } else if (response.data === '23000') {
+                    alert("you can not delete this.Because it is used in somewhere else.");
+                    $scope.loading = false;
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        }
     }
     $scope.edit_modal = function(data) {
         console.log(data);

@@ -98,6 +98,11 @@
 										</div>
 									</div>
 
+								<div class="form-group">
+									<label for="name">Selling Price</label>
+									<input type="text" class="form-control" name="name" ng-model="cat.selling_price" required>
+								</div>
+
 
 							<!--<div class="form-inline">
 								<label for="name">Recipe</label>
@@ -218,10 +223,17 @@
 										<label for="name">Instructions</label>
 										<textarea name="" ng-model="edit_cat.inv_recipe_instructions" class="form-control"></textarea>
 									</div>
+									<div class="form-group">
+										<label for="name">Selling Price</label>
+										<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_recipe_selling_price" required>
+									</div>
 
 									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
 										<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
 									</button>
+
+								
+
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -246,6 +258,7 @@
 							<!-- <th>Product</th>
 							<th>Recipe</th> -->
 							<th>Instruction</th>
+							<th>Selling price</th>
 							<!-- <th>Quantity</th> -->
 							<th>Action</th>
 						</tr>
@@ -264,6 +277,7 @@
 								<parent info="recipies" cid="recipe.inv_recipe_inv_recipe_id" field="inv_recipe_name"></parent>
 							</td>-->
 							<td>{{recipe.inv_recipe_instructions}}</td>
+							<td>{{recipe.inv_recipe_selling_price}}</td>
 							<!--<td>{{recipe.inv_product_has_inv_recipe_qty}}</td> -->
 							<td>
 								<button type="button" class="btn btn-default" ng-click="edit_modal(recipe,recipe.id)">Edit</button>

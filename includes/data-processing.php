@@ -19,6 +19,9 @@ function inventory_crud_function(){
     case 'get_currency':
     get_currency();
     break;
+    case 'get_country':
+    get_country();
+    break;
     case 'get_all_user':
     get_all_user();
     break;
@@ -208,13 +211,21 @@ function update_customer($data){
   echo $insert_result;
 }
 function get_currency(){
-  //  global $db;
-  //  $fivesdrafts = $db->get_results("SELECT * FROM inv_currency");
-  //  //  var_dump($fivesdrafts);
-  //  echo json_encode($fivesdrafts);
   global $db;
   $config=array(
     'tables'=>array("inv_currency"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+
+function get_country(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_country"),
     'fields'=>"*",
     'join'=>"",
     'condition'=>"" 
@@ -370,7 +381,6 @@ function add_new_product($data){
     'inv_product_full_weight' => $data['fweight'],
     'inv_product_empty_weight' => $data['eweight'],
     'inv_product_cost' => $data['cost'],
-    'inv_i18n_entity_name' => 1,
     'inv_product_category_id' => $data['category'],
     'inv_product_supplier_id' => $data['supplier']
     );
@@ -400,7 +410,6 @@ function update_product($data){
     'inv_product_full_weight' => $data['inv_product_full_weight'],
     'inv_product_empty_weight' => $data['inv_product_empty_weight'],
     'inv_product_cost' => $data['inv_product_cost'],
-    'inv_i18n_entity_name' => 1,
     'inv_product_category_id' => $data['inv_product_category_id'],
     'inv_product_supplier_id' => $data['inv_product_supplier_id']
     );
@@ -462,8 +471,8 @@ function add_new_recipe($data){
   
   global $db;
   $datas = array(
-   'inv_i18n_entity_name' => 1,
    'inv_recipe_name' => $result->name,
+   'inv_recipe_selling_price' => $result->selling_price,
    'inv_recipe_instructions' => $result->instructions,
    'inv_recipe_category_inv_recipe_category_id'=>$result->category,
    'inv_image_inv_image'=>1,    
@@ -531,7 +540,7 @@ function update_recipe($data){
   
   global $db;
   $datas = array(
-   'inv_i18n_entity_name' => 1,
+    'inv_recipe_selling_price' => $result->inv_recipe_selling_price,
    'inv_recipe_name' => $result->inv_recipe_name,
    'inv_recipe_instructions' => $result->inv_recipe_instructions,
    'inv_recipe_category_inv_recipe_category_id'=>$result->inv_recipe_category_inv_recipe_category_id,

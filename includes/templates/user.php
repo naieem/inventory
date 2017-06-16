@@ -68,7 +68,10 @@
 								</div>
 								<div class="form-group">
 									<label for="Country">Customer Country</label>
-									<input type="text" class="form-control" name="country" ng-model="customer.country" required>
+									<!-- <input type="text" class="form-control" name="country" ng-model="customer.country" required> -->
+									<select class="form-control" name="currency" ng-model="customer.country">
+										<option ng-repeat="countries in country" ng-value=" countries.id">{{countries.country_name}}</option>
+									</select>
 									<span class="error" ng-show="new_user.country.$touched && new_user.country.$invalid">This field is required.</span>
 								</div>
 
@@ -148,7 +151,12 @@
 								</div>
 								<div class="form-group">
 									<label for="Country">Customer Country</label>
-									<input type="text" class="form-control" name="country" ng-model="customer.inv_customer_country" required>
+									<!-- <input type="text" class="form-control" name="country" ng-model="customer.inv_customer_country" required> -->
+
+									<select class="form-control" name="country" ng-model="customer.inv_customer_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+
 									<span class="error" ng-show="new_user_edit.country.$touched && new_user_edit.country.$invalid">This field is required.</span>
 								</div>
 
@@ -206,7 +214,7 @@
 							<td>{{user.inv_customer_province}}</td>
 							<td>{{user.inv_customer_postal_code}}</td>
 							<td>{{user.inv_currency_code}}</td>
-							<td>{{user.inv_customer_country}}</td>
+							<td><parent info="country" cid="user.inv_customer_country" field="country_name"></parent></td>
 							<td>
 								<button type="button" class="btn btn-default" ng-click="edit_modal(user)">Edit</button>
 								<button type="button" class="btn btn-default" ng-click="delete(user.id)">Delete</button>
