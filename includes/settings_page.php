@@ -113,6 +113,16 @@ __( 'Inventory System', 'inventory_supto'), // Menu Title
 'inventory_order_func' // callback function
 );
 
+		/* Sales submenu */
+	add_submenu_page(
+'inventory-home', // Parent slug
+'Inventory Sales', // Page Title
+'Inventory Sales', // menu Title
+'manage_options', // capability
+'inventory-sales', // slug
+'inventory_sales_func' // callback function
+);
+
 }
 
 /**
@@ -207,4 +217,10 @@ function inventory_inventory_func() {
 */
 function inventory_order_func() {
 	include_once('templates/order.php');	
+}
+/**
+* Disply callback for the inventory Sales page.
+*/
+function inventory_sales_func() {
+	include_once('templates/sales.php');	
 }

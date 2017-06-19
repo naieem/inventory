@@ -40,6 +40,7 @@ function aim_load_js() {
  wp_register_script('location', WP_PLUGIN_URL . '/inventory/includes/js/location.js');
  wp_register_script('inventory', WP_PLUGIN_URL . '/inventory/includes/js/inventory.js');
  wp_register_script('order', WP_PLUGIN_URL . '/inventory/includes/js/order.js');
+ wp_register_script('sales', WP_PLUGIN_URL . '/inventory/includes/js/sales.js');
 
  wp_localize_script( 'ajax_script', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
 
@@ -78,6 +79,7 @@ function aim_load_js() {
  wp_enqueue_script( 'location' );
  wp_enqueue_script( 'inventory' );
  wp_enqueue_script( 'order' );
+ wp_enqueue_script( 'sales' );
 }
 add_action('admin_enqueue_scripts', 'aim_load_js');
 add_action('wp_enqueue_scripts', 'aim_load_js');

@@ -148,6 +148,24 @@ function inventory_crud_function(){
     case 'update_order_mapping_while_edit':
     update_order_mapping_while_edit($data);
     break;
+
+    /*----------  sales section crud  ----------*/
+    
+    /*Order crud*/
+    case 'add_new_order_sales':
+    add_new_order_sales($data);
+    break;
+    case 'get_all_orders_sales':
+    get_all_orders_sales();
+    break;
+    case 'update_order_mapping_sales':
+    update_order_mapping_sales($data);
+    break;
+    case 'update_order_mapping_while_edit_sales':
+    update_order_mapping_while_edit_sales($data);
+    break;
+
+
     case 'get_all_users':
     get_all_users();
     break;
@@ -862,8 +880,8 @@ function update_order_mapping($data){
   global $db;
   $datas1=array(
     'inv_recipe_id_inv_recipe'=>$lineArray->ID,
-    'inv_order_line_qty' =>$lineArray->qty,
-    'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_detail_recipe_amount' =>$lineArray->qty,
+    //'inv_currency_inv_currency_id' => $lineArray->currency,
     'inv_order_data_inv_orderid' => $order_id
     );
   $insert_result=$db->insert('inv_order_details',$datas1);
@@ -881,8 +899,8 @@ function update_order_mapping_while_edit($data){
   global $db;
   $datas1=array(
     'inv_recipe_id_inv_recipe'=>$lineArray->inv_recipe_id_inv_recipe,
-    'inv_order_line_qty' =>$lineArray->inv_order_line_qty,
-    'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_detail_recipe_amount' =>$lineArray->inv_order_detail_recipe_amount,
+    //'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
     'inv_order_data_inv_orderid' => $order_id
     );
   $insert_result=$db->insert('inv_order_details',$datas1);
@@ -894,7 +912,7 @@ function get_all_orders(){
     'tables'=>array("inv_order_data"),
     'fields'=>"*",
     'join'=>"",
-    'condition'=>"" 
+    'condition'=>"WHERE inv_order_type !='sale' AND inv_order_type!='purchase'" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
@@ -905,7 +923,7 @@ function update_orders($data){
   $datas= array(
     'inv_order_datetime' =>$data['inv_order_datetime'],
     'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
-    // 'inv_order_total' => $data['inv_order_total']  
+    'inv_order_location_id' => $data['inv_order_location_id']  
     );
   $insert_result=$db->update('inv_order_data',$datas,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
   if($insert_result){
@@ -944,4 +962,69 @@ function get_customer($data){
   $json = json_encode($fivesdrafts);
   echo $json;
 }
+
+/*----------  sales from crud area  ----------*/
+
+function add_new_order_sales($data){
+  global $db;
+  $datas = array(
+    'inv_order_datetime' =>$data['datetime'],
+    'inv_customer_inv_customer_id' => $data['customer'],
+    'inv_order_type' => 'sale',
+    'inv_order_location_id'=>$data['location']
+    );
+  $insert_result=$db->insert('inv_order_data',$datas);
+  $inventory_id=$db->db->lastInsertId();
+  echo $inventory_id;
+}
+
+function update_order_mapping_sales($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->ID,
+    'inv_order_detail_recipe_amount' =>$lineArray->qty,
+    //'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+
+function update_order_mapping_while_edit_sales($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->inv_recipe_id_inv_recipe,
+    'inv_order_detail_recipe_amount' =>$lineArray->inv_order_detail_recipe_amount,
+    //'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+function get_all_orders_sales(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_order_data"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_type ='sale'" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+
 ?>
