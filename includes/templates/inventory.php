@@ -24,7 +24,7 @@
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
-										<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
 											<div class="input-group"><input type="text" class="form-control" ng-model="cat.inv_inventory_date"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>
@@ -41,10 +41,10 @@
 								</div>
 								<div class="form-group">
 									<label for="name">Location</label>
-									<select name="" ng-model="cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(cat.inv_location_inv_location_id)">
-										<option value="{{ location.id }}" ng-repeat="location in locations">
-											{{ location.inv_location_name }}
-										</option>
+									<select name="" ng-change="change_location(cat.inv_location_inv_location_id)" ng-model="cat.inv_location_inv_location_id" class="form-control">
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										</optgroup>
 									</select>
 								</div>
 								<div class="form-group">
@@ -54,21 +54,33 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="name">Product</label>
-									<select name="" ng-model="cat.product" class="form-control">
-										<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="name">Amount</label>
-									<input type="text" name="amount" class="form-control" name="name" ng-model="cat.amount">
+									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element()">Add Product</button>
 								</div>
 
-								<div class="form-group">
-									<label for="name">Unit</label>
-									<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="cat.unit" ng-init="cat.unit='1'">
-								</div>
+								<div class="panel panel-default" ng-repeat="product in newProduct">
+									<div class="panel-body">
+										<div class="form-inline">
+											<div class="form-group">
+												<label for="name">Product</label>
+												<select name="" ng-model="product.ID" class="form-control">
+													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="name">Amount</label>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="product.amount">
+											</div>
 
+											<div class="form-group">
+												<label for="name">Unit</label>
+												<select name="" ng-model="product.unit" class="form-control">
+													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+												</select>
+											</div>
+											<button class="remove" ng-click="removeField($index)">X</button>
+										</div>
+									</div>
+								</div>
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
@@ -83,7 +95,6 @@
 			<!-- Edit Modal -->
 			<div class="modal fade" id="editModal" role="dialog">
 				<div class="modal-dialog">
-
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
@@ -97,7 +108,7 @@
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
-										<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
 											<div class="input-group"><input type="text" class="form-control" ng-model="edit_cat.inv_inventory_date"><span class= "input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>
@@ -112,34 +123,56 @@
 										<option value="{{ user.data.ID }}" ng-repeat="user in users">{{ user.data.display_name }}</option>
 									</select>
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="edit_cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(edit_cat.inv_location_inv_location_id)">
 										<option value="{{ location.id }}" ng-repeat="location in locations">
 											{{ location.inv_location_name }}
 										</option>
 									</select>
+								</div> -->
+
+								<div class="form-group">
+									<label for="name">Location</label>
+									<select name="" ng-model="edit_cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(edit_cat.inv_location_inv_location_id)">
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										</optgroup>
+									</select>
 								</div>
+								
 								<div class="form-group">
 									<label for="name">Supplier</label>
-									<select name="" class="form-control" ng-model="edit_cat.inv_supplier_inv_supplier_id">
+									<select name="" class="form-control" ng-model="supplier">
 										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="name">Product</label>
-									<select name="" ng-model="edit_cat.inv_product_id_inv_product" class="form-control">
-										<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
-									</select>
+									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit()">Add Product</button>
 								</div>
-								<div class="form-group">
-									<label for="name">Amount</label>
-									<input type="text" name="amount" class="form-control" name="name" ng-model="edit_cat.inv_inventory_line_amount">
-								</div>
+								<div class="panel panel-default" ng-repeat="product in editProduct">
+									<div class="panel-body">
+										<div class="form-inline">
+											<div class="form-group">
+												<label for="name">Product</label>
+												<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
+													<option value="{{ prd.id }}" ng-repeat="prd in products">{{ prd.inv_product_name }}</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="name">Amount</label>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="product.inv_inventory_line_amount">
+											</div>
 
-								<div class="form-group">
-									<label for="name">Unit</label>
-									<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" ng-value="inventory.inv_inventory_units_inv_inventory_units_id" ng-model="edit_cat.inv_inventory_units_inv_inventory_units_id">
+											<div class="form-group">
+												<label for="name">Unit</label>
+												<select name="" ng-model="product.inv_inventory_units_inv_inventory_units_id" class="form-control">
+													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+												</select>
+											</div>
+											<button class="remove" ng-click="removeFieldEdit($index)">X</button>
+										</div>
+									</div>
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit</button>
@@ -149,7 +182,6 @@
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
-
 				</div>
 			</div>				
 
@@ -165,9 +197,6 @@
 							<th>#</th>
 							<th>Date</th>
 							<th>Location</th>
-							<th>Product</th>
-							<th>Supplier</th>
-							<th>Amount</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -176,15 +205,6 @@
 							<td>{{inventory.id}}</td>
 							<td>{{inventory.inv_inventory_date | datetime }}</td>
 							<td><parent info="locations" cid="inventory.inv_location_inv_location_id" field="inv_location_name"></parent></td>
-							<td>
-								<parent info="products" cid="inventory.inv_product_id_inv_product" field="inv_product_name"></parent>
-							</td>
-							<td>
-								<parent info="suppliers" cid="inventory.inv_supplier_inv_supplier_id" field="inv_supplier_name"></parent>
-							</td>
-							<td>
-								{{inventory.inv_inventory_line_amount}}
-							</td>
 							<td>
 								<button type="button" class="btn btn-default" ng-click="edit_modal(inventory)">Edit</button>
 								<button type="button" class="btn btn-default" ng-click="delete(inventory.id)">Delete</button>

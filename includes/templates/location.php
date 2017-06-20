@@ -27,6 +27,7 @@
 								<div class="form-group">
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="cat.inv_location_parent" class="form-control">
+									<option value="0">Self</option>
 										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
@@ -52,7 +53,17 @@
 
 								<div class="form-group">
 									<label for="name">Country</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_location_country" required>
+									<!-- <input type="text" class="form-control" name="name" ng-model="cat.inv_location_country" required> -->
+									<select class="form-control select2" name="currency" ng-model="cat.inv_location_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Customer</label>
+									<select class="form-control" name="currency" ng-model="cat.inv_location_inv_customer_id">
+										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
+									</select>
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
@@ -86,6 +97,7 @@
 								<div class="form-group">
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="edit_cat.inv_location_parent" class="form-control">
+									<option value="0">Self</option>
 										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
@@ -111,7 +123,17 @@
 
 								<div class="form-group">
 									<label for="name">Country</label>
-									<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_location_country" required>
+									<!-- <input type="text" class="form-control" name="name" ng-model="edit_cat.inv_location_country" required> -->
+									<select class="form-control select2" name="country" ng-model="edit_cat.inv_location_country">
+										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="name">Customer</label>
+									<select class="form-control" name="currency" ng-model="edit_cat.inv_location_inv_customer_id">
+										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
+									</select>
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit</button>
@@ -149,12 +171,15 @@
 						<tr ng-repeat="location in locations">
 							<td>{{location.id}}</td>
 							<td>{{location.inv_location_name}}</td>
-							<td><parent info="locations" cid="location.inv_location_parent" field="inv_location_name"></parent></td>
+							<td>
+							<span ng-show="location.inv_location_parent=='0'">Self</span>
+							<parent ng-show="location.inv_location_parent!='0'" info="locations" cid="location.inv_location_parent" field="inv_location_name"></parent></td>
 							<td>{{location.inv_location_street_address}}</td>
 							<td>{{location.inv_location_city}}</td>
 							<td>{{location.inv_location_province}}</td>
 							<td>{{location.inv_location_postal_code}}</td>
-							<td>{{location.inv_location_country}}</td>
+							<td>
+							<parent info="country" cid="location.inv_location_country" field="country_name"></parent></td>
 							<!-- <td>{{recipe.inv_recipe_name}}</td>
 							<td><parent info="categories" cid="recipe.inv_recipe_category_inv_recipe_category_id" field="inv_recipe_cat_name"></parent></td>
 							<td><parent info="products" cid="recipe.inv_product_id_inv_product" field="inv_product_name"></parent></td>					

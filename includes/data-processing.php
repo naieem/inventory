@@ -19,6 +19,9 @@ function inventory_crud_function(){
     case 'get_currency':
     get_currency();
     break;
+    case 'get_country':
+    get_country();
+    break;
     case 'get_all_user':
     get_all_user();
     break;
@@ -71,6 +74,10 @@ function inventory_crud_function(){
     update_recipe_category($data);
     break;
 
+    case 'get_recipe_category_parent':
+    get_recipe_category_parent();
+    break;
+
     /* recipe crud */
     case 'add_new_recipe':
     add_new_recipe($data);
@@ -81,6 +88,9 @@ function inventory_crud_function(){
     break;
     case 'update_recipe':
     update_recipe($data);
+    break;
+    case 'update_recipe_mapping':
+    update_recipe_mapping($data);
     break;
     case 'delete_recipe':
     delete_recipe($data);
@@ -107,8 +117,17 @@ function inventory_crud_function(){
     case 'update_inventory':
     update_inventory($data);
     break;
+    case 'update_inventory_mapping':
+    update_inventory_mapping($data);
+    break;
+    case 'update_inventory_mapping_edit':
+    update_inventory_mapping_edit($data);
+    break;
     case 'delete_inventory':
     delete_inventory($data);
+    break;
+    case 'get_inventory_lines':
+    get_inventory_lines($data);
     break;
     /*Order crud*/
     case 'add_new_order':
@@ -123,10 +142,41 @@ function inventory_crud_function(){
     case 'delete_order':
     delete_orders($data);
     break;
+    case 'update_order_mapping':
+    update_order_mapping($data);
+    break;
+    case 'update_order_mapping_while_edit':
+    update_order_mapping_while_edit($data);
+    break;
+
+    /*----------  sales section crud  ----------*/
+    
+    /*Order crud*/
+    case 'add_new_order_sales':
+    add_new_order_sales($data);
+    break;
+    case 'get_all_orders_sales':
+    get_all_orders_sales();
+    break;
+    case 'update_order_mapping_sales':
+    update_order_mapping_sales($data);
+    break;
+    case 'update_order_mapping_while_edit_sales':
+    update_order_mapping_while_edit_sales($data);
+    break;
+
 
     case 'get_all_users':
     get_all_users();
     break;
+    case 'get_order_lines':
+    get_order_lines($data);
+    break;
+
+    case 'get_customer':
+    get_customer($data);
+    break;
+
 
     /* generic all call*/
     case 'delete':
@@ -183,13 +233,21 @@ function update_customer($data){
   echo $insert_result;
 }
 function get_currency(){
-  //  global $db;
-  //  $fivesdrafts = $db->get_results("SELECT * FROM inv_currency");
-  //  //  var_dump($fivesdrafts);
-  //  echo json_encode($fivesdrafts);
   global $db;
   $config=array(
     'tables'=>array("inv_currency"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+
+function get_country(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_country"),
     'fields'=>"*",
     'join'=>"",
     'condition'=>"" 
@@ -245,6 +303,17 @@ function get_product_category_parent(){
     'fields'=>"*",
     'join'=>"",
     'condition'=>"WHERE id!='0' AND inv_product_cat_parent=0" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+function get_recipe_category_parent(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_recipe_cat"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE id!='0' AND inv_recipe_cat_parent=0" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
@@ -331,12 +400,22 @@ function add_new_product($data){
     'inv_product_name' => $data['name'],
     'inv_product_barcode' => $data['barcode'],
     'inv_product_size' => $data['size'],
+    'inv_product_size_unit' => $data['inv_product_size_unit'],
     'inv_product_full_weight' => $data['fweight'],
     'inv_product_empty_weight' => $data['eweight'],
     'inv_product_cost' => $data['cost'],
-    'inv_i18n_entity_name' => 1,
     'inv_product_category_id' => $data['category'],
-    'inv_product_supplier_id' => $data['supplier']
+    'inv_product_supplier_id' => $data['supplier'],    
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_country' => $data['inv_product_country'],
+    'inv_product_region' => $data['inv_product_region'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_sous_region' => $data['inv_product_sous_region'],
+    'inv_product_aoc' => $data['inv_product_aoc'],
+    'inv_product_classification' => $data['inv_product_classification'],
+    'inv_product_producteur' => $data['inv_product_producteur'],
+    'inv_product_couleur' => $data['inv_product_couleur'],
+    'inv_product_image_url' => $data['inv_product_image_url']
     );
   $insert_result=$db->insert('inv_product',$datas);
   echo $insert_result;
@@ -361,12 +440,22 @@ function update_product($data){
     'inv_product_name' => $data['inv_product_name'],
     'inv_product_barcode' => $data['inv_product_barcode'],
     'inv_product_size' => $data['inv_product_size'],
+    'inv_product_size_unit' => $data['inv_product_size_unit'],
     'inv_product_full_weight' => $data['inv_product_full_weight'],
     'inv_product_empty_weight' => $data['inv_product_empty_weight'],
     'inv_product_cost' => $data['inv_product_cost'],
-    'inv_i18n_entity_name' => 1,
     'inv_product_category_id' => $data['inv_product_category_id'],
-    'inv_product_supplier_id' => $data['inv_product_supplier_id']
+    'inv_product_supplier_id' => $data['inv_product_supplier_id'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_country' => $data['inv_product_country'],
+    'inv_product_region' => $data['inv_product_region'],
+    'inv_product_supplier_prodcode' => $data['inv_product_supplier_prodcode'],
+    'inv_product_sous_region' => $data['inv_product_sous_region'],
+    'inv_product_aoc' => $data['inv_product_aoc'],
+    'inv_product_classification' => $data['inv_product_classification'],
+    'inv_product_producteur' => $data['inv_product_producteur'],
+    'inv_product_couleur' => $data['inv_product_couleur'],
+    'inv_product_image_url' => $data['inv_product_image_url']
     );
   $insert_result=$db->update('inv_product',$datas,array( 'id' => $data['id'] ));
   echo $insert_result;
@@ -379,6 +468,7 @@ function add_new_recipe_category($data){
     'inv_i18n_entity_name' => 1,
     'inv_recipe_cat_name' => $data['name'],
     'inv_recipe_cat_desc' => $data['desc'],
+    'inv_recipe_cat_parent' => $data['parent'],
     );
   $insert_result=$db->insert('inv_recipe_cat',$datas);
   echo $insert_result;
@@ -391,6 +481,7 @@ function update_recipe_category($data){
     'inv_recipe_cat_name' => $data['inv_recipe_cat_name'],
     'inv_recipe_cat_desc' => $data['inv_recipe_cat_desc'],
     'inv_i18n_entity_name' => 1,
+    'inv_recipe_cat_parent' => $data['inv_recipe_cat_parent']
     );
   $insert_result=$db->update('inv_recipe_cat',$datas,array( 'id' => $data['id'] ));
   echo $insert_result;
@@ -424,8 +515,8 @@ function add_new_recipe($data){
   
   global $db;
   $datas = array(
-   'inv_i18n_entity_name' => 1,
    'inv_recipe_name' => $result->name,
+   'inv_recipe_selling_price' => $result->selling_price,
    'inv_recipe_instructions' => $result->instructions,
    'inv_recipe_category_inv_recipe_category_id'=>$result->category,
    'inv_image_inv_image'=>1,    
@@ -479,32 +570,6 @@ function get_all_recipe($data){
 
 
 function update_recipe($data){
-    // var_dump($data);
-  // global $db;
-  // $datas1=array(
- //    'inv_recipe_inv_recipe_id_is_main_recipe'=>$data['id'],
- //    'inv_product_id_inv_product' => $data['inv_product_id_inv_product'],
- //    'inv_recipe_inv_recipe_id' => $data['inv_recipe_inv_recipe_id'],
- //    'inv_product_has_inv_recipe_qty' => $data['inv_product_has_inv_recipe_qty'],
- //    'inv_inventory_units_inv_inventory_units_id' => 
- //    $data['inv_inventory_units_inv_inventory_units_id']
- //    );
-  // $insert_result=$db->update('inv_product_recipe_mapping',$datas1,
- //    array( 'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'] ));
-  // if($insert_result){
-  //  $datas = array(
- //      'inv_i18n_entity_name' => 1,
- //      'inv_recipe_name' => $data['inv_recipe_name'],
- //      'inv_recipe_instructions' => $data['inv_recipe_instructions'],
- //      'inv_recipe_category_inv_recipe_category_id'=>
- //      $data['inv_recipe_category_inv_recipe_category_id'],
- //      'inv_image_inv_image'=>1,    
- //      );
-  //  $insert_result=$db->update('inv_recipe',$datas,array( 'id' => $data['id'] ));
-  // }
-  // echo $insert_result;
-
-  ///
 
   $str=$data['recipe'];
   $mappings=$data['mapping'];
@@ -519,123 +584,55 @@ function update_recipe($data){
   
   global $db;
   $datas = array(
-   'inv_i18n_entity_name' => 1,
+    'inv_recipe_selling_price' => $result->inv_recipe_selling_price,
    'inv_recipe_name' => $result->inv_recipe_name,
    'inv_recipe_instructions' => $result->inv_recipe_instructions,
    'inv_recipe_category_inv_recipe_category_id'=>$result->inv_recipe_category_inv_recipe_category_id,
    'inv_image_inv_image'=>1,    
    );
   $db->update('inv_recipe',$datas,array( 'id' => $result->id ));
-  // $recipe_id=$db->db->lastInsertId();
-  $config=array(
-    'tables'=>array('inv_product_recipe_mapping'),
-    'fields'=>"id",
-    'join'=>"",
-    'condition'=>"WHERE inv_recipe_inv_recipe_id_is_main_recipe=".$result->id
-    );
-  $all_ids = $db->get_data($config);// all existing ids from database
-  $tempid=[];
-  foreach ($map as $value) {
-    if($value->id){
-      $tempid[]=$value->id;
-    }
-  }
-  // var_dump($tempid);
-  /**
-   *
-   * check if any old data is missing.if missing
-   * then remove that and keep new data tables
-   */
 
-    for ($i=0; $i < count($all_ids); $i++) {
-        if(in_array($all_ids[$i]['id'], $tempid)){
-        }
-        else{
-          $datas = array(
-            'id' => $all_ids[$i]['id']
-            );
-          $db->delete('inv_product_recipe_mapping',$datas);
-        }
-      }
-    //}
-  // }
-  // var_dump($map);
-  $count=0;
-  $remove=0;
-  foreach ($map as $value) {
-    if(is_null($value))
-      $remove++;
-    if($value && $value->type =='product'){
-      // $config=array(
-      //   'tables'=>array('inv_product_recipe_mapping'),
-      //   'fields'=>"*",
-      //   'join'=>"",
-      //   'condition'=>"WHERE inv_product_id_inv_product=".$value->inv_product_id_inv_product." AND inv_product_has_inv_recipe_qty=".$value->inv_product_has_inv_recipe_qty." AND inv_recipe_inv_recipe_id_is_main_recipe=".$value->inv_inventory_units_inv_inventory_units_id
-      //   );
-      // $fivesdrafts = $db->get_data($config);
-      if(!$value->id){
-        $datas1=array(
-         'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id,
-         'inv_product_id_inv_product' => $value->inv_product_id_inv_product,
-         'inv_recipe_inv_recipe_id' => null,
-         'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-         'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-         );
-        $res=$db->insert('inv_product_recipe_mapping',$datas1);
-        if($res)
-          $count++;
-      }
-      else{
-        $datas1=array(
-         'inv_product_id_inv_product' => $value->inv_product_id_inv_product,
-         'inv_recipe_inv_recipe_id' => null,
-         'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-         'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-         );
-        $res=$db->update('inv_product_recipe_mapping',$datas1,array( 'id' => $value->id ));
-        if($res)
-          $count++;
-      }
-      // echo count($fivesdrafts);
-    }
-    if($value && $value->type =='recipe'){
-      // $config=array(
-      //   'tables'=>array('inv_product_recipe_mapping'),
-      //   'fields'=>"*",
-      //   'join'=>"",
-      //   'condition'=>"WHERE inv_recipe_inv_recipe_id=".$value->inv_recipe_inv_recipe_id." AND inv_product_has_inv_recipe_qty=".$value->inv_product_has_inv_recipe_qty." AND inv_recipe_inv_recipe_id_is_main_recipe=".$value->inv_inventory_units_inv_inventory_units_id
-      //   );
-      // $fivesdrafts = $db->get_data($config);
-      if(!$value->id){
-        $datas1=array(
-          'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id,
-         'inv_product_id_inv_product' => null,
-         'inv_recipe_inv_recipe_id' => $value->inv_recipe_inv_recipe_id,
-         'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-         'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-         );
-        $res=$db->insert('inv_product_recipe_mapping',$datas1);
-        if($res)
-        $count++;
-        // echo $res;
-      }else{
-        $datas1=array(
-         'inv_product_id_inv_product' => null,
-         'inv_recipe_inv_recipe_id' => $value->inv_recipe_inv_recipe_id,
-         'inv_product_has_inv_recipe_qty' => $value->inv_product_has_inv_recipe_qty,
-         'inv_inventory_units_inv_inventory_units_id' => $value->inv_inventory_units_inv_inventory_units_id
-         );
-        $res=$db->update('inv_product_recipe_mapping',$datas1,array( 'id' => $value->id ));
-        if($res)
-        $count++;
-      }
-    }
-  }
-  // echo $count;
-  // echo count($map);
-  (count($map)-$remove)== $count? $ret=1:$ret=0;
-    echo $ret;
+  $data = array(
+    'inv_recipe_inv_recipe_id_is_main_recipe' => $result->id
+    );
+  $db->delete('inv_product_recipe_mapping',$data);
 }
+
+function update_recipe_mapping($data){
+  global $db;
+  // var_dump($data);
+  $datas=$data['data'];
+  //  var_dump($str);
+  $infos=str_replace("\\","",$datas);
+  $info=json_decode($infos);
+  // var_dump($info);
+  if($info->type == 'product'){
+    $insert_data=array(
+     'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
+     'inv_product_id_inv_product' => $info->inv_product_id_inv_product,
+     'inv_recipe_inv_recipe_id' => null,
+     'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
+     'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
+     );
+    $res=$db->insert('inv_product_recipe_mapping',$insert_data);
+    if(!$res)
+      var_dump($res);
+  }
+  if($info->type == 'recipe'){
+    $insert_data=array(
+     'inv_recipe_inv_recipe_id_is_main_recipe' => $data['id'],
+     'inv_product_id_inv_product' =>null,
+     'inv_recipe_inv_recipe_id' => $info->inv_recipe_inv_recipe_id,
+     'inv_product_has_inv_recipe_qty' => $info->inv_product_has_inv_recipe_qty,
+     'inv_inventory_units_inv_inventory_units_id' => $info->inv_inventory_units_inv_inventory_units_id
+     );
+    $res=$db->insert('inv_product_recipe_mapping',$insert_data);
+    if(!$res)
+      var_dump($res);
+  }
+  echo 1;
+}
+
 
 function check_id_exists($id){
   global $db;
@@ -690,15 +687,31 @@ function get_recipe_mapping($data){
   echo $json;
 }
 
+function get_order_lines($data){
+  // var_dump($data);
+  global $db;
+  $config=array(
+    'tables'=>array('inv_order_details'),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_data_inv_orderid=".$data['id']
+    );
+  $fivesdrafts= $db->get_data($config);
+  $json = json_encode($fivesdrafts);
+  echo $json;
+}
+
+
 function update_location($data){
   unset($data['action']);
   unset($data['type']);
-  unset($data['$hashKey']);
-  //  var_dump($data);
+  unset($data['$$hashKey']);
+   // var_dump($data);
   global $db;
   $insert_result=$db->update('inv_location',$data,array( 'id' => $data['id'] ));
   echo $insert_result;
 }
+
 
 function add_new_location($data){
   unset($data['action']);
@@ -723,9 +736,6 @@ function get_all_users(){
 }
 
 function add_new_inventory($data){
-  unset($data['action']);
-  unset($data['type']);
-  //  var_dump($data);
   global $db;
   //  $res=$db->insert('inv_inventory',$data);
   //  echo $res;
@@ -736,30 +746,76 @@ function add_new_inventory($data){
     );
   $insert_result=$db->insert('inv_inventory',$datas);
   $inventory_id=$db->db->lastInsertId();
-  if($insert_result){
-    $datas1=array(
-      'inv_inventory_line_amount'=>$data['amount'],
-      'inv_inventory_inv_inventory_id' =>$inventory_id,
-      'inv_inventory_units_inv_inventory_units_id' => $data['unit'],
-      'inv_supplier_inv_supplier_id' => $data['supplier'],
-      'inv_product_id_inv_product' => 
-      $data['product'],
-      'inv_inventory_line_user_id' => $data['wp_users_id_users'],
-      'inv_inventory_line_date_time' => $data['inv_inventory_date'],
-      'inv_location_line_inv_location_id' => 
-      $data['inv_location_inv_location_id']
-      );
-    $insert_result=$db->insert('inv_inventory_line',$datas1);
-  }
+  echo $inventory_id;
+}
+function update_inventory_mapping($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $data=array(
+    'inv_product_id_inv_product'=>$lineArray->ID,
+    'inv_inventory_line_amount' =>$lineArray->amount,
+    'inv_inventory_units_inv_inventory_units_id' => $lineArray->unit,
+    'inv_inventory_inv_inventory_id' => $order_id,
+    'inv_supplier_inv_supplier_id' => $data['supplier'],
+    'inv_inventory_line_user_id' => $data['user'],
+    'inv_inventory_line_date_time' => $data['date_time'],
+    'inv_location_line_inv_location_id' =>$data['location_']
+
+    );
+  $insert_result=$db->insert('inv_inventory_line',$data);
   echo $insert_result;
 }
+
+function update_inventory_mapping_edit($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $data=array(
+    'inv_product_id_inv_product'=>$lineArray->inv_product_id_inv_product,
+    'inv_inventory_line_amount' =>$lineArray->inv_inventory_line_amount,
+    'inv_inventory_units_inv_inventory_units_id' => $lineArray->inv_inventory_units_inv_inventory_units_id,
+    'inv_inventory_inv_inventory_id' => $order_id,
+    'inv_supplier_inv_supplier_id' => $data['supplier'],
+    'inv_inventory_line_user_id' => $data['user'],
+    'inv_inventory_line_date_time' => $data['date_time'],
+    'inv_location_line_inv_location_id' =>$data['location']
+
+    );
+  $insert_result=$db->insert('inv_inventory_line',$data);
+  echo $insert_result;
+}
+function get_inventory_lines($data){
+  // var_dump($data);
+  global $db;
+  $config=array(
+    'tables'=>array('inv_inventory_line'),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_inventory_inv_inventory_id=".$data['id']
+    );
+  $fivesdrafts= $db->get_data($config);
+  $json = json_encode($fivesdrafts);
+  echo $json;
+}
+
 function get_all_inventory(){
   global $db;
   $config=array(
-    'tables'=>array("inv_inventory","inv_inventory_line"),
-    'fields'=>"inv_inventory.*,inv_inventory_line.inv_supplier_inv_supplier_id,inv_inventory_line.inv_product_id_inv_product,inv_inventory_line.inv_inventory_line_amount,inv_inventory_line.inv_inventory_units_inv_inventory_units_id,inv_inventory_line.inv_inventory_line_amount",
-    'join'=>"INNER",
-    'condition'=>"ON inv_inventory.id=inv_inventory_line.inv_inventory_inv_inventory_id" 
+    'tables'=>array("inv_inventory"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
@@ -776,20 +832,14 @@ function update_inventory($data){
   $insert_result=$db->update('inv_inventory',$datas,
     array( 'id' => $data['id'] ));
   if($insert_result){
-    $datas1=array(
-      'inv_inventory_line_amount'=>$data['inv_inventory_line_amount'],
-      'inv_inventory_units_inv_inventory_units_id' => $data['inv_inventory_units_inv_inventory_units_id'],
-      'inv_supplier_inv_supplier_id' => $data['inv_supplier_inv_supplier_id'],
-      'inv_product_id_inv_product' => 
-      $data['inv_product_id_inv_product'],
-      'inv_inventory_line_user_id' => $data['wp_users_id_users'],
-      'inv_inventory_line_date_time' => $data['inv_inventory_date'],
-      'inv_location_line_inv_location_id' => 
-      $data['inv_location_inv_location_id']
+    $condition=array(
+      'inv_inventory_inv_inventory_id'=>$data['id']
       );
-    $insert_result=$db->update('inv_inventory_line',$datas1,array( 'inv_inventory_inv_inventory_id' => $data['id'] ));
+    $ret=$db->delete('inv_inventory_line',$condition);
+    if($ret){
+      echo $ret;
+    }
   }
-  echo $insert_result;
 }
 function delete_inventory($data){
   global $db;
@@ -807,37 +857,62 @@ function delete_inventory($data){
 }
 
 function add_new_order($data){
-  unset($data['action']);
-  unset($data['type']);
-  //  var_dump($data);
   global $db;
-  //  $res=$db->insert('inv_inventory',$data);
-  //  echo $res;
   $datas = array(
     'inv_order_datetime' =>$data['datetime'],
     'inv_customer_inv_customer_id' => $data['customer'],
-    'inv_order_total' => $data['total']  
+    // 'inv_order_total' => $data['total'],
+    'inv_order_location_id'=>$data['location']
     );
   $insert_result=$db->insert('inv_order_data',$datas);
   $inventory_id=$db->db->lastInsertId();
-  if($insert_result){
-    $datas1=array(
-      'inv_recipe_id_inv_recipe'=>$data['recipe'],
-      'inv_order_line_qty' =>$data['quantity'],
-      'inv_currency_inv_currency_id' => $data['currency'],
-      'inv_order_data_inv_orderid' => $inventory_id
-      );
-    $insert_result=$db->insert('inv_order_details',$datas1);
-  }
+  echo $inventory_id;
+}
+
+function update_order_mapping($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->ID,
+    'inv_order_detail_recipe_amount' =>$lineArray->qty,
+    //'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+
+function update_order_mapping_while_edit($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->inv_recipe_id_inv_recipe,
+    'inv_order_detail_recipe_amount' =>$lineArray->inv_order_detail_recipe_amount,
+    //'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
   echo $insert_result;
 }
 function get_all_orders(){
   global $db;
   $config=array(
-    'tables'=>array("inv_order_data","inv_order_details"),
-    'fields'=>"inv_order_data.*,inv_order_details.inv_recipe_id_inv_recipe,inv_order_details.inv_order_line_qty,inv_order_details.inv_currency_inv_currency_id",
-    'join'=>"INNER",
-    'condition'=>"ON inv_order_data.inv_order_orderid=inv_order_details.inv_order_data_inv_orderid" 
+    'tables'=>array("inv_order_data"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_type !='sale' AND inv_order_type!='purchase'" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);
@@ -845,23 +920,20 @@ function get_all_orders(){
 function update_orders($data){
   //  var_dump($data);
   global $db;
-  
-  $datas=array(
-    'inv_recipe_id_inv_recipe'=>$data['inv_recipe_id_inv_recipe'],
-    'inv_order_line_qty' =>$data['inv_order_line_qty'],
-    'inv_currency_inv_currency_id' => $data['inv_currency_inv_currency_id']
+  $datas= array(
+    'inv_order_datetime' =>$data['inv_order_datetime'],
+    'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
+    'inv_order_location_id' => $data['inv_order_location_id']  
     );
-  $insert_result=$db->update('inv_order_details',$datas,
-    array( 'inv_order_data_inv_orderid' => $data['inv_order_orderid'] ));
+  $insert_result=$db->update('inv_order_data',$datas,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
   if($insert_result){
-    $datas1 = array(
-      'inv_order_datetime' =>$data['inv_order_datetime'],
-      'inv_customer_inv_customer_id' => $data['inv_customer_inv_customer_id'],
-      'inv_order_total' => $data['inv_order_total']  
+    $condition=array(
+      'inv_order_data_inv_orderid'=>$data['inv_order_orderid']
       );
-    $insert_result=$db->update('inv_order_data',$datas1,array( 'inv_order_orderid' => $data['inv_order_orderid'] ));
+    $insert_result=$db->delete('inv_order_details',$condition);
+    if($insert_result)
+      echo $insert_result;
   }
-  echo $insert_result;
 }
 function delete_orders($data){
   global $db;
@@ -877,4 +949,82 @@ function delete_orders($data){
   }
   echo $ret;
 }
+
+function get_customer($data){
+ global $db;
+  $config=array(
+    'tables'=>array('inv_customer'),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>""
+    );
+  $fivesdrafts= $db->get_data($config);
+  $json = json_encode($fivesdrafts);
+  echo $json;
+}
+
+/*----------  sales from crud area  ----------*/
+
+function add_new_order_sales($data){
+  global $db;
+  $datas = array(
+    'inv_order_datetime' =>$data['datetime'],
+    'inv_customer_inv_customer_id' => $data['customer'],
+    'inv_order_type' => 'sale',
+    'inv_order_location_id'=>$data['location']
+    );
+  $insert_result=$db->insert('inv_order_data',$datas);
+  $inventory_id=$db->db->lastInsertId();
+  echo $inventory_id;
+}
+
+function update_order_mapping_sales($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->ID,
+    'inv_order_detail_recipe_amount' =>$lineArray->qty,
+    //'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+
+function update_order_mapping_while_edit_sales($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_recipe_id_inv_recipe'=>$lineArray->inv_recipe_id_inv_recipe,
+    'inv_order_detail_recipe_amount' =>$lineArray->inv_order_detail_recipe_amount,
+    //'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+function get_all_orders_sales(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_order_data"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_type ='sale'" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+
 ?>

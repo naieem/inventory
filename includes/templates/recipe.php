@@ -30,7 +30,10 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="cat.category" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_recipe_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_recipe_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_recipe_cat_name}}</option>
+										</optgroup>
+
 									</select>
 								</div>
 								<div class="form-group">
@@ -49,10 +52,16 @@
 												<input type="text" class="form-control" name="name" ng-model="product.qty" required>
 											</div>
 
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Unit</label>
 												<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="product.unit"
 												ng-init="product.unit=1" required>
+											</div> -->
+											<div class="form-group">
+												<label for="name">Unit</label>
+												<select name="" ng-model="product.unit" class="form-control">
+													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+												</select>
 											</div>
 											<button class="remove" ng-click="removeField($index,'product')">X</button>
 										</div>
@@ -73,15 +82,26 @@
 													<input type="text" class="form-control" name="name" ng-model="recipe.qty" required>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="name">Unit</label>
 													<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="recipe.unit"
 													ng-init="recipe.unit=1" required>
+												</div> -->
+												<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="recipe.unit" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
 												</div>
 												<button class="remove" ng-click="removeField($index,'recipe')">X</button>
 											</div>
 										</div>
 									</div>
+
+								<div class="form-group">
+									<label for="name">Selling Price</label>
+									<input type="text" class="form-control" name="name" ng-model="cat.selling_price" required>
+								</div>
 
 
 							<!--<div class="form-inline">
@@ -100,7 +120,9 @@
 									<textarea name="" ng-model="cat.instructions" class="form-control"></textarea>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
+									<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+								</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -130,16 +152,11 @@
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="" ng-model="edit_cat.inv_recipe_category_inv_recipe_category_id" class="form-control">
-										<option value="{{ category.id }}" ng-repeat="category in categories">{{ category.inv_recipe_cat_name }}</option>
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_recipe_cat_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_recipe_cat_name}}</option>
+										</optgroup>
 									</select>
 								</div>
-								<!-- <div class="form-group">
-									<label for="name">Ingredients</label>
-									<select name="" ng-model="edit_cat.ingredients" class="form-control" ng-change="changeIngredients(edit_cat.ingredients)">
-										<option value="1">Product</option>
-										<option value="2">Recipe</option>
-									</select>
-								</div> -->
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('product')">Add Product</button>
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('recipe')">Add Recipe</button>
@@ -156,11 +173,17 @@
 												<input type="text" class="form-control" name="name" ng-model="product.inv_product_has_inv_recipe_qty" required>
 											</div>
 
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Unit</label>
 												<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="product.inv_inventory_units_inv_inventory_units_id"
 												ng-init="product.inv_inventory_units_inv_inventory_units_id=1" required>
-											</div>
+											</div> -->
+											<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="product.inv_inventory_units_inv_inventory_units_id" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
+												</div>
 											<button class="remove" ng-click="removeField_edit($index,'product')">X</button>
 										</div>
 									</div>
@@ -180,10 +203,16 @@
 													<input type="text" class="form-control" name="name" ng-model="recipe.inv_product_has_inv_recipe_qty" required>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="name">Unit</label>
 													<input type="text" class="form-control" ng-disabled="true" name="name" ng-value="1" value="1" placeholder="1" ng-model="recipe.inv_inventory_units_inv_inventory_units_id"
 													ng-init="recipe.inv_inventory_units_inv_inventory_units_id=1" required>
+												</div> -->
+												<div class="form-group">
+													<label for="name">Unit</label>
+													<select name="" ng-model="recipe.inv_inventory_units_inv_inventory_units_id" class="form-control">
+														<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													</select>
 												</div>
 												<button class="remove" ng-click="removeField_edit($index,'recipe')">X</button>
 											</div>
@@ -194,8 +223,17 @@
 										<label for="name">Instructions</label>
 										<textarea name="" ng-model="edit_cat.inv_recipe_instructions" class="form-control"></textarea>
 									</div>
+									<div class="form-group">
+										<label for="name">Selling Price</label>
+										<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_recipe_selling_price" required>
+									</div>
 
-									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit</button>
+									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
+										<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
+									</button>
+
+								
+
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -220,6 +258,7 @@
 							<!-- <th>Product</th>
 							<th>Recipe</th> -->
 							<th>Instruction</th>
+							<th>Selling price</th>
 							<!-- <th>Quantity</th> -->
 							<th>Action</th>
 						</tr>
@@ -238,6 +277,7 @@
 								<parent info="recipies" cid="recipe.inv_recipe_inv_recipe_id" field="inv_recipe_name"></parent>
 							</td>-->
 							<td>{{recipe.inv_recipe_instructions}}</td>
+							<td>{{recipe.inv_recipe_selling_price}}</td>
 							<!--<td>{{recipe.inv_product_has_inv_recipe_qty}}</td> -->
 							<td>
 								<button type="button" class="btn btn-default" ng-click="edit_modal(recipe,recipe.id)">Edit</button>

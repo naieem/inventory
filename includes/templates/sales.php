@@ -4,10 +4,10 @@
 		display: none !important;
 	}
 </style>
-<div class="container" ng-app="inventoryHome" ng-controller="orderctrl" ng-cloak>
+<div class="container" ng-app="inventoryHome" ng-controller="salesctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Order</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Sales</button>
 			<!-- Add Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
 				<div class="modal-dialog">
@@ -15,7 +15,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Add new Order</h4>
+							<h4 class="modal-title">Add new Sales</h4>
 						</div>
 						<div class="modal-body">
 							<h2>Date:{{cat.datetime | datetime}}</h2>
@@ -128,6 +128,14 @@
 									<input type="text" name="amount" class="form-control" name="name" ng-model="edit_cat.inv_order_total">
 								</div> -->
 								<div class="form-group">
+									<label for="name">Location</label>
+									<select name="" ng-model="edit_cat.inv_order_location_id" class="form-control">
+										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element_edit('recipe')">Add Line</button>
 								</div>
 								<div class="panel panel-default" ng-repeat="recipe in editReciepe">
@@ -142,7 +150,7 @@
 
 											<div class="form-group">
 												<label for="name">Quantity</label>
-												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_line_qty" numbers-only>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_detail_recipe_amount" numbers-only>
 											</div>
 											<div class="form-group">
 												<label for="name">Currency</label>
@@ -186,7 +194,7 @@
 			</div>				
 
 			<!--List of all categories -->
-			<h2>All Orders</h2>
+			<h2>All Sales</h2>
 			<p>
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
@@ -199,8 +207,8 @@
 							<!-- <th>Total</th> -->
 							<!-- <th>Recipe</th> -->
 							<th>Customer</th>
-							<!-- <th>Quantity</th>
-							<th>Currency</th> -->
+							<!-- <th>Quantity</th>-->
+							<th>Location</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -214,6 +222,9 @@
 							</td> -->
 							<td>
 								<parent info="customers" cid="order.inv_customer_inv_customer_id" field="inv_customer_name"></parent>
+							</td>
+							<td>
+								<parent info="locations" cid="order.inv_order_location_id" field="inv_location_name"></parent>
 							</td>
 							<!-- <td>
 								{{order.inv_order_line_qty}}

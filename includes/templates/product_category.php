@@ -35,7 +35,7 @@
 									<label for="">Category parent</label>
 									<select class="form-control" name="parent" ng-model="cat.parent">
 										<option value="0">Self</option>
-										<option value="{{category.id}}" ng-repeat="category in parentCategories">{{category.inv_product_cat_name}} 
+										<option value="{{category.id}}" ng-repeat="category in categories">{{category.inv_product_cat_name}} 
 										</option>
 									</select>
 								</div>
@@ -76,7 +76,7 @@
 									<label for="">Category parent</label>
 									<select class="form-control" name="parent" ng-model="cat.inv_product_cat_parent">
 										<option value="0">Self</option>
-										<option value="{{category.id}}" ng-repeat="category in parentCategories">{{category.inv_product_cat_name}} 
+										<option value="{{category.id}}" ng-repeat="category in categories">{{category.inv_product_cat_name}} 
 										</option>
 									</select>
 								</div>
