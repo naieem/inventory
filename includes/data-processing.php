@@ -165,6 +165,22 @@ function inventory_crud_function(){
     update_order_mapping_while_edit_sales($data);
     break;
 
+    /*----------  purchase section crud  ----------*/
+    
+    /*Order crud*/
+    case 'add_new_order_purchase':
+    add_new_order_purchase($data);
+    break;
+    case 'get_all_orders_purchase':
+    get_all_orders_purchase();
+    break;
+    case 'update_order_mapping_purchase':
+    update_order_mapping_purchase($data);
+    break;
+    case 'update_order_mapping_while_edit_purchase':
+    update_order_mapping_while_edit_purchase($data);
+    break;
+
 
     case 'get_all_users':
     get_all_users();
@@ -1022,6 +1038,70 @@ function get_all_orders_sales(){
     'fields'=>"*",
     'join'=>"",
     'condition'=>"WHERE inv_order_type ='sale'" 
+    );
+  $all=$db->get_data($config);
+  echo json_encode($all);
+}
+
+/*----------  purchase from crud area  ----------*/
+
+function add_new_order_purchase($data){
+  global $db;
+  $datas = array(
+    'inv_order_datetime' =>$data['datetime'],
+    'inv_customer_inv_customer_id' => $data['customer'],
+    'inv_order_type' => 'purchase',
+    'inv_order_location_id'=>$data['location']
+    );
+  $insert_result=$db->insert('inv_order_data',$datas);
+  $inventory_id=$db->db->lastInsertId();
+  echo $inventory_id;
+}
+
+function update_order_mapping_purchase($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_product_id_inv_product'=>$lineArray->ID,
+    'inv_order_line_product_qty' =>$lineArray->qty,
+    //'inv_currency_inv_currency_id' => $lineArray->currency,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+
+function update_order_mapping_while_edit_purchase($data){
+  // var_dump($data);
+  $order_id=$data['id'];
+  $lines=$data['data'];
+  $line=str_replace("\\","",$lines);
+  $lineArray= json_decode ($line);
+  // echo count($lineArray);
+  // var_dump($lineArray);
+  global $db;
+  $datas1=array(
+    'inv_product_id_inv_product'=>$lineArray->inv_product_id_inv_product,
+    'inv_order_line_product_qty' =>$lineArray->inv_order_line_product_qty,
+    //'inv_currency_inv_currency_id' => $lineArray->inv_currency_inv_currency_id,
+    'inv_order_data_inv_orderid' => $order_id
+    );
+  $insert_result=$db->insert('inv_order_details',$datas1);
+  echo $insert_result;
+}
+function get_all_orders_purchase(){
+  global $db;
+  $config=array(
+    'tables'=>array("inv_order_data"),
+    'fields'=>"*",
+    'join'=>"",
+    'condition'=>"WHERE inv_order_type ='purchase'" 
     );
   $all=$db->get_data($config);
   echo json_encode($all);

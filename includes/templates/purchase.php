@@ -4,10 +4,10 @@
 		display: none !important;
 	}
 </style>
-<div class="container" ng-app="inventoryHome" ng-controller="salesctrl" ng-cloak>
+<div class="container" ng-app="inventoryHome" ng-controller="purchasectrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Sales</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Purchase</button>
 			<!-- Add Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
 				<div class="modal-dialog">
@@ -15,7 +15,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Add new Sales</h4>
+							<h4 class="modal-title">Add new Purchase</h4>
 						</div>
 						<div class="modal-body">
 							<h2>Date:{{cat.datetime | datetime}}</h2>
@@ -59,9 +59,9 @@
 									<div class="panel-body">
 										<div class="form-inline">
 											<div class="form-group">
-												<label for="name">Recipe</label>
+												<label for="name">Product</label>
 												<select name="parent" ng-model="recipe.ID" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
+													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_product_name }}</option>
 												</select>
 											</div>
 
@@ -142,15 +142,15 @@
 									<div class="panel-body">
 										<div class="form-inline">
 											<div class="form-group">
-												<label for="name">Recipe</label>
-												<select name="parent" ng-model="recipe.inv_recipe_id_inv_recipe" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
+												<label for="name">Product</label>
+												<select name="parent" ng-model="recipe.inv_product_id_inv_product" class="form-control">
+													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_product_name }}</option>
 												</select>
 											</div>
 
 											<div class="form-group">
 												<label for="name">Quantity</label>
-												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_detail_recipe_amount" numbers-only>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_line_product_qty" numbers-only>
 											</div>
 											<!-- <div class="form-group">
 												<label for="name">Currency</label>
@@ -194,7 +194,7 @@
 			</div>				
 
 			<!--List of all categories -->
-			<h2>All Sales</h2>
+			<h2>All Purchase</h2>
 			<p>
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
