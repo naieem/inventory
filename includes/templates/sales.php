@@ -29,7 +29,7 @@
 											</div>
 										</a>
 										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-											<datetimepicker ng-model="cat.datetime" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"/>
+											<datetimepicker ng-model="cat.datetime" data-datetimepicker-config="{ dropdownSelector: '#dropdown2',startView:'day', minView:'day',modelType:'Date' }"/>
 										</ul>
 									</div>
 								</div>
@@ -42,7 +42,7 @@
 								<div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="cat.location" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+										<optgroup ng-repeat="x in grandParent" label="{{x.inv_location_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
 										</optgroup>
 									</select>
@@ -113,7 +113,7 @@
 											</div>
 										</a>
 										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-											<datetimepicker ng-model="edit_cat.inv_order_datetime" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"/>
+											<datetimepicker ng-model="edit_cat.inv_order_datetime" data-datetimepicker-config="{ dropdownSelector: '#dropdown2',startView:'day', minView:'day',modelType:'Date'}"/>
 										</ul>
 									</div>
 								</div>
@@ -130,7 +130,7 @@
 								<div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="edit_cat.inv_order_location_id" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
+										<optgroup ng-repeat="x in grandParent" label="{{x.inv_location_name}}">
 											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
 										</optgroup>
 									</select>

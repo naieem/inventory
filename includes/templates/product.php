@@ -44,7 +44,7 @@
 								<div class="form-group">
 									<label for="name">Unit</label>
 									<select name="unit" ng-model="cat.inv_product_size_unit" class="form-control">
-											<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -62,10 +62,23 @@
 								</div>
 
 								<div class="form-group">
+									<label for="name">Weight Unit</label>
+									<select name="unit" ng-model="cat.inv_product_weight_unit" class="form-control">
+										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
 									<label for="name">Cost</label>
 									<input type="text" class="form-control" name="cost" ng-model="cat.cost" required>
-									<span class="error" ng-show="new_user.cost.$touched && new_user.cost.$invalid">This field is required.</span>
-									
+									<span class="error" ng-show="new_user.cost.$touched && new_user.cost.$invalid">This field is required.</span>			
+								</div>
+
+								<div class="form-group">
+									<label for="name">Cost Currency</label>
+									<select name="parent" ng-model="cat.currency" class="form-control">
+										<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
+									</select>
 								</div>
 
 								<div class="form-group">
@@ -178,7 +191,7 @@
 								<div class="form-group">
 									<label for="name">Unit</label>
 									<select name="unit" ng-model="edit_cat.inv_product_size_unit" class="form-control">
-											<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -195,10 +208,25 @@
 								</div>
 
 								<div class="form-group">
+									<label for="name">Weight Unit</label>
+									<select name="unit" ng-model="edit_cat.inv_product_weight_unit" class="form-control">
+										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
 									<label for="name">Cost</label>
 									<input type="text" class="form-control" name="cost" ng-model="edit_cat.inv_product_cost" required>
 									<span class="error" ng-show="new_user_edit.cost.$touched && new_user_edit.cost.$invalid">This field is required.</span>
 								</div>
+
+								<div class="form-group">
+								<label for="name">Cost Currency</label>
+									<select name="parent" ng-model="edit_cat.inv_product_cost_currency" class="form-control">
+										<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
+									</select>
+								</div>
+
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="category" ng-model="edit_cat.inv_product_category_id" class="form-control">

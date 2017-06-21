@@ -59,7 +59,7 @@ app.filter('datetime', function($filter) {
             return "";
         }
         var _date = $filter('date')(new Date(input),
-            'MMM dd yyyy - HH:mm:ss');
+            'MMM dd yyyy');
 
         return _date.toUpperCase();
 
