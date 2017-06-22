@@ -45,7 +45,7 @@
 										<div class="form-inline">
 											<label for="name">Product</label>
 											<select name="" ng-model="product.ID" class="form-control">
-												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
+												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select>
 											<div class="form-group">
 												<label for="name">Quantity</label>
@@ -166,7 +166,7 @@
 										<div class="form-inline">
 											<label for="name">Product</label>
 											<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
-												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
+												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select>
 											<div class="form-group">
 												<label for="name">Quantity</label>
