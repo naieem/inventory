@@ -2,6 +2,7 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
     $scope.showloader = false;
+    $scope.product={};
 
     $scope.add_element = function(val) {
         var obj = {
@@ -49,6 +50,7 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
+        debugger;
         $scope.showloader = true;
         var temparr = {};
         temparr.mapping = [];
@@ -417,5 +419,11 @@ app.controller('recipectrl', function($scope, $http) {
             console.log(isDuplicate);
             return isDuplicate;
         }
+    }
+    $scope.setClientData = function(item) {
+        // if (item) {
+        //     $scope.product.ID = item.id;
+        // }
+        // console.log('new data is ',$scope.temp_data);
     }
 });

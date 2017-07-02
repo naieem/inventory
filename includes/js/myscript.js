@@ -9,10 +9,13 @@ app.controller('homectrl', function($scope, $http) {
 
 });
 
-app.config([function () {
+app.config([function() {
     jQuery(".select2").select2({
         allowClear: true
     });
+    jQuery.curCSS = function(element, prop, val) {
+        return jQuery(element).css(prop, val);
+    };
 }]);
 /*
  *
@@ -86,3 +89,46 @@ app.directive('numbersOnly', function() {
         }
     };
 });
+
+app.directive('clientAutoComplete', ['$filter', '$timeout', clientAutoCompleteDir]);
+
+function clientAutoCompleteDir($filter, $timeout) {
+    return {
+        restrict: 'EA',
+        link: function(scope, elem, attrs) {
+            elem.autocomplete({
+                source: function(request, response) {
+
+                    //term has the data typed by the user
+                    var params = request.term;
+
+                    //simulates api call with odata $filter
+                    var data = scope.products;
+                    if (data) {
+                        var result = $filter('filter')(data, { inv_product_name: params });
+
+                        angular.forEach(result, function(item) {
+                            //console.log(item);
+                            //scope.temp_data.push(item);
+                            item['value'] = item['inv_product_name'];
+                        });
+                    }
+                    response(result);
+
+                },
+                minLength: 1,
+                select: function(event, ui) {
+                    //console.log(elem[0].value);
+                    $timeout(function() {
+                        // force a digest cycle to update the views
+                        scope.$apply(function() {
+                            scope.setClientData(ui.item);
+                        });
+                    }, 1000);
+
+                },
+            });
+        }
+
+    };
+}

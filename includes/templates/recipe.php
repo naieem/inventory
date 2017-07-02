@@ -36,6 +36,12 @@
 
 									</select>
 								</div>
+
+								<!-- <div class="form-group">
+									<label for="name">Autocomplete</label>
+									<input client-auto-complete class="form-control" ng-model="temp_data.inv_product_name" placeholder="Enter text" type="text">
+								</div> -->
+
 								<div class="form-group">
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element('product')">Add Product</button>
 									<button type="button" class="btn btn-large btn-block btn-info" ng-click="add_element('recipe')">Add Recipe</button>
@@ -44,9 +50,12 @@
 									<div class="panel-body">
 										<div class="form-inline">
 											<label for="name">Product</label>
-											<select name="" ng-model="product.ID" class="form-control">
+											<!-- <select name="" ng-model="product.ID" class="form-control">
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
-											</select>
+											</select> -->
+
+											<input client-auto-complete class="form-control" ng-model="product.ID" placeholder="Enter text" type="text">
+
 											<div class="form-group">
 												<label for="name">Quantity</label>
 												<input type="text" class="form-control" name="name" ng-model="product.qty" required>
@@ -165,9 +174,13 @@
 									<div class="panel-body">
 										<div class="form-inline">
 											<label for="name">Product</label>
-											<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
+											<!-- <select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
-											</select>
+											</select> -->
+
+											<input client-auto-complete class="form-control" ng-model="product.inv_product_id_inv_product" placeholder="Enter text" type="text">
+
+
 											<div class="form-group">
 												<label for="name">Quantity</label>
 												<input type="text" class="form-control" name="name" ng-model="product.inv_product_has_inv_recipe_qty" required>
