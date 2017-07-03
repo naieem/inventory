@@ -134,6 +134,14 @@ app.controller('purchasectrl', function($scope, $http) {
             $scope.loading = false;
             $scope.edit_cat = data;
             $scope.editReciepe = response.data;
+            
+            for (var i = 0; i < $scope.editReciepe.length; i++) {
+                for (var j = 0; j < $scope.products.length; j++) {
+                    if($scope.editReciepe[i]['inv_product_id_inv_product'] == $scope.products[j]['id'] ){
+                        $scope.editReciepe[i]['name'] = $scope.products[j]['inv_product_name'];
+                    }
+                }
+            }
             jQuery("#editModal").modal("show");
         }, function(error) {
             console.log(error);
@@ -246,6 +254,7 @@ app.controller('purchasectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
+        debugger;
         $scope.showloader = true;
         console.log($scope.newReciepe.length);
         cat.action = "inventory_crud_function";
@@ -377,7 +386,7 @@ app.controller('purchasectrl', function($scope, $http) {
             console.log(error);
         });
     };
-    $scope.get_recipe = function() {
+    $scope.get_product = function() {
         var params = {};
         params.action = "inventory_crud_function";
         params.type = "get_product";
@@ -388,7 +397,7 @@ app.controller('purchasectrl', function($scope, $http) {
         }).then(function(response) {
             //debugger;
             //console.log(response.data);
-            $scope.recipes = response.data;
+            $scope.products = response.data;
         }, function(error) {
             console.log(error);
         });
@@ -412,10 +421,24 @@ app.controller('purchasectrl', function($scope, $http) {
             console.log(error);
         });
     };
-    $scope.get_recipe();
+    $scope.get_product();
     $scope.get_supplier();
     $scope.get_customer();
     $scope.get_currency();
     $scope.get_order();
     $scope.get_location();
+
+    $scope.setClientData = function(item, index, type) {
+        if (item) {
+            if (type == 'new') {
+                $scope.newReciepe[index]['ID'] = item.id;
+                delete $scope.newReciepe[index]['name'];
+            }
+            if (type == 'old') {
+                $scope.editReciepe[index]['inv_product_id_inv_product'] = item.id;
+                delete $scope.editReciepe[index]['name'];
+            }
+        }
+        // console.log('new data is ',$scope.temp_data);
+    }
 });

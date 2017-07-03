@@ -54,7 +54,9 @@
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select> -->
 
-											<input client-auto-complete class="form-control" ng-model="product.ID" placeholder="Enter text" type="text">
+											<input client-auto-complete class="form-control" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
+
+											<input class="form-control" ng-model="product.ID" placeholder="Enter text" type="hidden">
 
 											<div class="form-group">
 												<label for="name">Quantity</label>
@@ -178,7 +180,9 @@
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select> -->
 
-											<input client-auto-complete class="form-control" ng-model="product.inv_product_id_inv_product" placeholder="Enter text" type="text">
+											<input client-auto-complete class="form-control" ui-index="{{$index}}" type="old" ng-model="product.name" type="text">
+
+											<input class="form-control" ng-model="product.inv_product_id_inv_product" type="hidden">
 
 
 											<div class="form-group">

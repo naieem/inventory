@@ -94,7 +94,7 @@ app.directive('clientAutoComplete', ['$filter', '$timeout', clientAutoCompleteDi
 
 function clientAutoCompleteDir($filter, $timeout) {
     return {
-        restrict: 'EA',
+        restrict: 'A',
         link: function(scope, elem, attrs) {
             elem.autocomplete({
                 source: function(request, response) {
@@ -118,13 +118,15 @@ function clientAutoCompleteDir($filter, $timeout) {
                 },
                 minLength: 1,
                 select: function(event, ui) {
-                    //console.log(elem[0].value);
-                    $timeout(function() {
-                        // force a digest cycle to update the views
-                        scope.$apply(function() {
-                            scope.setClientData(ui.item);
-                        });
-                    }, 1000);
+                    scope.$apply(function() {
+                        scope.setClientData(ui.item, attrs.uiIndex,attrs.type);
+                        // delete ui.item.value;
+                    });
+                    // $timeout(function() {
+                    //     // force a digest cycle to update the views
+                    //     console.log(scope.newProducts[attrs.uiIndex]);
+                    //     // $scope.newProducts[attrs.uiIndex]['ID']=ui.item.id;
+                    // }, 1000);
 
                 },
             });

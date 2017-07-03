@@ -60,9 +60,14 @@
 										<div class="form-inline">
 											<div class="form-group">
 												<label for="name">Product</label>
-												<select name="parent" ng-model="recipe.ID" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
-												</select>
+												<!-- <select name="parent" ng-model="recipe.ID" class="form-control">
+													<option value="{{ recipe.id }}" ng-repeat="recipe in products">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
+												</select> -->
+
+												<input client-auto-complete class="form-control" ui-index="{{$index}}" type="new" ng-model="recipe.name" type="text">
+
+												<input class="form-control" ng-model="recipe.ID" type="hidden">
+
 											</div>
 
 											<div class="form-group">
@@ -143,9 +148,13 @@
 										<div class="form-inline">
 											<div class="form-group">
 												<label for="name">Product</label>
-												<select name="parent" ng-model="recipe.inv_product_id_inv_product" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
-												</select>
+												<!-- <select name="parent" ng-model="recipe.inv_product_id_inv_product" class="form-control">
+													<option value="{{ recipe.id }}" ng-repeat="recipe in products">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
+												</select> -->
+
+												<input client-auto-complete class="form-control" ui-index="{{$index}}" type="old" ng-model="recipe.name" type="text">
+
+												<input class="form-control" ng-model="recipe.inv_product_id_inv_product" type="hidden">
 											</div>
 
 											<div class="form-group">
@@ -165,7 +174,7 @@
 								<!-- <div class="form-group">
 									<label for="name">Recipe</label>
 									<select name="parent" ng-model="edit_cat.inv_recipe_id_inv_recipe" class="form-control">
-										<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
+										<option value="{{ recipe.id }}" ng-repeat="recipe in products">{{ recipe.inv_recipe_name }}</option>
 									</select>
 								</div>
 
@@ -218,7 +227,7 @@
 							<td>{{order.inv_order_datetime | datetime }}</td>
 							<!-- <td>{{order.inv_order_total}}</td> -->
 							<!-- <td>
-								<parent info="recipes" cid="order.inv_recipe_id_inv_recipe" field="inv_recipe_name"></parent>
+								<parent info="products" cid="order.inv_recipe_id_inv_recipe" field="inv_recipe_name"></parent>
 							</td> -->
 							<td>
 								<parent info="customers" cid="order.inv_customer_inv_customer_id" field="inv_customer_name"></parent>

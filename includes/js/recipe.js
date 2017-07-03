@@ -2,7 +2,7 @@ app.controller('recipectrl', function($scope, $http) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
     $scope.showloader = false;
-    $scope.product={};
+    $scope.product = {};
 
     $scope.add_element = function(val) {
         var obj = {
@@ -249,6 +249,7 @@ app.controller('recipectrl', function($scope, $http) {
 
     }
     $scope.edit_modal = function(data, id) {
+        debugger;
         $scope.loading = true;
         $scope.editProducts = [];
         $scope.editReciepe = [];
@@ -275,6 +276,13 @@ app.controller('recipectrl', function($scope, $http) {
             else {
                 $scope.editReciepe = [];
             }
+            for (var i = 0; i < $scope.editProducts.length; i++) {
+                for (var j = 0; j < $scope.products.length; j++) {
+                    if($scope.editProducts[i]['inv_product_id_inv_product'] == $scope.products[j]['id'] ){
+                        $scope.editProducts[i]['name'] = $scope.products[j]['inv_product_name'];
+                    }
+                }
+            }
             jQuery("#editModal").modal("show");
             // $scope.products = response.data;
             // if(response.data){
@@ -293,6 +301,7 @@ app.controller('recipectrl', function($scope, $http) {
         // jQuery("#editModal").modal("show");
     }
     $scope.edit = function(data) {
+        debugger;
         var temparr = {};
         $scope.showloader = true;
         temparr.mapping = [];
@@ -420,10 +429,17 @@ app.controller('recipectrl', function($scope, $http) {
             return isDuplicate;
         }
     }
-    $scope.setClientData = function(item) {
-        // if (item) {
-        //     $scope.product.ID = item.id;
-        // }
+    $scope.setClientData = function(item, index, type) {
+        if (item) {
+            if (type == 'new') {
+                $scope.newProducts[index]['ID'] = item.id;
+                delete $scope.newProducts[index]['name'];
+            }
+            if (type == 'old') {
+                $scope.editProducts[index]['inv_product_id_inv_product'] = item.id;
+                delete $scope.editProducts[index]['name'];
+            }
+        }
         // console.log('new data is ',$scope.temp_data);
     }
 });
