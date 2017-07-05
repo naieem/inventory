@@ -117,7 +117,7 @@ function clientAutoCompleteDir($filter, $timeout) {
                     response(result);
 
                 },
-                minLength: 1,
+                minLength: 3,
                 select: function(event, ui) {
                     scope.$apply(function() {
                         scope.setClientData(ui.item, attrs.uiIndex, attrs.type);
