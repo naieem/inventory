@@ -104,13 +104,14 @@ function clientAutoCompleteDir($filter, $timeout) {
 
                     //simulates api call with odata $filter
                     var data = scope.products;
+                    var unit = scope.units;
                     if (data) {
-                        var result = $filter('filter')(data, { inv_product_name: params });
-
+                        var result = $filter('filter')(data, params);
                         angular.forEach(result, function(item) {
                             //console.log(item);
                             //scope.temp_data.push(item);
-                            item['value'] = item['inv_product_name'];
+                            var unitObj= $filter('filter')(unit, {id:item['inv_product_size_unit']});
+                            item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size']+unitObj[0].inv_inventory_units_name;
                         });
                     }
                     response(result);
@@ -119,7 +120,7 @@ function clientAutoCompleteDir($filter, $timeout) {
                 minLength: 1,
                 select: function(event, ui) {
                     scope.$apply(function() {
-                        scope.setClientData(ui.item, attrs.uiIndex,attrs.type);
+                        scope.setClientData(ui.item, attrs.uiIndex, attrs.type);
                         // delete ui.item.value;
                     });
                     // $timeout(function() {

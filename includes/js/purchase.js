@@ -421,7 +421,24 @@ app.controller('purchasectrl', function($scope, $http) {
             console.log(error);
         });
     };
+    $scope.get_units = function() {
+        var params = {};
+        params.action = "inventory_crud_function";
+        params.type = "get_all";
+        params.table = 'inv_inventory_units';
+        $http({
+            url: myAjax.ajaxurl,
+            method: "POST",
+            params: params
+        }).then(function(response) {
+            console.log('units', response.data);
+            $scope.units = response.data;
+        }, function(error) {
+            console.log(error);
+        });
+    };
     $scope.get_product();
+    $scope.get_units();
     $scope.get_supplier();
     $scope.get_customer();
     $scope.get_currency();

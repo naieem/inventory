@@ -42,4 +42,5 @@ select.form-control{
 	height: 200px !important;
 	overflow-y: scroll;
 	top:50% !important;
+	left: 650px !important;
 }
