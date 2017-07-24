@@ -7,11 +7,10 @@
 		color: red;
 	}
 </style>
-<div class="container" ng-app="inventoryHome" ng-controller="userctrl" ng-cloak>
+<div class="container" ng-controller="userctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Customer</button>
-
+			<button type="button" class="btn btn-info btn-lg"  ng-click="add_modal()">Add New Customer</button>
 			<!-- Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
 				<div class="modal-dialog">
@@ -181,9 +180,10 @@
 
 			<!--List of all users -->
 			<h2>All Customer</h2>
-			<p>
-				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
+			<p ng-if="BaseUrls">
+				<img ng-show="loading" src="{{BaseUrls.images}}/gears.gif">
 			</p>
+
 			<div class="table-responsive">          
 				<table class="table">
 					<thead>

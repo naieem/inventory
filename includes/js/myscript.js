@@ -3,135 +3,228 @@ Array.prototype.remove = function(from, to) {
     this.length = from < 0 ? this.length + from : from;
     return this.push.apply(this, rest);
 };
+var app;
+var fileConfig = {
+        "Files": [{
+            "slug": "inventory-user",
+            "Mainurls": [
+                'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+                'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js',
+                'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js',
+                'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
+            ],
+            "BootAppUrl": [
+                window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/initialize.js",
+            ],
+            "CustomUrl": [
+                window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/customer.js"
+            ],
+            "TemplateUrl": window.location.origin + "/inventory/wp-content/plugins/inventory/includes/templates/user.php"
+        }]
+    }
+    // var resource = document.createElement('script');
+    //     resource.async = "true";
+    //     resource.src = window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/customer.js";
+    //     var script = document.getElementsByTagName('script')[0];
+    //     script.parentNode.insertBefore(resource, script);
+    // document.onreadystatechange = function(e) {
+    //     if (document.readyState === 'complete') {
+    //         debugger;
+    //         //dom is ready, window.onload fires later
+    //     }
+    // };
+window.onload = function() {
+    debugger;
+    console.log("page loaded");
+    // var httpRequest;
+    var res = window.location.search.slice(6);
+    _.forEach(fileConfig.Files, function(value, key) {
+        debugger;
+        if (value.slug === "inventory-user") {
+            debugger;
+            getTemplate(value.TemplateUrl).then((successMessage) => {
+                //document.getElementById("mainDiv").innerHTML = '<div ng-controller="userctrl">{{name}}</div>';
+                document.getElementById("mainDiv").innerHTML = "<img src='http://localhost/inventory/wp-content/plugins/inventory/includes/images/gears.gif'>";
 
-var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker', 'ui.bootstrap']);
-app.controller('homectrl', function($scope, $http) {
-
-});
-
-app.config([function() {
-    jQuery(".select2").select2({
-        allowClear: true
-    });
-    jQuery.curCSS = function(element, prop, val) {
-        return jQuery(element).css(prop, val);
-    };
-}]);
-/*
- *
- * Custom directive for showing parent category
- */
-app.directive('parent', function() {
-    return {
-        restrict: 'E',
-        scope: {
-            arr: '=info',
-            identifier: '=cid',
-            field: '@field'
-        },
-        link: function(scope, element, attr) {
-            setTimeout(function(argument) {
-                for (var i = 0; i < scope.arr.length; i++) {
-                    if (scope.arr[i].id == scope.identifier) {
-                        element.html(scope.arr[i][scope.field]);
-                    }
-                }
-
-            }, 1000);
-        }
-    };
-});
-
-app.directive('stringToNumber', function() {
-    return {
-        require: 'ngModel',
-        link: function(scope, element, attrs, ngModel) {
-            ngModel.$parsers.push(function(value) {
-                return '' + value;
-            });
-            ngModel.$formatters.push(function(value) {
-                return parseFloat(value);
-            });
-        }
-    };
-});
-
-app.filter('datetime', function($filter) {
-    return function(input) {
-        if (input == null) {
-            return "";
-        }
-        var _date = $filter('date')(new Date(input),
-            'MMM dd yyyy');
-
-        return _date.toUpperCase();
-
-    };
-});
-
-app.directive('numbersOnly', function() {
-    return {
-        require: 'ngModel',
-        link: function(scope, element, attrs, modelCtrl) {
-            modelCtrl.$parsers.push(function(inputValue) {
-                // this next if is necessary for when using ng-required on your input. 
-                // In such cases, when a letter is typed first, this parser will be called
-                // again, and the 2nd time, the value will be undefined
-                if (inputValue == undefined) return ''
-                var transformedInput = inputValue.replace(/[^0-9]/g, '');
-                if (transformedInput != inputValue) {
-                    modelCtrl.$setViewValue(transformedInput);
-                    modelCtrl.$render();
-                }
-
-                return transformedInput;
-            });
-        }
-    };
-});
-
-app.directive('clientAutoComplete', ['$filter', '$timeout', clientAutoCompleteDir]);
-
-function clientAutoCompleteDir($filter, $timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, elem, attrs) {
-            elem.autocomplete({
-                source: function(request, response) {
-
-                    //term has the data typed by the user
-                    var params = request.term;
-
-                    //simulates api call with odata $filter
-                    var data = scope.products;
-                    var unit = scope.units;
-                    if (data) {
-                        var result = $filter('filter')(data, params);
-                        angular.forEach(result, function(item) {
-                            //console.log(item);
-                            //scope.temp_data.push(item);
-                            var unitObj= $filter('filter')(unit, {id:item['inv_product_size_unit']});
-                            item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size']+unitObj[0].inv_inventory_units_name;
-                        });
-                    }
-                    response(result);
-
-                },
-                minLength: 3,
-                select: function(event, ui) {
-                    scope.$apply(function() {
-                        scope.setClientData(ui.item, attrs.uiIndex, attrs.type);
-                        // delete ui.item.value;
+                includeScript(value.Mainurls).then((successMessage) => {
+                    console.log("Yay! " + successMessage);
+                    // setTimeout(function() {
+                    //     debugger;
+                    //     includeScript(value.CustomUrl).then((successMessage) => {
+                    //         console.log("Yay! " + successMessage);
+                    //     });
+                    // }, 2000);
+                    includeScript(value.BootAppUrl).then((successMessage) => {
+                        console.log("Yay! " + successMessage);
+                        setTimeout(function() {
+                            debugger;
+                            includeScript(value.CustomUrl).then((successMessage) => {
+                                console.log("Yay! " + successMessage);
+                                document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+                            });
+                        }, 1000);
                     });
-                    // $timeout(function() {
-                    //     // force a digest cycle to update the views
-                    //     console.log(scope.newProducts[attrs.uiIndex]);
-                    //     // $scope.newProducts[attrs.uiIndex]['ID']=ui.item.id;
-                    // }, 1000);
+                });
+            }, (error) => {
+                debugger;
 
-                },
             });
         }
+    });
+};
 
-    };
+var httpRequest;
+
+function getTemplate(url) {
+    let Compile = new Promise((resolve, reject) => {
+        httpRequest = new XMLHttpRequest();
+        if (!httpRequest) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    debugger;
+                    resolve(httpRequest.responseText);
+                    //document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+                } else {
+                    alert('There was a problem with the request.');
+                }
+            }
+        };
+        httpRequest.open('GET', url);
+        debugger;
+        httpRequest.send();
+    });
+    return Compile;
+
 }
+
+/*----------  code handler functions  ----------*/
+
+function getContents() {
+    debugger;
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            debugger;
+            //alert();
+            document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+        } else {
+            alert('There was a problem with the request.');
+        }
+    }
+}
+
+function includeScript(urls) {
+    var counter = 0;
+    return new Promise((resolve, reject) => {
+        _.forEach(urls, function(value, key) {
+            compileScript(value);
+            counter++;
+        });
+        debugger;
+        if (counter == urls.length) {
+            resolve("Success!");
+        }
+    });
+
+}
+
+function compileScript(url) {
+    var resource = document.createElement('script');
+    //resource.async = "true";
+    resource.src = url;
+    var script = document.body;
+    script.appendChild(resource);
+}
+
+// window.addEventListener("DOMContentLoaded", function() {
+//     var httpRequest;
+//     var res = window.location.search.slice(6);
+//     _.forEach(fileConfig.Files, function(value, key) {
+//         debugger;
+//         if (value.slug === "inventory-user") {
+//             debugger;
+//             getTemplate(value.TemplateUrl).then((successMessage) => {
+//                 document.getElementById("mainDiv").innerHTML = '<div ng-controller="userctrl">{{name}}</div>';
+//                 // document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+
+//                 includeScript(value.Mainurls).then((successMessage) => {
+//                     console.log("Yay! " + successMessage);
+//                     includeScript(value.CustomUrl).then((successMessage) => {
+//                         console.log("Yay! " + successMessage);
+//                     });
+//                 });
+//             }, (error) => {
+//                 debugger;
+
+//             });
+//         }
+//     });
+
+//     function getTemplate(url) {
+//         let Compile = new Promise((resolve, reject) => {
+//             httpRequest = new XMLHttpRequest();
+//             if (!httpRequest) {
+//                 alert('Giving up :( Cannot create an XMLHTTP instance');
+//                 return false;
+//             }
+//             httpRequest.onreadystatechange = function() {
+//                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
+//                     if (httpRequest.status === 200) {
+//                         debugger;
+//                         resolve(httpRequest.responseText);
+//                         //document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+//                     } else {
+//                         alert('There was a problem with the request.');
+//                     }
+//                 }
+//             };
+//             httpRequest.open('GET', url);
+//             debugger;
+//             httpRequest.send();
+//         });
+//         return Compile;
+
+//     }
+
+//     /*----------  code handler functions  ----------*/
+
+//     function getContents() {
+//         debugger;
+//         if (httpRequest.readyState === XMLHttpRequest.DONE) {
+//             if (httpRequest.status === 200) {
+//                 debugger;
+//                 //alert();
+//                 document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+//             } else {
+//                 alert('There was a problem with the request.');
+//             }
+//         }
+//     }
+
+//     function includeScript(urls) {
+//         var counter = 0;
+//         let Compile = new Promise((resolve, reject) => {
+//             _.forEach(urls, function(value, key) {
+//                 compileScript(value);
+//                 counter++;
+//             });
+//             if (counter == urls.length) {
+//                 resolve("Success!");
+//             }
+//         });
+//         return Compile;
+//     }
+
+//     function compileScript(url) {
+//         var resource = document.createElement('script');
+//         //resource.async = "true";
+//         resource.src = url;
+//         var script = document.body;
+//         script.appendChild(resource);
+//     }
+
+// }, true);

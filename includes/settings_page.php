@@ -178,7 +178,8 @@ function inventory_home_page() {
 * Disply callback for the inventory user.
 */
 function inventory_user_func() {
-	include_once('templates/user.php');
+	echo "<div id='mainDiv'></div>";
+	//include_once('templates/user.php');
 }
 /**
 * Disply callback for the inventory product.
