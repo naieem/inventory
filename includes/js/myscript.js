@@ -41,31 +41,29 @@ window.onload = function() {
     var res = window.location.search.slice(6);
     _.forEach(fileConfig.Files, function(value, key) {
         debugger;
-        if (value.slug === "inventory-user") {
+        if (value.slug === res) {
             debugger;
             getTemplate(value.TemplateUrl).then((successMessage) => {
                 //document.getElementById("mainDiv").innerHTML = '<div ng-controller="userctrl">{{name}}</div>';
-                document.getElementById("mainDiv").innerHTML = "<img src='http://localhost/inventory/wp-content/plugins/inventory/includes/images/gears.gif'>";
-
-                includeScript(value.Mainurls).then((successMessage) => {
-                    console.log("Yay! " + successMessage);
-                    // setTimeout(function() {
-                    //     debugger;
-                    //     includeScript(value.CustomUrl).then((successMessage) => {
-                    //         console.log("Yay! " + successMessage);
-                    //     });
-                    // }, 2000);
-                    includeScript(value.BootAppUrl).then((successMessage) => {
-                        console.log("Yay! " + successMessage);
-                        setTimeout(function() {
-                            debugger;
-                            includeScript(value.CustomUrl).then((successMessage) => {
-                                console.log("Yay! " + successMessage);
-                                document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
-                            });
-                        }, 1000);
-                    });
-                });
+                document.body.className += " loading";
+                //document.getElementById("mainDiv").innerHTML = "<img src='http://localhost/inventory/wp-content/plugins/inventory/includes/images/gears.gif'>";
+                debugger;
+                console.log("before main");
+                includeScript(value.Mainurls);
+                console.log("after main");
+                debugger;
+                console.log("before bott");
+                includeScript(value.BootAppUrl);
+                console.log("after boot");
+                debugger;
+                console.log("before custom");
+                setTimeout(function() {
+                    includeScript(value.CustomUrl);
+                    console.log("before data load");
+                    document.getElementById("mainDiv").innerHTML = successMessage;
+                    document.body.className = document.body.className.replace("loading", "");
+                }, 1000);
+                console.log("after custom");
             }, (error) => {
                 debugger;
 
@@ -118,18 +116,24 @@ function getContents() {
 }
 
 function includeScript(urls) {
+    debugger;
     var counter = 0;
-    return new Promise((resolve, reject) => {
-        _.forEach(urls, function(value, key) {
-            compileScript(value);
-            counter++;
-        });
-        debugger;
-        if (counter == urls.length) {
-            resolve("Success!");
-        }
+    var resource = document.createElement('script');
+    //resource.async = "true";
+    resource.src = urls[0];
+    var script = document.body;
+    script.appendChild(resource);
+    urls = _.remove(urls, function(value, index, array) {
+        if (!index == 0)
+            return value;
     });
-
+    if (urls.length) {
+        debugger;
+        includeScript(urls);
+    } else {
+        console.log("input ses");
+        return true;
+    }
 }
 
 function compileScript(url) {

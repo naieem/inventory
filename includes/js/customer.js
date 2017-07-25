@@ -173,10 +173,14 @@
         // }, 1000);
     });
 
-    setTimeout(function() {
-        debugger;
-        angular.element(function() {
-            angular.bootstrap(document, ['inventoryHome']);
-        });
-    }, 1000);
+    angular.element(function() {
+        angular.bootstrap(document, ['inventoryHome']);
+    });
+
+    // setTimeout(function() {
+    //     debugger;
+    //     angular.element(function() {
+    //         angular.bootstrap(document, ['inventoryHome']);
+    //     });
+    // }, 1000);
 })(window);
