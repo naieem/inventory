@@ -61,7 +61,9 @@ window.onload = function() {
                     includeScript(value.CustomUrl);
                     console.log("before data load");
                     document.getElementById("mainDiv").innerHTML = successMessage;
-                    document.body.className = document.body.className.replace("loading", "");
+                    setTimeout(function() {
+                        document.body.className = document.body.className.replace("loading", "");
+                    }, 1000);
                 }, 1000);
                 console.log("after custom");
             }, (error) => {
@@ -102,19 +104,6 @@ function getTemplate(url) {
 
 /*----------  code handler functions  ----------*/
 
-function getContents() {
-    debugger;
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        if (httpRequest.status === 200) {
-            debugger;
-            //alert();
-            document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
-        } else {
-            alert('There was a problem with the request.');
-        }
-    }
-}
-
 function includeScript(urls) {
     debugger;
     var counter = 0;
@@ -136,13 +125,13 @@ function includeScript(urls) {
     }
 }
 
-function compileScript(url) {
-    var resource = document.createElement('script');
-    //resource.async = "true";
-    resource.src = url;
-    var script = document.body;
-    script.appendChild(resource);
-}
+// function compileScript(url) {
+//     var resource = document.createElement('script');
+//     //resource.async = "true";
+//     resource.src = url;
+//     var script = document.body;
+//     script.appendChild(resource);
+// }
 
 // window.addEventListener("DOMContentLoaded", function() {
 //     var httpRequest;

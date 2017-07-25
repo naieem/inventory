@@ -1,26 +1,11 @@
-(function(window) {
-    debugger;
-    // alert("hello world");
-    // setTimeout(function() {
-    //     document.getElementById("mainDiv").innerHTML = `
-    //     <div  ng-app="inventoryHome" ng-controller="userctrl">
-    //     {{name}}
-    //     </div>
-    //     `;
-    // }, 2000);
-    console.log(window);
-    // app.controller('userctrl', function($scope) {
-    //     $scope.name = "fs";
-    //     debugger;
-    //     //$scope.$apply();
-    //     // angular.module('ui.bootstrap.datetimepicker')
-    //     //     .run(function() {
-    //     //         debugger;
-    //     //     });
+(function() {
+    'use strict';
 
-    // });
+    app.controller('userctrl', userctrl);
 
-    window.app.controller('userctrl', function($timeout, $scope, $http, BaseUrls) {
+    userctrl.$inject = ['$timeout', '$scope', '$http', 'BaseUrls'];
+
+    function userctrl($timeout, $scope, $http, BaseUrls) {
         debugger;
         $scope.BaseUrls = BaseUrls;
         console.log(BaseUrls);
@@ -168,19 +153,8 @@
         $scope.get_country();
         $scope.get_currency();
         $scope.get_all_user();
-        // $timeout(function() {
-        //     $scope.$apply();
-        // }, 1000);
-    });
-
+    }
     angular.element(function() {
         angular.bootstrap(document, ['inventoryHome']);
     });
-
-    // setTimeout(function() {
-    //     debugger;
-    //     angular.element(function() {
-    //         angular.bootstrap(document, ['inventoryHome']);
-    //     });
-    // }, 1000);
-})(window);
+})();
