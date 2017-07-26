@@ -3,37 +3,36 @@ Array.prototype.remove = function(from, to) {
     this.length = from < 0 ? this.length + from : from;
     return this.push.apply(this, rest);
 };
-var app;
+
 var fileConfig = {
-        "Files": [{
-            "slug": "inventory-user",
-            "Mainurls": [
-                'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
-                'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js',
-                'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js',
-                'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
-            ],
-            "BootAppUrl": [
-                window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/initialize.js",
-            ],
-            "CustomUrl": [
-                window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/customer.js"
-            ],
-            "TemplateUrl": window.location.origin + "/inventory/wp-content/plugins/inventory/includes/templates/user.php"
-        }]
-    }
-    // var resource = document.createElement('script');
-    //     resource.async = "true";
-    //     resource.src = window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/customer.js";
-    //     var script = document.getElementsByTagName('script')[0];
-    //     script.parentNode.insertBefore(resource, script);
-    // document.onreadystatechange = function(e) {
-    //     if (document.readyState === 'complete') {
-    //         debugger;
-    //         //dom is ready, window.onload fires later
-    //     }
-    // };
+    "Mainurls": [
+        'https://code.jquery.com/ui/1.8.16/jquery-ui.js',
+        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js',
+        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+        'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js',
+        'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js',
+        'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
+    ],
+    "BootAppUrl": [
+        window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/initialize.js"
+    ],
+    "BaseStyleSheet": [
+        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css',
+        'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css',
+        'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/css/datetimepicker.css'
+    ],
+    "Files": [{
+        "slug": "inventory-user",
+        "CustomUrl": [
+            window.location.origin + "/inventory/wp-content/plugins/inventory/includes/js/customer.js"
+        ],
+        "TemplateUrl": window.location.origin + "/inventory/wp-content/plugins/inventory/includes/templates/user.php"
+    }]
+}
 window.onload = function() {
     debugger;
     console.log("page loaded");
@@ -44,28 +43,40 @@ window.onload = function() {
         if (value.slug === res) {
             debugger;
             getTemplate(value.TemplateUrl).then((successMessage) => {
-                //document.getElementById("mainDiv").innerHTML = '<div ng-controller="userctrl">{{name}}</div>';
                 document.body.className += " loading";
-                //document.getElementById("mainDiv").innerHTML = "<img src='http://localhost/inventory/wp-content/plugins/inventory/includes/images/gears.gif'>";
-                debugger;
-                console.log("before main");
-                includeScript(value.Mainurls);
-                console.log("after main");
-                debugger;
-                console.log("before bott");
-                includeScript(value.BootAppUrl);
-                console.log("after boot");
-                debugger;
-                console.log("before custom");
-                setTimeout(function() {
-                    includeScript(value.CustomUrl);
-                    console.log("before data load");
-                    document.getElementById("mainDiv").innerHTML = successMessage;
-                    setTimeout(function() {
-                        document.body.className = document.body.className.replace("loading", "");
-                    }, 1000);
-                }, 1000);
-                console.log("after custom");
+                loadStyles(fileConfig.BaseStyleSheet).then((result) => {
+                    console.log("Stylesheets loaded");
+                }, (error) => {
+
+                });
+                // loading Mainurls
+                loadScript(fileConfig.Mainurls).then((result) => {
+                    console.log("success loading main urls");
+                    if (result === 'success') {
+                        /** loading bootapps */
+                        loadScript(fileConfig.BootAppUrl).then((resultbootapp) => {
+                            console.log("success loading bootapps");
+                            if (resultbootapp === 'success') {
+                                /** loading fire apps according to page  */
+                                setTimeout(function() {
+                                    loadScript(value.CustomUrl).then((customapp) => {
+                                        console.log("success loading customapp");
+                                        if (customapp === 'success') {
+                                            document.getElementById("mainDiv").innerHTML = successMessage;
+                                            bootStrappingAngular();
+                                        }
+                                    }, (error) => {
+                                        console.log();
+                                    });
+                                }, 1000);
+                            }
+                        }, (error) => {
+                            console.log();
+                        });
+                    }
+                }, (error) => {
+                    console.log();
+                });
             }, (error) => {
                 debugger;
 
@@ -102,122 +113,141 @@ function getTemplate(url) {
 
 }
 
-/*----------  code handler functions  ----------*/
+/**
+ * name:loadScript.
+ * type:function.
+ * description:
+      This function takes an array of files url and loads
+      files the dom.After loading the files in the dom it returns a promise
+      and sends for furthur use.
+ * @param {urls to load in the dom}.
+ * return: single promise after loading all files in the dom.
+ * return message:'success'.
+ */
 
-function includeScript(urls) {
+function loadScript(urls) {
     debugger;
-    var counter = 0;
-    var resource = document.createElement('script');
-    //resource.async = "true";
-    resource.src = urls[0];
-    var script = document.body;
-    script.appendChild(resource);
-    urls = _.remove(urls, function(value, index, array) {
-        if (!index == 0)
-            return value;
-    });
-    if (urls.length) {
+    let Compile = new Promise((resolve, reject) => {
         debugger;
-        includeScript(urls);
-    } else {
-        console.log("input ses");
-        return true;
-    }
+        startLoading(urls);
+        /** iterate through urls and load in dom */
+        function startLoading(urls) {
+            var scr = document.createElement('script');
+            scr.onload = handleLoad;
+            scr.onreadystatechange = handleReadyStateChange;
+            scr.onerror = handleError;
+            scr.src = urls[0];
+            document.body.appendChild(scr);
+
+            /** this function is called when file finished loading from server */
+            function handleLoad() {
+                console.log(urls[0], 'loaded');
+                debugger;
+                urls = _.remove(urls, function(value, index, array) {
+                    if (!index == 0)
+                        return value;
+                });
+                if (urls.length) {
+                    debugger;
+                    startLoading(urls);
+                } else {
+                    debugger;
+                    resolve('success');
+                }
+            }
+
+            function handleReadyStateChange() {
+                var state;
+                state = scr.readyState;
+                debugger;
+
+                if (state === "complete") {
+                    console.log(urls, 'loaded successfully from ready state');
+                }
+
+            }
+
+            function handleError() {
+                console.log(urls, 'loading error');
+            }
+        }
+    });
+    return Compile;
 }
 
-// function compileScript(url) {
-//     var resource = document.createElement('script');
-//     //resource.async = "true";
-//     resource.src = url;
-//     var script = document.body;
-//     script.appendChild(resource);
-// }
 
-// window.addEventListener("DOMContentLoaded", function() {
-//     var httpRequest;
-//     var res = window.location.search.slice(6);
-//     _.forEach(fileConfig.Files, function(value, key) {
-//         debugger;
-//         if (value.slug === "inventory-user") {
-//             debugger;
-//             getTemplate(value.TemplateUrl).then((successMessage) => {
-//                 document.getElementById("mainDiv").innerHTML = '<div ng-controller="userctrl">{{name}}</div>';
-//                 // document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
+/**
+ * name:loadStyles.
+ * type:function.
+ * description:
+      This function takes an array of css files url and loads
+      files the dom.After loading the files in the dom it returns a promise
+      and sends for furthur use.
+ * @param {urls to load in the dom}.
+ * return: single promise after loading all files in the dom.
+ * return message:'success'.
+ */
 
-//                 includeScript(value.Mainurls).then((successMessage) => {
-//                     console.log("Yay! " + successMessage);
-//                     includeScript(value.CustomUrl).then((successMessage) => {
-//                         console.log("Yay! " + successMessage);
-//                     });
-//                 });
-//             }, (error) => {
-//                 debugger;
+function loadStyles(urls) {
+    debugger;
+    let Compile = new Promise((resolve, reject) => {
+        debugger;
+        startLoading(urls);
+        /** iterate through urls and load in dom */
+        function startLoading(urls) {
 
-//             });
-//         }
-//     });
+            var head = document.getElementsByTagName('head')[0];
+            var scr = document.createElement('link');
+            scr.onload = handleLoad;
+            scr.onreadystatechange = handleReadyStateChange;
+            scr.onerror = handleError;
+            scr.rel = 'stylesheet';
+            scr.type = 'text/css';
+            scr.href = urls[0];
+            head.appendChild(scr);
 
-//     function getTemplate(url) {
-//         let Compile = new Promise((resolve, reject) => {
-//             httpRequest = new XMLHttpRequest();
-//             if (!httpRequest) {
-//                 alert('Giving up :( Cannot create an XMLHTTP instance');
-//                 return false;
-//             }
-//             httpRequest.onreadystatechange = function() {
-//                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
-//                     if (httpRequest.status === 200) {
-//                         debugger;
-//                         resolve(httpRequest.responseText);
-//                         //document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
-//                     } else {
-//                         alert('There was a problem with the request.');
-//                     }
-//                 }
-//             };
-//             httpRequest.open('GET', url);
-//             debugger;
-//             httpRequest.send();
-//         });
-//         return Compile;
+            /** this function is called when file finished loading from server */
+            function handleLoad() {
+                console.log(urls[0], 'loaded');
+                debugger;
+                urls = _.remove(urls, function(value, index, array) {
+                    if (!index == 0)
+                        return value;
+                });
+                if (urls.length) {
+                    debugger;
+                    startLoading(urls);
+                } else {
+                    debugger;
+                    resolve('success');
+                }
+            }
 
-//     }
+            function handleReadyStateChange() {
+                var state;
+                state = scr.readyState;
+                debugger;
 
-//     /*----------  code handler functions  ----------*/
+                if (state === "complete") {
+                    console.log(urls, 'loaded successfully from ready state');
+                }
 
-//     function getContents() {
-//         debugger;
-//         if (httpRequest.readyState === XMLHttpRequest.DONE) {
-//             if (httpRequest.status === 200) {
-//                 debugger;
-//                 //alert();
-//                 document.getElementById("mainDiv").innerHTML = httpRequest.responseText;
-//             } else {
-//                 alert('There was a problem with the request.');
-//             }
-//         }
-//     }
+            }
 
-//     function includeScript(urls) {
-//         var counter = 0;
-//         let Compile = new Promise((resolve, reject) => {
-//             _.forEach(urls, function(value, key) {
-//                 compileScript(value);
-//                 counter++;
-//             });
-//             if (counter == urls.length) {
-//                 resolve("Success!");
-//             }
-//         });
-//         return Compile;
-//     }
+            function handleError() {
+                console.log(urls, 'loading error');
+            }
+        }
+    });
+    return Compile;
+}
 
-//     function compileScript(url) {
-//         var resource = document.createElement('script');
-//         //resource.async = "true";
-//         resource.src = url;
-//         var script = document.body;
-//         script.appendChild(resource);
-//     }
 
-// }, true);
+function bootStrappingAngular() {
+    setTimeout(function() {
+        angular.element(function() {
+            angular.bootstrap(document, ['inventoryHome']);
+        });
+        document.body.className = document.body.className.replace("loading", "");
+    }, 1000);
+}

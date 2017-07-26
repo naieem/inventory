@@ -1,10 +1,5 @@
 (function(window) {
 
-
-    // angular.element(function() {
-    //     angular.bootstrap(document, ['ui.bootstrap.datetimepicker', 'ui.bootstrap', 'inventoryHome']);
-    // });
-
     app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker', 'ui.bootstrap']);
     debugger;
     app.controller('homectrl', function($scope, $http) {

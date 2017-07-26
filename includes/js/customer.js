@@ -154,7 +154,4 @@
         $scope.get_currency();
         $scope.get_all_user();
     }
-    angular.element(function() {
-        angular.bootstrap(document, ['inventoryHome']);
-    });
 })();

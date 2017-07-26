@@ -5,13 +5,13 @@ load javascript and css
 **********************************/
 
 function aim_load_styles() {
-	wp_enqueue_style('pstyle', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+	// wp_enqueue_style('pstyle', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 
-	wp_enqueue_style('select2css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css');
+	// wp_enqueue_style('select2css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css');
 
-	wp_enqueue_style('ui', 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
+	// wp_enqueue_style('ui', 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
 
-	wp_enqueue_style('datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/css/datetimepicker.css');
+	// wp_enqueue_style('datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/css/datetimepicker.css');
 	wp_enqueue_style('style', WP_PLUGIN_URL . '/inventory/includes/css/style.css');
 
 }
@@ -55,14 +55,14 @@ wp_localize_script( 'ajax_script', 'myAjax', array( 'ajaxurl' => admin_url( 'adm
 
 wp_enqueue_script( 'jquery' );
 
-wp_enqueue_script( 'ui', 'https://code.jquery.com/ui/1.8.16/jquery-ui.js');
+// wp_enqueue_script( 'ui', 'https://code.jquery.com/ui/1.8.16/jquery-ui.js');
 
 
-wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
+// wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
 
-wp_enqueue_script( 'momentjs', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js');
+// wp_enqueue_script( 'momentjs', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js');
 
-wp_enqueue_script( 'angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js');
+// wp_enqueue_script( 'angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js');
 
 //   wp_enqueue_script( 'autocomplete', 'http://raw.github.com/zensh/ui-autocomplete/master/src/autocomplete.js');
 
@@ -77,7 +77,7 @@ wp_enqueue_script( 'angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1
  *
  * including custom scripts
  *
-	 */
+*/
 wp_enqueue_script( 'lodash' );
 wp_enqueue_script( 'ajax_script' );
 // wp_enqueue_script( 'pcat' );
