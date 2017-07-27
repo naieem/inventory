@@ -152,7 +152,15 @@
 			<p>
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
-			<div class="table-responsive">          
+			<div class="table-responsive">   
+			<p>
+			<center>
+			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
+			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
+			</center>
+			</p>
+			<pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination>          
+				       
 				<table class="table">
 					<thead>
 						<tr>
@@ -168,7 +176,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="location in locations">
+						<tr ng-repeat="location in locations.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search ">
 							<td>{{location.id}}</td>
 							<td>{{location.inv_location_name}}</td>
 							<td>

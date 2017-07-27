@@ -37,11 +37,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
                 $scope.products = [];
             } else {
                 $scope.products = response.data;
-                $scope.totalItems = $scope.products.length;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = 10;
-                $scope.maxSize = 15; //Number of pager buttons to show
-                $scope.viewby = 10;
+
             }
             $scope.loading = false;
             // if(response.data){
@@ -166,11 +162,11 @@ app.controller('productctrl', function($scope, $http, $timeout) {
                 }
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
-                $scope.grandParent[i].children=[];
+                $scope.grandParent[i].children = [];
                 debugger;
                 for (var j = 0; j < $scope.obj.length; j++) {
-                    if($scope.grandParent[i]['id'] == $scope.obj[j]['inv_product_cat_parent']){
-                       $scope.grandParent[i].children.push($scope.obj[j]); 
+                    if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_product_cat_parent']) {
+                        $scope.grandParent[i].children.push($scope.obj[j]);
                     }
                 }
             }
@@ -275,6 +271,11 @@ app.controller('productctrl', function($scope, $http, $timeout) {
     $scope.get_product();
 
     /*----------  Pagination config area  ----------*/
+    $scope.totalItems = $scope.products.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
     $scope.pageChanged = function() {
         console.log('Page changed to: ' + $scope.currentPage);
     };
