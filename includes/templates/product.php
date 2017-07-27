@@ -44,7 +44,7 @@
 								<div class="form-group">
 									<label for="name">Unit</label>
 									<select name="unit" ng-model="cat.inv_product_size_unit" class="form-control">
-										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units | orderBy:'inv_inventory_units_name'" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -64,7 +64,7 @@
 								<div class="form-group">
 									<label for="name">Weight Unit</label>
 									<select name="unit" ng-model="cat.inv_product_weight_unit" class="form-control">
-										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units | orderBy:'inv_inventory_units_name'" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -77,15 +77,15 @@
 								<div class="form-group">
 									<label for="name">Cost Currency</label>
 									<select name="parent" ng-model="cat.currency" class="form-control">
-										<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
+										<option value="{{ currency.id }}" ng-repeat="currency in currencies | orderBy:'inv_currency_code'">{{ currency.inv_currency_code }}</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="category" ng-model="cat.category" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x.inv_product_cat_name}}">
-											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
+										<optgroup ng-repeat="x in grandParent | orderBy:'inv_product_cat_name'" label="{{x.inv_product_cat_name}}">
+											<option ng-repeat="child in x.children | orderBy:'inv_product_cat_name'" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
 									</select>
 									<span class="error" ng-show="new_user.category.$touched && new_user.category.$invalid">This field is required.</span>
@@ -94,7 +94,7 @@
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="supplier" class="form-control" ng-model="cat.supplier">
-										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
+										<option ng-repeat="supplier in suppliers | orderBy:'inv_supplier_name'" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 									<span class="error" ng-show="new_user.supplier.$touched && new_user.supplier.$invalid">This field is required.</span>
 								</div>
@@ -191,7 +191,7 @@
 								<div class="form-group">
 									<label for="name">Unit</label>
 									<select name="unit" ng-model="edit_cat.inv_product_size_unit" class="form-control">
-										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units | orderBy:'inv_inventory_units_name'" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -210,7 +210,7 @@
 								<div class="form-group">
 									<label for="name">Weight Unit</label>
 									<select name="unit" ng-model="edit_cat.inv_product_weight_unit" class="form-control">
-										<option ng-repeat="unit in units" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
+										<option ng-repeat="unit in units | orderBy:'inv_inventory_units_name'" value="{{unit.id}}">{{unit.inv_inventory_units_name}}</option>
 									</select>
 								</div>
 
@@ -223,15 +223,15 @@
 								<div class="form-group">
 								<label for="name">Cost Currency</label>
 									<select name="parent" ng-model="edit_cat.inv_product_cost_currency" class="form-control">
-										<option value="{{ currency.id }}" ng-repeat="currency in currencies">{{ currency.inv_currency_code }}</option>
+										<option value="{{ currency.id }}" ng-repeat="currency in currencies | orderBy:'inv_currency_code'">{{ currency.inv_currency_code }}</option>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label for="name">Category</label>
 									<select name="category" ng-model="edit_cat.inv_product_category_id" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x.inv_product_cat_name}}">
-											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
+										<optgroup ng-repeat="x in grandParent | orderBy:'inv_product_cat_name'" label="{{x.inv_product_cat_name}}">
+											<option ng-repeat="child in x.children | orderBy:'inv_product_cat_name'" value="{{child.id}}">{{child.inv_product_cat_name}}</option>
 										</optgroup>
 									</select>
 									<span class="error" ng-show="new_user_edit.category.$touched && new_user_edit.category.$invalid">This field is required.</span>
@@ -239,7 +239,7 @@
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="supplier" class="form-control" ng-model="edit_cat.inv_product_supplier_id">
-										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
+										<option ng-repeat="supplier in suppliers | orderBy:'inv_supplier_name'" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 									<span class="error" ng-show="new_user_edit.supplier.$touched && new_user_edit.supplier.$invalid">This field is required.</span>
 								</div>
@@ -254,7 +254,7 @@
 									<label for="name">Country</label>
 									<!-- <input type="text" class="form-control" name="name" ng-model="edit_cat.inv_location_country" required> -->
 									<select class="form-control select2" name="currency" ng-model="edit_cat.inv_product_country">
-										<option ng-repeat="countries in country" value="{{countries.id}}">{{countries.country_name}}</option>
+										<option ng-repeat="countries in country | orderBy:'country_name'" value="{{countries.id}}">{{countries.country_name}}</option>
 									</select>
 								</div>
 

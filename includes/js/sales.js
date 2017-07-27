@@ -19,6 +19,7 @@ app.controller('salesctrl', function($scope, $http) {
                 $scope.orders = [];
             } else {
                 $scope.orders = response.data;
+                $scope.totalItems = $scope.orders.length;
             }
             $scope.loading = false;
         }, function(error) {
@@ -93,11 +94,11 @@ app.controller('salesctrl', function($scope, $http) {
                 }
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
-                $scope.grandParent[i].children=[];
+                $scope.grandParent[i].children = [];
                 debugger;
                 for (var j = 0; j < $scope.obj.length; j++) {
-                    if($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']){
-                       $scope.grandParent[i].children.push($scope.obj[j]); 
+                    if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']) {
+                        $scope.grandParent[i].children.push($scope.obj[j]);
                     }
                 }
             }
@@ -416,4 +417,17 @@ app.controller('salesctrl', function($scope, $http) {
     $scope.get_currency();
     $scope.get_order();
     $scope.get_location();
+    /*----------  Pagination config area  ----------*/
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
+    $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1; //reset to first page
+    }
 });

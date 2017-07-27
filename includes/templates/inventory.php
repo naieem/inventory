@@ -36,21 +36,21 @@
 								<div class="form-group">
 									<label for="name">User</label>
 									<select name="parent" ng-model="cat.wp_users_id_users" class="form-control">
-										<option value="{{ user.data.ID }}" ng-repeat="user in users">{{ user.data.display_name }}</option>
+										<option value="{{ user.data.ID }}" ng-repeat="user in users| orderBy:'display_name'">{{ user.data.display_name }}</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-change="change_location(cat.inv_location_inv_location_id)" ng-model="cat.inv_location_inv_location_id" class="form-control">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
-											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										<optgroup ng-repeat="x in grandParent| orderBy:'inv_location_name'" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children| orderBy:'inv_location_name'" value="{{child.id}}">{{child.inv_location_name}}</option>
 										</optgroup>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="" class="form-control" ng-model="cat.supplier">
-										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
+										<option ng-repeat="supplier in suppliers| orderBy:'inv_customer_name'" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -63,7 +63,7 @@
 											<div class="form-group">
 												<label for="name">Product</label>
 												<select name="" ng-model="product.ID" class="form-control">
-													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}</option>
+													<option value="{{ product.id }}" ng-repeat="product in products| orderBy:'inv_product_name'">{{ product.inv_product_name }}</option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -74,7 +74,7 @@
 											<div class="form-group">
 												<label for="name">Unit</label>
 												<select name="" ng-model="product.unit" class="form-control">
-													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													<option value="{{ unit.id }}" ng-repeat="unit in units| orderBy:'inv_inventory_units_name'">{{ unit.inv_inventory_units_name }}</option>
 												</select>
 											</div>
 											<button class="remove" ng-click="removeField($index)">X</button>
@@ -120,7 +120,7 @@
 								<div class="form-group">
 									<label for="name">User</label>
 									<select name="parent" ng-model="edit_cat.wp_users_id_users" class="form-control">
-										<option value="{{ user.data.ID }}" ng-repeat="user in users">{{ user.data.display_name }}</option>
+										<option value="{{ user.data.ID }}" ng-repeat="user in users| orderBy:'display_name'">{{ user.data.display_name }}</option>
 									</select>
 								</div>
 								<!-- <div class="form-group">
@@ -135,8 +135,8 @@
 								<div class="form-group">
 									<label for="name">Location</label>
 									<select name="" ng-model="edit_cat.inv_location_inv_location_id" class="form-control" ng-change="change_location(edit_cat.inv_location_inv_location_id)">
-										<optgroup ng-repeat="x in grandParent" label="{{x[0].inv_location_name}}">
-											<option ng-repeat="child in x.children" value="{{child.id}}">{{child.inv_location_name}}</option>
+										<optgroup ng-repeat="x in grandParent| orderBy:'inv_location_name'" label="{{x[0].inv_location_name}}">
+											<option ng-repeat="child in x.children| orderBy:'inv_location_name'" value="{{child.id}}">{{child.inv_location_name}}</option>
 										</optgroup>
 									</select>
 								</div>
@@ -144,7 +144,7 @@
 								<div class="form-group">
 									<label for="name">Supplier</label>
 									<select name="" class="form-control" ng-model="supplier">
-										<option ng-repeat="supplier in suppliers" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
+										<option ng-repeat="supplier in suppliers| orderBy:'inv_supplier_name'" value="{{ supplier.id }}">{{supplier.inv_supplier_name}}</option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -156,7 +156,7 @@
 											<div class="form-group">
 												<label for="name">Product</label>
 												<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
-													<option value="{{ prd.id }}" ng-repeat="prd in products">{{ prd.inv_product_name }}</option>
+													<option value="{{ prd.id }}" ng-repeat="prd in products| orderBy:'inv_product_name'">{{ prd.inv_product_name }}</option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -167,7 +167,7 @@
 											<div class="form-group">
 												<label for="name">Unit</label>
 												<select name="" ng-model="product.inv_inventory_units_inv_inventory_units_id" class="form-control">
-													<option value="{{ unit.id }}" ng-repeat="unit in units">{{ unit.inv_inventory_units_name }}</option>
+													<option value="{{ unit.id }}" ng-repeat="unit in units| orderBy:'inv_inventory_units_name'">{{ unit.inv_inventory_units_name }}</option>
 												</select>
 											</div>
 											<button class="remove" ng-click="removeFieldEdit($index)">X</button>

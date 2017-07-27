@@ -78,7 +78,7 @@
 								<div class="form-group">
 									<label for="currency">Currency:</label>
 									<select class="form-control" name="currency" ng-model="customer.currency">
-										<option ng-repeat="currencies in currency" ng-value=" currencies.id">{{currencies.inv_currency_code}}</option>
+										<option ng-repeat="currencies in currency | orderBy:'inv_currency_code'" ng-value=" currencies.id">{{currencies.inv_currency_code}}</option>
 									</select>
 								</div>
 
@@ -163,7 +163,7 @@
 								<div class="form-group">
 									<label for="currency">Currency:</label>
 									<select class="form-control" required name="currency" ng-model="customer.inv_currency_inv_currency_id">
-										<option ng-repeat="currencies in currency" value="{{currencies.id}}">{{currencies.inv_currency_code}}</option>
+										<option ng-repeat="currencies in currency | orderBy:'inv_currency_code'" value="{{currencies.id}}">{{currencies.inv_currency_code}}</option>
 									</select>
 									<span class="error" ng-show="new_user_edit.currency.$touched && new_user_edit.currency.$invalid">This field is required.</span>
 								</div>

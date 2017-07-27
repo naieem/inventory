@@ -28,7 +28,7 @@
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="cat.inv_location_parent" class="form-control">
 									<option value="0">Self</option>
-										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
+										<option value="{{ location.id }}" ng-repeat="location in locations | orderBy:'inv_location_name'">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -62,7 +62,7 @@
 								<div class="form-group">
 									<label for="name">Customer</label>
 									<select class="form-control" name="currency" ng-model="cat.inv_location_inv_customer_id">
-										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
+										<option ng-repeat="customers in customer | orderBy:'inv_customer_name'" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
 									</select>
 								</div>
 
@@ -98,7 +98,7 @@
 									<label for="name">Parent</label>
 									<select name="parent" ng-model="edit_cat.inv_location_parent" class="form-control">
 									<option value="0">Self</option>
-										<option value="{{ location.id }}" ng-repeat="location in locations">{{ location.inv_location_name }}</option>
+										<option value="{{ location.id }}" ng-repeat="location in locations | orderBy:'inv_location_name'">{{ location.inv_location_name }}</option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -132,7 +132,7 @@
 								<div class="form-group">
 									<label for="name">Customer</label>
 									<select class="form-control" name="currency" ng-model="edit_cat.inv_location_inv_customer_id">
-										<option ng-repeat="customers in customer" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
+										<option ng-repeat="customers in customer | orderBy:'inv_customer_name'" value="{{customers.id}}">{{customers.inv_customer_name}}</option>
 									</select>
 								</div>
 

@@ -118,6 +118,7 @@ app.controller('recipectrl', function($scope, $http) {
                 $scope.recipies = [];
             } else {
                 $scope.recipies = response.data;
+                $scope.totalItems = $scope.recipies.length;
             }
             $scope.loading = false;
             // if(response.data){
@@ -278,7 +279,7 @@ app.controller('recipectrl', function($scope, $http) {
             }
             for (var i = 0; i < $scope.editProducts.length; i++) {
                 for (var j = 0; j < $scope.products.length; j++) {
-                    if($scope.editProducts[i]['inv_product_id_inv_product'] == $scope.products[j]['id'] ){
+                    if ($scope.editProducts[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
                         $scope.editProducts[i]['name'] = $scope.products[j]['inv_product_name'];
                     }
                 }
@@ -430,16 +431,29 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.setClientData = function(item, index, type) {
-        if (item) {
-            if (type == 'new') {
-                $scope.newProducts[index]['ID'] = item.id;
-                delete $scope.newProducts[index]['name'];
+            if (item) {
+                if (type == 'new') {
+                    $scope.newProducts[index]['ID'] = item.id;
+                    delete $scope.newProducts[index]['name'];
+                }
+                if (type == 'old') {
+                    $scope.editProducts[index]['inv_product_id_inv_product'] = item.id;
+                    delete $scope.editProducts[index]['name'];
+                }
             }
-            if (type == 'old') {
-                $scope.editProducts[index]['inv_product_id_inv_product'] = item.id;
-                delete $scope.editProducts[index]['name'];
-            }
+            // console.log('new data is ',$scope.temp_data);
         }
-        // console.log('new data is ',$scope.temp_data);
+        /*----------  Pagination config area  ----------*/
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
+    $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1; //reset to first page
     }
 });

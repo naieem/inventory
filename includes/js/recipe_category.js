@@ -56,6 +56,7 @@ app.controller('recipectctrl', function($scope, $http) {
                 $scope.categories = [];
             } else {
                 $scope.categories = response.data;
+                $scope.totalItems = $scope.categories.length;
             }
             $scope.loading = false;
             // if(response.data){
@@ -126,4 +127,17 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
     $scope.get_category();
+    /*----------  Pagination config area  ----------*/
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
+    $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1; //reset to first page
+    }
 });

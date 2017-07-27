@@ -37,7 +37,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
                 $scope.products = [];
             } else {
                 $scope.products = response.data;
-
+                $scope.totalItems = $scope.products.length;
             }
             $scope.loading = false;
             // if(response.data){
@@ -271,7 +271,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
     $scope.get_product();
 
     /*----------  Pagination config area  ----------*/
-    $scope.totalItems = $scope.products.length;
+
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;
     $scope.maxSize = 15; //Number of pager buttons to show
