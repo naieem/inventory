@@ -19,6 +19,7 @@ app.controller('purchasectrl', function($scope, $http) {
                 $scope.orders = [];
             } else {
                 $scope.orders = response.data;
+                $scope.totalItems = $scope.orders.length;
             }
             $scope.loading = false;
         }, function(error) {
@@ -93,11 +94,11 @@ app.controller('purchasectrl', function($scope, $http) {
                 }
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
-                $scope.grandParent[i].children=[];
+                $scope.grandParent[i].children = [];
                 debugger;
                 for (var j = 0; j < $scope.obj.length; j++) {
-                    if($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']){
-                       $scope.grandParent[i].children.push($scope.obj[j]); 
+                    if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']) {
+                        $scope.grandParent[i].children.push($scope.obj[j]);
                     }
                 }
             }
@@ -134,10 +135,10 @@ app.controller('purchasectrl', function($scope, $http) {
             $scope.loading = false;
             $scope.edit_cat = data;
             $scope.editReciepe = response.data;
-            
+
             for (var i = 0; i < $scope.editReciepe.length; i++) {
                 for (var j = 0; j < $scope.products.length; j++) {
-                    if($scope.editReciepe[i]['inv_product_id_inv_product'] == $scope.products[j]['id'] ){
+                    if ($scope.editReciepe[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
                         $scope.editReciepe[i]['name'] = $scope.products[j]['inv_product_name'];
                     }
                 }
@@ -446,16 +447,29 @@ app.controller('purchasectrl', function($scope, $http) {
     $scope.get_location();
 
     $scope.setClientData = function(item, index, type) {
-        if (item) {
-            if (type == 'new') {
-                $scope.newReciepe[index]['ID'] = item.id;
-                delete $scope.newReciepe[index]['name'];
+            if (item) {
+                if (type == 'new') {
+                    $scope.newReciepe[index]['ID'] = item.id;
+                    delete $scope.newReciepe[index]['name'];
+                }
+                if (type == 'old') {
+                    $scope.editReciepe[index]['inv_product_id_inv_product'] = item.id;
+                    delete $scope.editReciepe[index]['name'];
+                }
             }
-            if (type == 'old') {
-                $scope.editReciepe[index]['inv_product_id_inv_product'] = item.id;
-                delete $scope.editReciepe[index]['name'];
-            }
+            // console.log('new data is ',$scope.temp_data);
         }
-        // console.log('new data is ',$scope.temp_data);
+        /*----------  Pagination config area  ----------*/
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
+    $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1; //reset to first page
     }
 });

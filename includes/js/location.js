@@ -16,6 +16,7 @@ app.controller('locationctrl', function($scope, $http) {
                 $scope.locations = [];
             } else {
                 $scope.locations = response.data;
+                $scope.totalItems = $scope.locations.length;
             }
             $scope.loading = false;
             // if(response.data){
@@ -146,4 +147,17 @@ app.controller('locationctrl', function($scope, $http) {
     $scope.get_customer();
     $scope.get_country();
     $scope.get_location();
+    /*----------  Pagination config area  ----------*/
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 15; //Number of pager buttons to show
+    $scope.viewby = 10;
+    $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1; //reset to first page
+    }
 });

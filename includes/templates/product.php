@@ -310,7 +310,14 @@
 			<p>
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
-			<div class="table-responsive">          
+			<div class="table-responsive">
+			<p>
+			<center>
+			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
+			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
+			</center>
+			</p>
+			<pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination>          
 				<table class="table">
 					<thead>
 						<tr>
@@ -327,7 +334,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="product in products.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+						<tr ng-repeat="product in products.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search">
 							<td>{{product.id}}</td>
 							<td>{{product.inv_product_name}}</td>
 							<td>{{product.inv_product_barcode}}</td>
@@ -345,8 +352,6 @@
 						</tr>
 					</tbody>
 				</table>
-				View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>3</option><option>5</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option></select> records at a time.
-				<pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination>
 			</div>
 		</div>
 	</div>
