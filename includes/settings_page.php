@@ -151,6 +151,8 @@ add_shortcode( 'recipeForm', 'inventory_recipe_func' );
 add_shortcode( 'locationForm', 'inventory_location_func' );
 add_shortcode( 'inventoryForm', 'inventory_inventory_func' );
 add_shortcode( 'orderForm', 'inventory_order_func' );
+add_shortcode( 'salesForm', 'inventory_sales_func' );
+add_shortcode( 'purchaseForm', 'inventory_purchase_func' );
 
 /**
 * Disply callback for the inventory home.

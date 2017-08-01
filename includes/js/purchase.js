@@ -19,6 +19,7 @@ app.controller('purchasectrl', function($scope, $http) {
                 $scope.orders = [];
             } else {
                 $scope.orders = response.data;
+                debugger;
                 $scope.totalItems = $scope.orders.length;
             }
             $scope.loading = false;
@@ -443,23 +444,26 @@ app.controller('purchasectrl', function($scope, $http) {
     $scope.get_supplier();
     $scope.get_customer();
     $scope.get_currency();
-    $scope.get_order();
     $scope.get_location();
+    $scope.get_order();
+
 
     $scope.setClientData = function(item, index, type) {
-            if (item) {
-                if (type == 'new') {
-                    $scope.newReciepe[index]['ID'] = item.id;
-                    delete $scope.newReciepe[index]['name'];
-                }
-                if (type == 'old') {
-                    $scope.editReciepe[index]['inv_product_id_inv_product'] = item.id;
-                    delete $scope.editReciepe[index]['name'];
-                }
+        if (item) {
+            if (type == 'new') {
+                $scope.newReciepe[index]['ID'] = item.id;
+                delete $scope.newReciepe[index]['name'];
             }
-            // console.log('new data is ',$scope.temp_data);
+            if (type == 'old') {
+                $scope.editReciepe[index]['inv_product_id_inv_product'] = item.id;
+                delete $scope.editReciepe[index]['name'];
+            }
         }
-        /*----------  Pagination config area  ----------*/
+        // console.log('new data is ',$scope.temp_data);
+    }
+
+
+    /*----------  Pagination config area  ----------*/
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;

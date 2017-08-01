@@ -1,4 +1,4 @@
-app.controller('recipectrl', function($scope, $http) {
+app.controller('recipectrl', function($scope, $http, $filter) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
     $scope.showloader = false;
@@ -120,6 +120,7 @@ app.controller('recipectrl', function($scope, $http) {
                 $scope.recipies = response.data;
                 $scope.totalItems = $scope.recipies.length;
             }
+            debugger;
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
@@ -280,7 +281,8 @@ app.controller('recipectrl', function($scope, $http) {
             for (var i = 0; i < $scope.editProducts.length; i++) {
                 for (var j = 0; j < $scope.products.length; j++) {
                     if ($scope.editProducts[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
-                        $scope.editProducts[i]['name'] = $scope.products[j]['inv_product_name'];
+                        var unitObj = $filter('filter')($scope.units, { id: $scope.products[j]['inv_product_size_unit'] });
+                        $scope.editProducts[i]['name'] = $scope.products[j]['inv_product_name'] + '-' + $scope.products[j]['inv_product_size'] + unitObj[0].inv_inventory_units_name;
                     }
                 }
             }
@@ -431,20 +433,21 @@ app.controller('recipectrl', function($scope, $http) {
         }
     }
     $scope.setClientData = function(item, index, type) {
-            if (item) {
-                if (type == 'new') {
-                    $scope.newProducts[index]['ID'] = item.id;
-                    delete $scope.newProducts[index]['name'];
-                }
-                if (type == 'old') {
-                    $scope.editProducts[index]['inv_product_id_inv_product'] = item.id;
-                    delete $scope.editProducts[index]['name'];
-                }
+        if (item) {
+            if (type == 'new') {
+                $scope.newProducts[index]['ID'] = item.id;
+                delete $scope.newProducts[index]['name'];
             }
-            // console.log('new data is ',$scope.temp_data);
+            if (type == 'old') {
+                $scope.editProducts[index]['inv_product_id_inv_product'] = item.id;
+                delete $scope.editProducts[index]['name'];
+            }
         }
-        /*----------  Pagination config area  ----------*/
+        // console.log('new data is ',$scope.temp_data);
+    }
 
+
+    /*----------  Pagination config area  ----------*/
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;
     $scope.maxSize = 15; //Number of pager buttons to show
