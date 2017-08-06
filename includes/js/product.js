@@ -163,7 +163,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
                 $scope.grandParent[i].children = [];
-                debugger;
+
                 for (var j = 0; j < $scope.obj.length; j++) {
                     if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_product_cat_parent']) {
                         $scope.grandParent[i].children.push($scope.obj[j]);
@@ -211,7 +211,7 @@ app.controller('productctrl', function($scope, $http, $timeout) {
         });
     };
     $scope.setPage = function(pageNo) {
-        debugger;
+
         $scope.currentPage = pageNo;
     };
     $scope.show_modal = function() {

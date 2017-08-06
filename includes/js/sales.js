@@ -98,7 +98,7 @@ app.controller('salesctrl', function($scope, $http) {
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
                 $scope.grandParent[i].children = [];
-                debugger;
+
                 for (var j = 0; j < $scope.obj.length; j++) {
                     if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']) {
                         $scope.grandParent[i].children.push($scope.obj[j]);
@@ -115,7 +115,7 @@ app.controller('salesctrl', function($scope, $http) {
     };
     $scope.edit_modal = function(data) {
         console.log(data);
-        debugger;
+
         $scope.loading = true;
         $scope.edit_cat = data;
         for (var i = 0; i < $scope.customers.length; i++) {
@@ -148,7 +148,7 @@ app.controller('salesctrl', function($scope, $http) {
         data.action = "inventory_crud_function";
         data.type = "update_order";
         console.log(data);
-        debugger;
+
         $http({
             url: myAjax.ajaxurl,
             method: "POST",

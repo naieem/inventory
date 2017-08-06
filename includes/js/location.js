@@ -28,7 +28,7 @@ app.controller('locationctrl', function($scope, $http) {
     };
     $scope.edit_modal = function(data) {
         console.log(data);
-        debugger;
+
         $scope.edit_cat = data;
         jQuery("#editModal").modal("show");
     }

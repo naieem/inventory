@@ -297,7 +297,7 @@ app.controller('inventoryctrl', function($scope, $http) {
             params.action = "inventory_crud_function";
             params.type = "delete_inventory";
             // params.table = "inv_inventory";
-            debugger;
+
             params.id = id;
             $http({
                 url: myAjax.ajaxurl,

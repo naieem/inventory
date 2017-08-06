@@ -22,7 +22,7 @@ app.controller('purchasectrl', function($scope, $http) {
                 $scope.orders = [];
             } else {
                 $scope.orders = response.data;
-                debugger;
+
                 $scope.totalItems = $scope.orders.length;
             }
             $scope.loading = false;
@@ -99,7 +99,7 @@ app.controller('purchasectrl', function($scope, $http) {
             }
             for (var i = 0; i < $scope.grandParent.length; i++) {
                 $scope.grandParent[i].children = [];
-                debugger;
+
                 for (var j = 0; j < $scope.obj.length; j++) {
                     if ($scope.grandParent[i]['id'] == $scope.obj[j]['inv_location_parent']) {
                         $scope.grandParent[i].children.push($scope.obj[j]);
@@ -117,7 +117,7 @@ app.controller('purchasectrl', function($scope, $http) {
     };
     $scope.edit_modal = function(data) {
         console.log(data);
-        debugger;
+
         $scope.loading = true;
         $scope.edit_cat = data;
         for (var i = 0; i < $scope.customers.length; i++) {
@@ -158,7 +158,7 @@ app.controller('purchasectrl', function($scope, $http) {
         data.action = "inventory_crud_function";
         data.type = "update_order";
         console.log(data);
-        debugger;
+
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -259,7 +259,7 @@ app.controller('purchasectrl', function($scope, $http) {
         }
     }
     $scope.add = function(cat) {
-        debugger;
+
         $scope.showloader = true;
         console.log($scope.newReciepe.length);
         cat.action = "inventory_crud_function";
@@ -400,7 +400,7 @@ app.controller('purchasectrl', function($scope, $http) {
             method: "POST",
             params: params
         }).then(function(response) {
-            //debugger;
+            //
             //console.log(response.data);
             $scope.products = response.data;
         }, function(error) {

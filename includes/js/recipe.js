@@ -50,7 +50,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
         }
     }
     $scope.add = function(cat) {
-        debugger;
+
         $scope.showloader = true;
         var temparr = {};
         temparr.mapping = [];
@@ -120,7 +120,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
                 $scope.recipies = response.data;
                 $scope.totalItems = $scope.recipies.length;
             }
-            debugger;
+
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
@@ -251,7 +251,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
 
     }
     $scope.edit_modal = function(data, id) {
-        debugger;
+
         $scope.loading = true;
         $scope.editProducts = [];
         $scope.editReciepe = [];
@@ -308,7 +308,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
         jQuery("#newUserModal").modal("show");
     }
     $scope.edit = function(data) {
-        debugger;
+
         var temparr = {};
         $scope.showloader = true;
         temparr.mapping = [];
