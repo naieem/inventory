@@ -100,6 +100,9 @@ app.controller('inventoryctrl', function($scope, $http) {
             }
         }
     }
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
 
     $scope.edit_modal = function(data) {
         $scope.loading = true;

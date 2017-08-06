@@ -126,6 +126,10 @@ app.controller('locationctrl', function($scope, $http) {
         });
     };
 
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
+
     $scope.get_customer = function() {
         var params = {};
         params.action = "inventory_crud_function";

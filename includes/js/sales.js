@@ -3,6 +3,9 @@ app.controller('salesctrl', function($scope, $http) {
     $scope.showloader = false;
     $scope.newReciepe = [];
     $scope.editReciepe = [];
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
     $scope.get_order = function() {
         $scope.loading = true;
         var params = {};

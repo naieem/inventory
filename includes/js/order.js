@@ -80,6 +80,10 @@ app.controller('orderctrl', function($scope, $http) {
             console.log(error);
         });
     };
+
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
     $scope.edit_modal = function(data) {
         console.log(data);
         $scope.loading = true;

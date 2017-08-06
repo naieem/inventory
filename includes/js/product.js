@@ -210,6 +210,13 @@ app.controller('productctrl', function($scope, $http, $timeout) {
             console.log(error);
         });
     };
+    $scope.setPage = function(pageNo) {
+        debugger;
+        $scope.currentPage = pageNo;
+    };
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
     $scope.get_units = function() {
         var params = {};
         params.action = "inventory_crud_function";

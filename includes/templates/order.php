@@ -7,7 +7,7 @@
 <div class="container" ng-app="inventoryHome" ng-controller="orderctrl" ng-cloak>
 	<div class="row">
 		<div class="col-md-12">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Add New Order</button>
+			<button type="button" class="btn btn-info btn-lg" ng-click="show_modal()">Add New Order</button>
 			<!-- Add Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
 				<div class="modal-dialog">
@@ -197,7 +197,7 @@
 			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
 			</center>
 			</p>
-			<pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination>          
+			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
 				       
 				<table class="table">
 					<thead>
@@ -227,6 +227,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
 			</div>
 		</div>
 	</div>

@@ -63,8 +63,11 @@ app.controller('userctrl', function($scope, $http) {
         }, function(error) {
             console.log(error);
         });
-    };
+    }
 
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
     $scope.get_country = function() {
         var params = {};
         params.action = "inventory_crud_function";

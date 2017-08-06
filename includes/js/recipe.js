@@ -303,6 +303,10 @@ app.controller('recipectrl', function($scope, $http, $filter) {
         // $scope.edit_cat = data;
         // jQuery("#editModal").modal("show");
     }
+
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
     $scope.edit = function(data) {
         debugger;
         var temparr = {};

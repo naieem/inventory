@@ -66,6 +66,11 @@ app.controller('recipectctrl', function($scope, $http) {
             console.log(error);
         });
     };
+
+    $scope.show_modal = function() {
+        jQuery("#newUserModal").modal("show");
+    }
+
     $scope.delete = function(id) {
         var DeleteConfirmation = confirm("Do you wish to proceed?");
         if (DeleteConfirmation == true) {

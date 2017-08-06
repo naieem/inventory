@@ -56,8 +56,7 @@ function aim_load_js() {
 
   wp_enqueue_script( 'ui', 'https://code.jquery.com/ui/1.8.16/jquery-ui.js');
 
-
- wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
+ wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array('jquery'), 3.3, true);
 
  wp_enqueue_script( 'momentjs', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js');
 
@@ -68,7 +67,7 @@ function aim_load_js() {
  wp_enqueue_script( 'datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js');
 
  wp_enqueue_script( 'datetimecustom', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.templates.js');
-  wp_enqueue_script( 'pagination', 'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js');
+  wp_enqueue_script( 'pagination', 'https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.1.2.js');
 
     wp_enqueue_script( 'Select2js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js');
 
