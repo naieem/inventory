@@ -9,6 +9,7 @@ app.controller('homectrl', function($scope, $http) {
 
 });
 
+
 app.config([function() {
     jQuery(".select2").select2({
         allowClear: true
@@ -110,8 +111,8 @@ function clientAutoCompleteDir($filter, $timeout) {
                         angular.forEach(result, function(item) {
                             //console.log(item);
                             //scope.temp_data.push(item);
-                            var unitObj= $filter('filter')(unit, {id:item['inv_product_size_unit']});
-                            item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size']+unitObj[0].inv_inventory_units_name;
+                            var unitObj = $filter('filter')(unit, { id: item['inv_product_size_unit'] });
+                            item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size'] + unitObj[0].inv_inventory_units_name;
                         });
                     }
                     response(result);

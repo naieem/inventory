@@ -317,7 +317,7 @@
 			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
 			</center>
 			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+			<uib-pagination boundary-links="true" max-size="maxSize" total-items="filterData.length"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
 				<table class="table">
 					<thead>
 						<tr>
@@ -334,7 +334,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="product in products.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search">
+						<tr ng-repeat="product in filterData= (products | filter : search) | limitTo:viewby:viewby*(currentPage-1)">
 							<td>{{product.id}}</td>
 							<td>{{product.inv_product_name}}</td>
 							<td>{{product.inv_product_barcode}}</td>
@@ -352,7 +352,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+				<uib-pagination boundary-links="true" max-size="maxSize" total-items="filterData.length"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
 			</div>
 		</div>
 	</div>
