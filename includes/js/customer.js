@@ -1,4 +1,4 @@
-app.controller('userctrl', function($scope, $http) {
+app.controller('userctrl', function($scope, $http,$rootScope) {
     $scope.add_user = function(customer) {
         // console.log(customer);
         customer.action = "inventory_crud_function";

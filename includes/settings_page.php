@@ -171,7 +171,6 @@ function inventory_home_page() {
 				?>
 				<?php submit_button('Save Changes'); ?>
 			</form>
-		</form>
 	</div>
 </div>
 <?php

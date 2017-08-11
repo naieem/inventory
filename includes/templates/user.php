@@ -11,7 +11,6 @@
 	<div class="row">
 		<div class="col-md-12">
 			<button type="button" class="btn btn-info btn-lg" ng-click="show_modal()">Add New Customer</button>
-
 			<!-- Modal -->
 			<div class="modal fade" id="newUserModal" role="dialog">
 				<div class="modal-dialog">
@@ -185,14 +184,12 @@
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );
 ?>">
 			</p>
-			<div class="table-responsive">     
-			<p>
-			<center>
-			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
-			</center>
-			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+			<div class="table-responsive">  
+				<center>
+				Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
+				View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
+				</center>
+				<!-- <uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
 				     
 				<table class="table">
 					<thead>
@@ -232,8 +229,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination> -->          
 			</div>
+			<datatable templateurl="table.html"></datatable>
 		</div>
 	</div>
 </div>

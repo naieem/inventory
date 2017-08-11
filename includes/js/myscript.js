@@ -6,9 +6,35 @@ Array.prototype.remove = function(from, to) {
 
 var app = angular.module('inventoryHome', ['ui.bootstrap.datetimepicker', 'ui.bootstrap']);
 app.controller('homectrl', function($scope, $http) {
-
+    $scope.obj = {
+        name: "bal",
+        title: "Chal"
+    }
 });
 
+
+app.directive("datatable", function() {
+    return {
+        // require: "parent",
+        restrict: 'E',
+        // scope: {
+        //     info: '=',
+        //     country: '='
+        // },
+        link: function(scope, element, attrs) {
+            scope.getContentUrl = function() {
+                return '../wp-content/plugins/inventory/includes/templates/'+attrs.templateurl;
+           }
+        },
+        /* dynamic controller coding */
+        
+        //controller: "@",
+        //name: "controllerName",
+
+        /* dynamic templating coding */
+        template: '<div ng-include="getContentUrl()"></div>'
+    }
+})
 
 app.config([function() {
     jQuery(".select2").select2({
