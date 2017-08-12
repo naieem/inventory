@@ -153,54 +153,7 @@
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
 			<div class="table-responsive">   
-			<p>
-			<center>
-			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
-			</center>
-			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
-				       
-				<table class="table">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>Parent</th>
-							<th>Street</th>
-							<th>City</th>
-							<th>Province</th>
-							<th>Postal</th>
-							<th>Country</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="location in locations.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search ">
-							<td>{{location.id}}</td>
-							<td>{{location.inv_location_name}}</td>
-							<td>
-							<span ng-show="location.inv_location_parent=='0'">Self</span>
-							<parent ng-show="location.inv_location_parent!='0'" info="locations" cid="location.inv_location_parent" field="inv_location_name"></parent></td>
-							<td>{{location.inv_location_street_address}}</td>
-							<td>{{location.inv_location_city}}</td>
-							<td>{{location.inv_location_province}}</td>
-							<td>{{location.inv_location_postal_code}}</td>
-							<td>
-							<parent info="country" cid="location.inv_location_country" field="country_name"></parent></td>
-							<!-- <td>{{recipe.inv_recipe_name}}</td>
-							<td><parent info="categories" cid="recipe.inv_recipe_category_inv_recipe_category_id" field="inv_recipe_cat_name"></parent></td>
-							<td><parent info="products" cid="recipe.inv_product_id_inv_product" field="inv_product_name"></parent></td>					
-							<td><parent info="recipies" cid="recipe.inv_recipe_inv_recipe_id" field="inv_recipe_name"></parent></td>
-							<td>{{recipe.inv_recipe_instructions}}</td> -->
-							<td>
-								<button type="button" class="btn btn-default" ng-click="edit_modal(location)">Edit</button>
-								<button type="button" class="btn btn-default" ng-click="delete(location.id)">Delete</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+				<datatable templateurl="table.html"></datatable>
 			</div>
 		</div>
 	</div>

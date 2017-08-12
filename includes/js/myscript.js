@@ -23,11 +23,11 @@ app.directive("datatable", function() {
         // },
         link: function(scope, element, attrs) {
             scope.getContentUrl = function() {
-                return '../wp-content/plugins/inventory/includes/templates/'+attrs.templateurl;
-           }
+                return '../wp-content/plugins/inventory/includes/templates/' + attrs.templateurl;
+            }
         },
         /* dynamic controller coding */
-        
+
         //controller: "@",
         //name: "controllerName",
 
@@ -60,6 +60,7 @@ app.directive('parent', function() {
             setTimeout(function(argument) {
                 for (var i = 0; i < scope.arr.length; i++) {
                     if (scope.arr[i].id == scope.identifier) {
+
                         element.html(scope.arr[i][scope.field]);
                     }
                 }
@@ -161,4 +162,59 @@ function clientAutoCompleteDir($filter, $timeout) {
         }
 
     };
+}
+
+app.service('dataTableService', dataTableService);
+
+dataTableService.$inject = ['$q'];
+
+function dataTableService($q) {
+    this.setTableData = setTableData;
+
+    ////////////////
+
+    function setTableData(data, parents, includes, Headings) {
+
+        var deferred = $q.defer();
+        let keys = [];
+        _.forEach(includes, function(value, key, collection) {
+
+            var obj = {};
+            // if (_.indexOf(includes, key) > -1) {
+            obj.name = value;
+            if (parents.length > 0) {
+                var p = checkParentInfo(value);
+            } else {
+                var p = false;
+            }
+
+            if (p) {
+                obj.arrayinfo = p.arrayinfo;
+                obj.parent = true;
+                obj.cid = p.name;
+                obj.field = p.fields;
+            } else {
+                obj.parent = false;
+            }
+            keys.push(obj);
+
+            // }
+        });
+        setTableInfo();
+
+        function checkParentInfo(key) {
+            var ob = _.find(parents, { name: key });
+
+            return ob;
+        }
+
+        function setTableInfo() {
+            deferred.resolve({
+                Heading: Headings,
+                MainData: data,
+                keys: keys
+            });
+        }
+        return deferred.promise;
+    }
 }

@@ -1,4 +1,4 @@
-app.controller('supplierctrl', function($scope, $http) {
+app.controller('supplierctrl', function($scope, $http, dataTableService) {
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -37,6 +37,7 @@ app.controller('supplierctrl', function($scope, $http) {
             } else {
                 $scope.suppliers = response.data;
                 $scope.totalItems = $scope.suppliers.length;
+                setDataTableData();
             }
             $scope.loading = false;
             // if(response.data){
@@ -104,17 +105,36 @@ app.controller('supplierctrl', function($scope, $http) {
         });
     };
     $scope.get_supplier();
-    /*----------  Pagination config area  ----------*/
 
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 15; //Number of pager buttons to show
-    $scope.viewby = 10;
-    $scope.pageChanged = function() {
-        console.log('Page changed to: ' + $scope.currentPage);
-    };
-    $scope.setItemsPerPage = function(num) {
-        $scope.itemsPerPage = num;
-        $scope.currentPage = 1; //reset to first page
+    /**
+     * Datatable and Pagination Configuration 
+     */
+
+    function setDataTableData() {
+        var Headings = ['#', 'Name'];
+        var keys;
+        var includes = ['id', 'inv_supplier_name']
+
+        let parents = [];
+
+        dataTableService.setTableData($scope.suppliers, parents, includes, Headings).then(function(response) {
+
+            console.log(response);
+            $scope.tabeInfo = response;
+        });
+
+        /*----------  Pagination config area  ----------*/
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.maxSize = 15; //Number of pager buttons to show
+        $scope.viewby = 10;
+        $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+        $scope.setItemsPerPage = function(num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
 });

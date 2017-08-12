@@ -208,13 +208,10 @@
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
 			<div class="table-responsive">          
-				<p>
 			<center>
-			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
+				Filter:<input type="text" name="" value="" ng-model="search" placeholder="search"> View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
 			</center>
-			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+			<uib-pagination boundary-links="true" max-size="maxSize" total-items="filterData.length" ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>
 				<table class="table">
 					<thead>
 						<tr>
@@ -229,7 +226,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="order in orders.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search">
+						<tr ng-repeat="order in filterData= (orders | filter : search) | limitTo:viewby:viewby*(currentPage-1)">
 							<td>{{order.inv_order_orderid}}</td>
 							<td>{{order.inv_order_datetime | datetime }}</td>
 							<!-- <td>{{order.inv_order_total}}</td> -->
@@ -255,7 +252,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+				<uib-pagination boundary-links="true" max-size="maxSize" total-items="filterData.length" ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>
 			</div>
 		</div>
 	</div>

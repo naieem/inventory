@@ -69,32 +69,7 @@
 				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 			</p>
 			<div class="table-responsive">          
-				<p>
-			<center>
-			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
-			</center>
-			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
-				<table class="table">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="supplier in suppliers.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search | orderBy:'inv_supplier_name'">
-							<td>{{supplier.id}}</td>
-							<td>{{supplier.inv_supplier_name}}</td>
-							<td>
-								<button type="button" class="btn btn-default" ng-click="edit_modal(supplier)">Edit</button>
-								<button type="button" class="btn btn-default" ng-click="delete(supplier.id)">Delete</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+			<datatable templateurl="table.html"></datatable>
 			</div>
 		</div>
 	</div>

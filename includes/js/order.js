@@ -389,12 +389,13 @@ app.controller('orderctrl', function($scope, $http) {
     $scope.get_currency();
     $scope.get_order();
     $scope.get_location();
+
     /*----------  Pagination config area  ----------*/
+
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;
     $scope.maxSize = 15; //Number of pager buttons to show
     $scope.viewby = 10;
-
     $scope.pageChanged = function() {
         console.log('Page changed to: ' + $scope.currentPage);
     };

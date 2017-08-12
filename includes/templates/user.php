@@ -185,53 +185,9 @@
 ?>">
 			</p>
 			<div class="table-responsive">  
-				<center>
-				Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-				View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
-				</center>
-				<!-- <uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
-				     
-				<table class="table">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Phone Number</th>
-							<th>Company</th>
-							<th>Street</th>
-							<th>City</th>
-							<th>Province</th>
-							<th>Postal</th>
-							<th>Currency</th>
-							<th>Country</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="user in users.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search  | orderBy:'inv_customer_name'">
-							<td>{{$index}}</td>
-							<td>{{user.inv_customer_name}}</td>
-							<td>{{user.inv_customer_email}}</td>
-							<td>{{user.inv_customer_phone_number}}</td>
-							<td>{{user.inv_customer_company}}</td>
-							<td>{{user.inv_customer_street_address}}</td>
-							<td>{{user.inv_customer_city}}</td>
-							<td>{{user.inv_customer_province}}</td>
-							<td>{{user.inv_customer_postal_code}}</td>
-							<td>{{user.inv_currency_code}}</td>
-							<td><parent info="country" cid="user.inv_customer_country" field="country_name"></parent></td>
-							<td>
-								<button type="button" class="btn btn-default" ng-click="edit_modal(user)">Edit</button>
-								<button type="button" class="btn btn-default" ng-click="delete(user.id)">Delete</button>
-								
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination> -->          
-			</div>
-			<datatable templateurl="table.html"></datatable>
+				<datatable templateurl="table.html"></datatable>
+				</div>
+			
 		</div>
 	</div>
 </div>

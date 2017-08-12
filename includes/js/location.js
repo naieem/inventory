@@ -1,4 +1,4 @@
-app.controller('locationctrl', function($scope, $http) {
+app.controller('locationctrl', function($scope, $http, dataTableService) {
 
     $scope.get_location = function() {
         $scope.loading = true;
@@ -17,6 +17,7 @@ app.controller('locationctrl', function($scope, $http) {
             } else {
                 $scope.locations = response.data;
                 $scope.totalItems = $scope.locations.length;
+                setDataTableData();
             }
             $scope.loading = false;
             // if(response.data){
@@ -151,17 +152,45 @@ app.controller('locationctrl', function($scope, $http) {
     $scope.get_customer();
     $scope.get_country();
     $scope.get_location();
-    /*----------  Pagination config area  ----------*/
 
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 15; //Number of pager buttons to show
-    $scope.viewby = 10;
-    $scope.pageChanged = function() {
-        console.log('Page changed to: ' + $scope.currentPage);
-    };
-    $scope.setItemsPerPage = function(num) {
-        $scope.itemsPerPage = num;
-        $scope.currentPage = 1; //reset to first page
+    /**
+     * Datatable and Pagination Configuration 
+     */
+
+    function setDataTableData() {
+        var Headings = ['#', 'Name', 'Parent', 'Street', 'City', 'Province', 'Postal', 'Country'];
+        var keys;
+        var includes = ['id', 'inv_location_name', 'inv_location_parent', 'inv_location_street_address', 'inv_location_city', 'inv_location_province', 'inv_location_postal_code', 'inv_location_country'];
+
+        let parents = [];
+        parents.push({
+            name: "inv_location_parent",
+            fields: "inv_location_name",
+            arrayinfo: $scope.locations
+        }, {
+            name: "inv_location_country",
+            fields: "country_name",
+            arrayinfo: $scope.country
+        });
+
+        dataTableService.setTableData($scope.locations, parents, includes, Headings).then(function(response) {
+
+            console.log(response);
+            $scope.tabeInfo = response;
+        });
+
+        /*----------  Pagination config area  ----------*/
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.maxSize = 15; //Number of pager buttons to show
+        $scope.viewby = 10;
+        $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+        $scope.setItemsPerPage = function(num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
 });

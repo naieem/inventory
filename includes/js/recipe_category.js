@@ -1,4 +1,4 @@
-app.controller('recipectctrl', function($scope, $http) {
+app.controller('recipectctrl', function($scope, $http, dataTableService) {
     $scope.add = function(cat) {
         // console.log(cat);
         cat.action = "inventory_crud_function";
@@ -57,6 +57,7 @@ app.controller('recipectctrl', function($scope, $http) {
             } else {
                 $scope.categories = response.data;
                 $scope.totalItems = $scope.categories.length;
+                setDataTableData();
             }
             $scope.loading = false;
             // if(response.data){
@@ -132,17 +133,40 @@ app.controller('recipectctrl', function($scope, $http) {
         });
     };
     $scope.get_category();
-    /*----------  Pagination config area  ----------*/
+    /**
+     * Datatable and Pagination Configuration 
+     */
 
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 15; //Number of pager buttons to show
-    $scope.viewby = 10;
-    $scope.pageChanged = function() {
-        console.log('Page changed to: ' + $scope.currentPage);
-    };
-    $scope.setItemsPerPage = function(num) {
-        $scope.itemsPerPage = num;
-        $scope.currentPage = 1; //reset to first page
+    function setDataTableData() {
+        var Headings = ['#', 'Name', 'Description', 'Parent'];
+        var keys;
+        var includes = ['id', 'inv_recipe_cat_name', 'inv_recipe_cat_desc', 'inv_recipe_cat_parent'];
+
+        let parents = [];
+        parents.push({
+            name: "inv_recipe_cat_parent",
+            fields: "inv_recipe_cat_name",
+            arrayinfo: $scope.categories
+        });
+
+        dataTableService.setTableData($scope.categories, parents, includes, Headings).then(function(response) {
+
+            console.log(response);
+            $scope.tabeInfo = response;
+        });
+
+        /*----------  Pagination config area  ----------*/
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.maxSize = 15; //Number of pager buttons to show
+        $scope.viewby = 10;
+        $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+        $scope.setItemsPerPage = function(num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
 });

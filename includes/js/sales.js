@@ -420,6 +420,7 @@ app.controller('salesctrl', function($scope, $http) {
     $scope.get_currency();
     $scope.get_order();
     $scope.get_location();
+
     /*----------  Pagination config area  ----------*/
 
     $scope.currentPage = 1;

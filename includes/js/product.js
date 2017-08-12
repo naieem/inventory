@@ -1,4 +1,5 @@
-app.controller('productctrl', function($scope, $http, $timeout) {
+app.controller('productctrl', function($scope, $http, $timeout, dataTableService) {
+    var parents;
 
     $scope.add = function(cat) {
         // console.log(cat);
@@ -38,11 +39,9 @@ app.controller('productctrl', function($scope, $http, $timeout) {
             } else {
                 $scope.products = response.data;
                 $scope.totalItems = $scope.products.length;
+                setDataTableData();
             }
             $scope.loading = false;
-            // if(response.data){
-            //    console.log('new user adding successful');
-            // }
         }, function(error) {
             console.log(error);
         });
@@ -170,20 +169,6 @@ app.controller('productctrl', function($scope, $http, $timeout) {
                     }
                 }
             }
-
-
-            // $scope.grandParent = [];
-            // for (var i = 0; i < $scope.parent.length; i++) {
-            //     $scope.temparr = [];
-            //     $scope.temparr.children = [];
-            //     for (var j = 0; j < $scope.children.length; j++) {
-            //         if ($scope.parent[i]['id'] == $scope.children[j]['inv_product_cat_parent']) {
-            //             $scope.temparr.children.push($scope.children[j]);
-            //         }
-            //     }
-            //     $scope.temparr.push($scope.parent[i]);
-            //     $scope.grandParent.push($scope.temparr);
-            // }
             console.log("parent", $scope.parent);
             console.log("children", $scope.children);
             console.log('grandParent', $scope.grandParent);
@@ -277,17 +262,45 @@ app.controller('productctrl', function($scope, $http, $timeout) {
     $scope.get_currency();
     $scope.get_product();
 
-    /*----------  Pagination config area  ----------*/
 
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 15; //Number of pager buttons to show
-    $scope.viewby = 10;
-    $scope.pageChanged = function() {
-        console.log('Page changed to: ' + $scope.currentPage);
-    };
-    $scope.setItemsPerPage = function(num) {
-        $scope.itemsPerPage = num;
-        $scope.currentPage = 1; //reset to first page
+    /**
+     * Datatable and Pagination Configuration 
+     */
+
+    function setDataTableData() {
+        var Headings = ['#', 'Name', 'Barcode', 'Size', 'Full weight', 'Empty weight', 'Cost', 'Category', 'Supplier'];
+        var keys;
+        var includes = ['id', 'inv_product_name', 'inv_product_barcode', 'inv_product_size', 'inv_product_full_weight', 'inv_product_empty_weight', 'inv_product_cost', 'inv_product_category_id', 'inv_product_supplier_id'];
+
+        let parents = [];
+        parents.push({
+            name: "inv_product_category_id",
+            fields: "inv_product_cat_name",
+            arrayinfo: $scope.categories
+        });
+        parents.push({
+            name: "inv_product_supplier_id",
+            fields: "inv_supplier_name",
+            arrayinfo: $scope.suppliers
+        });
+
+        dataTableService.setTableData($scope.products, parents, includes, Headings).then(function(response) {
+
+            $scope.tabeInfo = response;
+        });
+
+        /*----------  Pagination config area  ----------*/
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.maxSize = 15; //Number of pager buttons to show
+        $scope.viewby = 10;
+        $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+        $scope.setItemsPerPage = function(num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
 });

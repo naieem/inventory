@@ -1,4 +1,4 @@
-app.controller('recipectrl', function($scope, $http, $filter) {
+app.controller('recipectrl', function($scope, $http, $filter, dataTableService) {
     $scope.newProducts = [];
     $scope.newReciepe = [];
     $scope.showloader = false;
@@ -119,6 +119,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
             } else {
                 $scope.recipies = response.data;
                 $scope.totalItems = $scope.recipies.length;
+                setDataTableData();
             }
 
             $scope.loading = false;
@@ -250,7 +251,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
         }
 
     }
-    $scope.edit_modal = function(data, id) {
+    $scope.edit_modal = function(data) {
 
         $scope.loading = true;
         $scope.editProducts = [];
@@ -259,7 +260,7 @@ app.controller('recipectrl', function($scope, $http, $filter) {
         params.action = "inventory_crud_function";
         params.type = "get_recipe_mapping";
         // params.table = "inv_product";
-        params.id = id;
+        params.id = data.id;
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -451,16 +452,40 @@ app.controller('recipectrl', function($scope, $http, $filter) {
     }
 
 
-    /*----------  Pagination config area  ----------*/
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 15; //Number of pager buttons to show
-    $scope.viewby = 10;
-    $scope.pageChanged = function() {
-        console.log('Page changed to: ' + $scope.currentPage);
-    };
-    $scope.setItemsPerPage = function(num) {
-        $scope.itemsPerPage = num;
-        $scope.currentPage = 1; //reset to first page
+    /**
+     * Datatable and Pagination Configuration 
+     */
+
+    function setDataTableData() {
+        var Headings = ['#', 'Name', 'Category', 'Instruction', 'Selling price'];
+        var keys;
+        var includes = ['id', 'inv_recipe_name', 'inv_recipe_category_inv_recipe_category_id', 'inv_recipe_instructions', 'inv_recipe_selling_price'];
+
+        let parents = [];
+        parents.push({
+            name: "inv_recipe_category_inv_recipe_category_id",
+            fields: "inv_recipe_cat_name",
+            arrayinfo: $scope.categories
+        });
+
+        dataTableService.setTableData($scope.recipies, parents, includes, Headings).then(function(response) {
+
+            console.log(response);
+            $scope.tabeInfo = response;
+        });
+
+        /*----------  Pagination config area  ----------*/
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.maxSize = 15; //Number of pager buttons to show
+        $scope.viewby = 10;
+        $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+        $scope.setItemsPerPage = function(num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
 });

@@ -268,41 +268,6 @@
 					<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
 				</p>
 				<div class="table-responsive">
-					<p>
-			<center>
-			Filter:<input type="text" name="" value="" ng-model="search" placeholder="search">
-			View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>50</option><option>100</option><option>300</option></select> records at a time.
-			</center>
-			</p>
-			<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
-				<table class="table">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Name</th>
-								<th>Category</th>
-								<th>Instruction</th>
-								<th>Selling price</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="recipe in recipies.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter :search">
-								<td>{{recipe.id}}</td>
-								<td>{{recipe.inv_recipe_name}}</td>
-								<td>
-									<parent info="categories" cid="recipe.inv_recipe_category_inv_recipe_category_id" field="inv_recipe_cat_name"></parent>
-								</td>
-								<td>{{recipe.inv_recipe_instructions}}</td>
-								<td>{{recipe.inv_recipe_selling_price}}</td>
-								<td>
-									<button type="button" class="btn btn-default" ng-click="edit_modal(recipe,recipe.id)">Edit</button>
-									<button type="button" class="btn btn-default" ng-click="delete(recipe.id)">Delete</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<uib-pagination boundary-links="true" total-items="totalItems" max-size="maxSize"  ng-model="currentPage" class="pagination-sm" previous-text=" Previous" next-text="Next" first-text="First" last-text="Last"></uib-pagination>          
+					<datatable templateurl="table.html"></datatable>
 				</div>
-	</div>
 </div>
