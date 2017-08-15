@@ -12,30 +12,6 @@ app.controller('homectrl', function($scope, $http) {
     }
 });
 
-
-app.directive("datatable", function() {
-    return {
-        // require: "parent",
-        restrict: 'E',
-        // scope: {
-        //     info: '=',
-        //     country: '='
-        // },
-        link: function(scope, element, attrs) {
-            scope.getContentUrl = function() {
-                return '../wp-content/plugins/inventory/includes/templates/' + attrs.templateurl;
-            }
-        },
-        /* dynamic controller coding */
-
-        //controller: "@",
-        //name: "controllerName",
-
-        /* dynamic templating coding */
-        template: '<div ng-include="getContentUrl()"></div>'
-    }
-})
-
 app.config([function() {
     jQuery(".select2").select2({
         allowClear: true
@@ -164,6 +140,37 @@ function clientAutoCompleteDir($filter, $timeout) {
     };
 }
 
+
+/**
+ * Datatable directive declaration function 
+ */
+app.directive("datatable", function() {
+    return {
+        // require: "parent",
+        restrict: 'E',
+        // scope: {
+        //     info: '=',
+        //     country: '='
+        // },
+        link: function(scope, element, attrs) {
+            scope.getContentUrl = function() {
+                return '../wp-content/plugins/inventory/includes/templates/' + attrs.templateurl;
+            }
+        },
+        /* dynamic controller coding */
+
+        //controller: "@",
+        //name: "controllerName",
+
+        /* dynamic templating coding */
+        template: '<div ng-include="getContentUrl()"></div>'
+    }
+});
+
+
+/**
+ * DataTable service for using in controller
+ */
 app.service('dataTableService', dataTableService);
 
 dataTableService.$inject = ['$q'];
@@ -171,10 +178,14 @@ dataTableService.$inject = ['$q'];
 function dataTableService($q) {
     this.setTableData = setTableData;
 
-    ////////////////
-
+    /**
+     * Settings datatable values and other variables
+     * @param {*} data [main array value of information to render]
+     * @param {*} parents [array value who has parent directive to use]
+     * @param {*} includes [fields which are needed to include from information array]
+     * @param {*} Headings [Headings text which needs to show in header title]
+     */
     function setTableData(data, parents, includes, Headings) {
-
         var deferred = $q.defer();
         let keys = [];
         _.forEach(includes, function(value, key, collection) {
@@ -204,7 +215,6 @@ function dataTableService($q) {
 
         function checkParentInfo(key) {
             var ob = _.find(parents, { name: key });
-
             return ob;
         }
 
