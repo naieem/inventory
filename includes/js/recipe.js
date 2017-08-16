@@ -60,6 +60,7 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
         temparr.action = "inventory_crud_function";
         temparr.type = "add_new_recipe";
         console.log(temparr);
+        debugger;
         $http({
             url: myAjax.ajaxurl,
             method: "POST",
@@ -488,4 +489,32 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
             $scope.currentPage = 1; //reset to first page
         }
     }
+
+
+    $scope.onSelectTypehead = function($item, $model, $label, $event, index, type) {
+        if (type == 'new') {
+            $scope.newProducts[index].ID = $item.id;
+        } else {
+            $scope.editProducts[index].inv_product_id_inv_product = $item.id;
+        }
+
+        debugger;
+    };
+
+    $scope.getProduct = function(val) {
+        var res = _.filter($scope.products, function(i) {
+            var match = i.inv_product_name.match(val);
+            return match;
+        });
+
+        return res.map(function(item) {
+
+            var unitObj = _.filter($scope.units, { id: item.inv_product_size_unit });
+            var productObj = {
+                title: item.inv_product_name + ' ' + item.inv_product_size + unitObj[0].inv_inventory_units_name,
+                id: item.id
+            };
+            return productObj;
+        });
+    };
 });

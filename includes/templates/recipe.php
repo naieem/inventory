@@ -53,9 +53,11 @@
 											<!-- <select name="" ng-model="product.ID" class="form-control">
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select> -->
-
-											<input client-auto-complete class="form-control" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
-
+											<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
+											<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+											<div ng-show="noResults">
+											<i class="glyphicon glyphicon-remove"></i> No Results Found
+											</div>
 											<input class="form-control" ng-model="product.ID" placeholder="Enter text" type="hidden">
 
 											<div class="form-group">
@@ -180,8 +182,11 @@
 												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 											</select> -->
 
-											<input client-auto-complete class="form-control" ui-index="{{$index}}" type="old" ng-model="product.name" type="text">
-
+											<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'old')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" ng-model="product.name" placeholder="Enter text" type="text">
+											<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+											<div ng-show="noResults">
+											<i class="glyphicon glyphicon-remove"></i> No Results Found
+											</div>
 											<input class="form-control" ng-model="product.inv_product_id_inv_product" type="hidden">
 
 
