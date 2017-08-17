@@ -3,6 +3,7 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
     $scope.newReciepe = [];
     $scope.showloader = false;
     $scope.product = {};
+    $scope.cat = {};
 
     $scope.add_element = function(val) {
         var obj = {
@@ -71,7 +72,7 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
                 console.log('successful');
                 $scope.showloader = false;
                 jQuery("#newUserModal").modal('hide');
-                $scope.cat = [];
+                $scope.cat = {};
                 $scope.get_recipe();
                 $scope.newProducts = [];
                 $scope.newReciepe = [];
@@ -490,6 +491,9 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
         }
     }
 
+    /**
+     * Autocomplete configuration
+     */
 
     $scope.onSelectTypehead = function($item, $model, $label, $event, index, type) {
         if (type == 'new') {
