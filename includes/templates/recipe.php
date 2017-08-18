@@ -21,7 +21,7 @@
 							<h4 class="modal-title">Add new recipe</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" id="new_frm" validate>
 								<div class="form-group">
 									<label for="name">Name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.name" required>
@@ -133,7 +133,7 @@
 									<textarea name="" ng-model="cat.instructions" class="form-control"></textarea>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
+								<button type="button" submit-button="true" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
 									<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
 								</button>
 							</form>
@@ -156,7 +156,7 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" id="edit_frm" validate>
 								<div class="form-group">
 									<label for="name">Name</label>
 									<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_recipe_name" required>
@@ -250,7 +250,7 @@
 										<input type="text" class="form-control" name="name" ng-model="edit_cat.inv_recipe_selling_price" required>
 									</div>
 
-									<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
+									<button type="button" submit-button="true" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
 										<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>">
 									</button>
 

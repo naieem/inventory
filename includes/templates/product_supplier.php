@@ -19,13 +19,12 @@
 							<h4 class="modal-title">Add new Supplier</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" id="new_supplier" validate>
 								<div class="form-group">
 									<label for="name">Supplier name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.name" required>
-									<span ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" class="btn btn-default" submit-button="true" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -47,12 +46,12 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" id="edit_supplier" validate>
 								<div class="form-group">
 									<label for="name">Category name</label>
-									<input type="text" class="form-control" name="name" ng-model="cat.inv_supplier_name">
+									<input type="text" class="form-control" name="name" ng-model="cat.inv_supplier_name" required>
 								</div>
-								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="edit(cat)">Submit</button>
+								<button type="button" submit-button="true" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="edit(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

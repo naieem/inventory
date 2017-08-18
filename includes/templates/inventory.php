@@ -20,12 +20,13 @@
 						<div class="modal-body">
 							<h2>Date:{{cat.inv_inventory_date | datetime}}</h2>
 							<h2>Location:{{show_location}}</h2>
-							<form name="new_user">
+							<form name="new_user" id="new_frm" validate>
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
 										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
-											<div class="input-group"><input type="text" class="form-control" ng-model="cat.inv_inventory_date"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+											<div class="input-group">
+												<input type="text" class="form-control" ng-model="cat.inv_inventory_date"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>
 										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -81,7 +82,7 @@
 										</div>
 									</div>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit</button>
+								<button type="button" submit-button="true"  class="btn btn-default" ng-click="add(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -104,7 +105,7 @@
 						<div class="modal-body">
 							<h2>Date:{{edit_cat.inv_inventory_date | datetime}}</h2>
 							<h2>Location:{{show_location}}</h2>
-							<form name="new_user">
+							<form name="new_user" id="edit_frm" validate>
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
@@ -175,7 +176,7 @@
 									</div>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit</button>
+								<button type="button" class="btn btn-default" submit-button="true"  ng-click="edit(edit_cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

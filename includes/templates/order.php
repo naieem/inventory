@@ -20,12 +20,13 @@
 						<div class="modal-body">
 							<h2>Date:{{cat.datetime | datetime}}</h2>
 							<h2>Customer:{{show_location}}</h2>
-							<form name="new_user">
+							<form name="new_user" id="new_frm" validate>
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
 										<a class="dropdown" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
-											<div class="input-group"><input type="text" class="form-control" ng-model="cat.datetime"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+											<div class="input-group">
+												<input type="text" class="form-control" ng-model="cat.datetime"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
 										</a>
 										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -67,7 +68,7 @@
 
 											<div class="form-group">
 												<label for="name">Quantity</label>
-												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.qty" numbers-only>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.qty" numbers-only required>
 											</div>
 											<div class="form-group">
 												<label for="name">Currency</label>
@@ -80,7 +81,7 @@
 									</div>
 								</div>
 
-								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
+								<button type="button" submit-button="true"  class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
 								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>"></button>
 							</form>
 						</div>
@@ -104,7 +105,7 @@
 						<div class="modal-body">
 							<h2>Date:{{edit_cat.inv_order_datetime | datetime}}</h2>
 							<h2>Customer:{{show_location}}</h2>
-							<form name="new_user">
+							<form name="new_user" id="edit" validate>
 								<div class="form-group">
 									<label for="name">Date</label>
 									<div class="dropdown">
@@ -142,7 +143,7 @@
 
 											<div class="form-group">
 												<label for="name">Quantity</label>
-												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_line_qty" numbers-only>
+												<input type="text" name="amount" class="form-control" name="name" ng-model="recipe.inv_order_line_qty" numbers-only required>
 											</div>
 											<div class="form-group">
 												<label for="name">Currency</label>
@@ -173,7 +174,7 @@
 									</select>
 								</div> -->
 
-								<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
+								<button type="button" submit-button="true" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
 								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>"></button>
 							</form>
 						</div>

@@ -20,7 +20,7 @@
 							<h4 class="modal-title">Add new Category</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" validate id="new_cat">
 								<div class="form-group">
 									<label for="name">Category name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.name" required>
@@ -39,7 +39,7 @@
 										</option>
 									</select>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="add_cat(cat)">Submit</button>
+								<button type="button" class="btn btn-default" submit-button="true" ng-click="add_cat(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -61,11 +61,10 @@
 							<h4 class="modal-title">Edit</h4>
 						</div>
 						<div class="modal-body">
-							<form name="new_user">
+							<form name="new_user" id="edit_cat" validate>
 								<div class="form-group">
 									<label for="name">Category name</label>
 									<input type="text" class="form-control" name="name" ng-model="cat.inv_product_cat_name" required>
-									<span ng-show="new_user.name.$touched && new_user.name.$invalid">This field is required.</span>
 								</div>
 
 								<div class="form-group">
@@ -80,7 +79,7 @@
 										</option>
 									</select>
 								</div>
-								<button type="button" class="btn btn-default" ng-disabled="new_user.$invalid" ng-click="edit_cat(cat)">Submit</button>
+								<button type="button" class="btn btn-default" submit-button="true" ng-click="edit_cat(cat)">Submit</button>
 							</form>
 						</div>
 						<div class="modal-footer">

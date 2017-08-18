@@ -33,15 +33,190 @@ app.directive('parent', function() {
             field: '@field'
         },
         link: function(scope, element, attr) {
-            setTimeout(function(argument) {
-                for (var i = 0; i < scope.arr.length; i++) {
-                    if (scope.arr[i].id == scope.identifier) {
+            if (scope.arr && scope.arr.length) {
+                setTimeout(function(argument) {
+                    for (var i = 0; i < scope.arr.length; i++) {
+                        if (scope.arr[i].id == scope.identifier) {
 
-                        element.html(scope.arr[i][scope.field]);
+                            element.html(scope.arr[i][scope.field]);
+                        }
+                    }
+
+                }, 1000);
+            }
+        }
+    };
+});
+
+/*
+ *
+ * Custom directive for showing parent category
+ */
+app.directive('validate', function() {
+    return {
+        restrict: 'AEC',
+        link: function(scope, element, attr) {
+            init();
+
+            function init() {
+                onInit();
+                onEventFormvalidation('keyup');
+                onEventFormvalidation('mouseover');
+                disbleSubmitButton(element[0].id, true);
+            }
+
+            /**
+             * Initialization and adding *
+             */
+            function onInit() {
+                angular.forEach(element[0].children, function(element, key) {
+                    if (element.children && element.children.length && element.children[1] && element.children[1].required) {
+                        var oldHtml = element.children[0].innerHTML;
+                        element.children[0].innerHTML = modifyHtml(oldHtml);
+                    }
+                });
+                // var elem = document.getElementById(element[0].id);
+                // var event = new Event('keyup'); // (*)
+                // elem.dispatchEvent(event);
+            }
+
+            /**
+             * function get called when an input field gets focused
+             */
+            function onEventFormvalidation(event) {
+                element[0].addEventListener(event, function(elements) {
+                    var store = [];
+                    //var focusedElement = document.activeElement;
+                    angular.forEach(elements.currentTarget, function(element, key) {
+                        var lastChildOfParentNode = element.parentNode.lastElementChild;
+                        var toAfterElment = element.nextSibling;
+                        var parentElement = element.parentNode;
+                        //var isFocusedElement = (focusedElement == element);
+                        if (element.required) {
+                            switch (element.type) {
+                                case "text":
+                                    textCheckValidator();
+                                    break;
+
+                                case "email":
+                                    emailCheckValidator();
+                                    break;
+                                case "number":
+                                    numberCheckValidator();
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        } else {
+
+                        }
+
+                        /**
+                         * Checking for input field type text
+                         */
+                        function textCheckValidator() {
+
+                            var messageBody = '';
+                            if (element.hasAttribute("required-message")) {
+                                messageBody = element.getAttribute("required-message");
+                            } else {
+                                messageBody = 'This field is required';
+                            }
+                            renderErrorInformation(element.validity.valid, messageBody);
+                        }
+
+                        /**
+                         * Checking for input field type number
+                         */
+                        function numberCheckValidator() {
+                            var messageBody = '';
+                            if (element.hasAttribute("required-message")) {
+                                messageBody = element.getAttribute("required-message");
+                            } else {
+                                messageBody = 'This field is required';
+                            }
+                            renderErrorInformation(element.validity.valid, messageBody);
+                        }
+
+                        /**
+                         * Checking for input field type email
+                         */
+                        function emailCheckValidator() {
+
+                            var messageBody = '';
+                            var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+                            if (element.hasAttribute("required-message")) {
+                                messageBody = element.getAttribute("required-message");
+                            } else {
+                                messageBody = 'Email is not valid';
+                            }
+                            var decision = EMAIL_REGEXP.test(element.value) ? true : false;
+
+                            renderErrorInformation(decision, messageBody);
+                        }
+
+                        /**
+                         * Rendering error message info form
+                         * @param {*} isValid 
+                         * @param {*} message 
+                         */
+                        function renderErrorInformation(isValid, message) {
+                            if (!isValid) {
+                                if (lastChildOfParentNode.tagName !== 'SPAN' && lastChildOfParentNode.className !== 'has-error') {
+                                    var newElement = document.createElement("span");
+                                    newElement.setAttribute("class", "has-error");
+                                    newElement.innerHTML = message;
+                                    parentElement.insertBefore(newElement, toAfterElment);
+                                }
+                            } else {
+                                if (lastChildOfParentNode.tagName == 'SPAN' && lastChildOfParentNode.className == 'has-error') {
+                                    parentElement.removeChild(toAfterElment);
+                                }
+                            }
+                            store.push(isValid);
+                        }
+
+                    });
+
+                    /** now searching for store array and find if any false value
+                     *  if there is false value then disablesubmitbutton and go agian
+                     */
+                    var dcsn = _.filter(store, function(o) { return !o });
+                    if (dcsn && dcsn.length > 0) {
+                        disbleSubmitButton(elements.currentTarget.id, true);
+                    } else {
+                        disbleSubmitButton(elements.currentTarget.id, false);
+                    }
+                }, true);
+            }
+
+            /**
+             * Disabling submit button on various input field validation
+             * @param {*} action 
+             */
+            function disbleSubmitButton(formId, action) {
+                var btn = document.querySelectorAll("#" + formId + " button");
+                var elementIndex = btn.length - 1;
+
+                if (btn[elementIndex].hasAttribute('submit-button')) {
+                    if (action) {
+                        btn[elementIndex].setAttribute('disabled', true);
+                    } else {
+                        btn[elementIndex].removeAttribute('disabled');
                     }
                 }
+            }
 
-            }, 1000);
+            /**
+             * Function used to manupulate * for required fields
+             * @param {*} oldHtml 
+             */
+            function modifyHtml(oldHtml) {
+                var string = "<span style=\"color:red\"> *</span>";
+
+                return oldHtml + string;
+            }
         }
     };
 });
@@ -94,51 +269,51 @@ app.directive('numbersOnly', function() {
     };
 });
 
-app.directive('clientAutoComplete', ['$filter', '$timeout', clientAutoCompleteDir]);
+// app.directive('clientAutoComplete', ['$filter', '$timeout', clientAutoCompleteDir]);
 
-function clientAutoCompleteDir($filter, $timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, elem, attrs) {
-            elem.autocomplete({
-                source: function(request, response) {
+// function clientAutoCompleteDir($filter, $timeout) {
+//     return {
+//         restrict: 'A',
+//         link: function(scope, elem, attrs) {
+//             elem.autocomplete({
+//                 source: function(request, response) {
 
-                    //term has the data typed by the user
-                    var params = request.term;
+//                     //term has the data typed by the user
+//                     var params = request.term;
 
-                    //simulates api call with odata $filter
-                    var data = scope.products;
-                    var unit = scope.units;
-                    if (data) {
-                        var result = $filter('filter')(data, params);
-                        angular.forEach(result, function(item) {
-                            //console.log(item);
-                            //scope.temp_data.push(item);
-                            var unitObj = $filter('filter')(unit, { id: item['inv_product_size_unit'] });
-                            item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size'] + unitObj[0].inv_inventory_units_name;
-                        });
-                    }
-                    response(result);
+//                     //simulates api call with odata $filter
+//                     var data = scope.products;
+//                     var unit = scope.units;
+//                     if (data) {
+//                         var result = $filter('filter')(data, params);
+//                         angular.forEach(result, function(item) {
+//                             //console.log(item);
+//                             //scope.temp_data.push(item);
+//                             var unitObj = $filter('filter')(unit, { id: item['inv_product_size_unit'] });
+//                             item['value'] = item['inv_product_name'] + ' -' + item['inv_product_size'] + unitObj[0].inv_inventory_units_name;
+//                         });
+//                     }
+//                     response(result);
 
-                },
-                minLength: 3,
-                select: function(event, ui) {
-                    scope.$apply(function() {
-                        scope.setClientData(ui.item, attrs.uiIndex, attrs.type);
-                        // delete ui.item.value;
-                    });
-                    // $timeout(function() {
-                    //     // force a digest cycle to update the views
-                    //     console.log(scope.newProducts[attrs.uiIndex]);
-                    //     // $scope.newProducts[attrs.uiIndex]['ID']=ui.item.id;
-                    // }, 1000);
+//                 },
+//                 minLength: 3,
+//                 select: function(event, ui) {
+//                     scope.$apply(function() {
+//                         scope.setClientData(ui.item, attrs.uiIndex, attrs.type);
+//                         // delete ui.item.value;
+//                     });
+//                     // $timeout(function() {
+//                     //     // force a digest cycle to update the views
+//                     //     console.log(scope.newProducts[attrs.uiIndex]);
+//                     //     // $scope.newProducts[attrs.uiIndex]['ID']=ui.item.id;
+//                     // }, 1000);
 
-                },
-            });
-        }
+//                 },
+//             });
+//         }
 
-    };
-}
+//     };
+// }
 
 
 /**

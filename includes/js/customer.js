@@ -24,6 +24,7 @@ app.controller('userctrl', function($scope, $http, $rootScope, dataTableService)
         console.log(data);
         $scope.customer = data;
         jQuery("#editModal").modal("show");
+
     }
     $scope.edit = function(data) {
         data.action = "inventory_crud_function";

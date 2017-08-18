@@ -97,7 +97,7 @@ function aim_load_js() {
 	
 	
 	wp_enqueue_script( 'angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js');
-	
+
 	wp_enqueue_script( 'datetime', 'https://cdn.rawgit.com/dalelotts/angular-bootstrap-datetimepicker/master/src/js/datetimepicker.js');
 	
 	
