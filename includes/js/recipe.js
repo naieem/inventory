@@ -281,6 +281,9 @@ app.controller('recipectrl', function($scope, $http, $filter, dataTableService) 
             else {
                 $scope.editReciepe = [];
             }
+            /**
+             * this is needed for showing name in the edited situation to the input field
+             */
             for (var i = 0; i < $scope.editProducts.length; i++) {
                 for (var j = 0; j < $scope.products.length; j++) {
                     if ($scope.editProducts[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {

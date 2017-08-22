@@ -1,8 +1,9 @@
-app.controller('inventoryctrl', function($scope, $http) {
+app.controller('inventoryctrl', function($scope, $http, $filter) {
     $scope.newProduct = [];
     $scope.editProduct = [];
     $scope.show_location = '';
     $scope.supplier = '';
+    // jQuery("html").addClass("loading");
     $scope.get_inventory = function() {
         $scope.loading = true;
         var params = {};
@@ -21,6 +22,7 @@ app.controller('inventoryctrl', function($scope, $http) {
                 $scope.inventories = response.data;
                 $scope.totalItems = $scope.inventories.length;
             }
+            // jQuery("html").removeClass("loading");
             $scope.loading = false;
             // if(response.data){
             //    console.log('new user adding successful');
@@ -129,7 +131,17 @@ app.controller('inventoryctrl', function($scope, $http) {
             if (response.data != 'null') {
                 $scope.editProduct = response.data;
             }
-
+            /**
+             * this is needed for showing name in the edited situation to the input field
+             */
+            for (var i = 0; i < $scope.editProduct.length; i++) {
+                for (var j = 0; j < $scope.products.length; j++) {
+                    if ($scope.editProduct[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
+                        var unitObj = $filter('filter')($scope.units, { id: $scope.products[j]['inv_product_size_unit'] });
+                        $scope.editProduct[i]['name'] = $scope.products[j]['inv_product_name'] + '-' + $scope.products[j]['inv_product_size'] + unitObj[0].inv_inventory_units_name;
+                    }
+                }
+            }
             $scope.supplier = response.data[0].inv_supplier_inv_supplier_id;
             jQuery("#editModal").modal("show");
         }, function(error) {
@@ -373,12 +385,14 @@ app.controller('inventoryctrl', function($scope, $http) {
             console.log(error);
         });
     };
+    $scope.get_location();
     $scope.get_product();
     $scope.get_supplier();
-    $scope.get_location();
     $scope.get_users();
     $scope.get_units();
     $scope.get_inventory();
+
+
     /*----------  Pagination config area  ----------*/
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;
@@ -391,4 +405,36 @@ app.controller('inventoryctrl', function($scope, $http) {
         $scope.itemsPerPage = num;
         $scope.currentPage = 1; //reset to first page
     }
+
+
+    /**
+     * Autocomplete configuration
+     */
+
+    $scope.onSelectTypehead = function($item, $model, $label, $event, index, type) {
+        if (type == 'new') {
+            $scope.newProduct[index].ID = $item.id;
+        } else {
+            $scope.editProduct[index].inv_product_id_inv_product = $item.id;
+        }
+
+        debugger;
+    };
+
+    $scope.getProduct = function(val) {
+        var res = _.filter($scope.products, function(i) {
+            var match = i.inv_product_name.toLowerCase().match(val.toLowerCase());
+            return match;
+        });
+
+        return res.map(function(item) {
+
+            var unitObj = _.filter($scope.units, { id: item.inv_product_size_unit });
+            var productObj = {
+                title: item.inv_product_name + ' ' + item.inv_product_size + unitObj[0].inv_inventory_units_name,
+                id: item.id
+            };
+            return productObj;
+        });
+    };
 });

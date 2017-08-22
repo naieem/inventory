@@ -34,6 +34,7 @@ app.directive('parent', function() {
         },
         link: function(scope, element, attr) {
             if (scope.arr && scope.arr.length) {
+                debugger;
                 setTimeout(function(argument) {
                     for (var i = 0; i < scope.arr.length; i++) {
                         if (scope.arr[i].id == scope.identifier) {

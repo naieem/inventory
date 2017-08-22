@@ -1,4 +1,4 @@
-app.controller('purchasectrl', function($scope, $http) {
+app.controller('purchasectrl', function($scope, $http, $filter) {
     $scope.show_location = '';
     $scope.showloader = false;
     $scope.newReciepe = [];
@@ -140,10 +140,22 @@ app.controller('purchasectrl', function($scope, $http) {
             $scope.edit_cat = data;
             $scope.editReciepe = response.data;
 
+            // for (var i = 0; i < $scope.editReciepe.length; i++) {
+            //     for (var j = 0; j < $scope.products.length; j++) {
+            //         if ($scope.editReciepe[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
+            //             $scope.editReciepe[i]['name'] = $scope.products[j]['inv_product_name'];
+            //         }
+            //     }
+            // }
+
+            /**
+             * this is needed for showing name in the edited situation to the input field
+             */
             for (var i = 0; i < $scope.editReciepe.length; i++) {
                 for (var j = 0; j < $scope.products.length; j++) {
                     if ($scope.editReciepe[i]['inv_product_id_inv_product'] == $scope.products[j]['id']) {
-                        $scope.editReciepe[i]['name'] = $scope.products[j]['inv_product_name'];
+                        var unitObj = $filter('filter')($scope.units, { id: $scope.products[j]['inv_product_size_unit'] });
+                        $scope.editReciepe[i]['name'] = $scope.products[j]['inv_product_name'] + '-' + $scope.products[j]['inv_product_size'] + unitObj[0].inv_inventory_units_name;
                     }
                 }
             }
@@ -479,4 +491,35 @@ app.controller('purchasectrl', function($scope, $http) {
         $scope.itemsPerPage = num;
         $scope.currentPage = 1; //reset to first page
     }
+
+    /**
+     * Autocomplete configuration
+     */
+
+    $scope.onSelectTypehead = function($item, $model, $label, $event, index, type) {
+        if (type == 'new') {
+            $scope.newReciepe[index].ID = $item.id;
+        } else {
+            $scope.editReciepe[index].inv_product_id_inv_product = $item.id;
+        }
+
+        debugger;
+    };
+
+    $scope.getProduct = function(val) {
+        var res = _.filter($scope.products, function(i) {
+            var match = i.inv_product_name.toLowerCase().match(val.toLowerCase());
+            return match;
+        });
+
+        return res.map(function(item) {
+
+            var unitObj = _.filter($scope.units, { id: item.inv_product_size_unit });
+            var productObj = {
+                title: item.inv_product_name + ' ' + item.inv_product_size + unitObj[0].inv_inventory_units_name,
+                id: item.id
+            };
+            return productObj;
+        });
+    };
 });

@@ -58,16 +58,18 @@
 								<div class="panel panel-default" ng-repeat="recipe in newReciepe">
 									<div class="panel-body">
 										<div class="form-inline">
+
 											<div class="form-group">
 												<label for="name">Product</label>
-												<!-- <select name="parent" ng-model="recipe.ID" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in products">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
+												<!-- <select name="" ng-model="product.ID" class="form-control">
+													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
 												</select> -->
-
-												<input client-auto-complete class="form-control" ui-index="{{$index}}" type="new" ng-model="recipe.name" type="text">
-
-												<input class="form-control" ng-model="recipe.ID" type="hidden">
-
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" type="new" ng-model="recipe.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="recipe.ID" placeholder="Enter text" type="hidden">
 											</div>
 
 											<div class="form-group">
@@ -86,7 +88,8 @@
 								</div>
 
 								<button type="button" class="btn btn-default" ng-click="add(cat)">Submit&nbsp&nbsp
-								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>"></button>
+								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );
+?>"></button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -146,14 +149,14 @@
 								<div class="panel panel-default" ng-repeat="recipe in editReciepe">
 									<div class="panel-body">
 										<div class="form-inline">
+
 											<div class="form-group">
-												<label for="name">Product</label>
-												<!-- <select name="parent" ng-model="recipe.inv_product_id_inv_product" class="form-control">
-													<option value="{{ recipe.id }}" ng-repeat="recipe in products">{{ recipe.inv_product_name }}--{{ recipe.inv_product_size }}</option>
-												</select> -->
-
-												<input client-auto-complete class="form-control" ui-index="{{$index}}" type="old" ng-model="recipe.name" type="text">
-
+											<label for="name">Product</label>
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'old')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" ng-model="recipe.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
 												<input class="form-control" ng-model="recipe.inv_product_id_inv_product" type="hidden">
 											</div>
 
@@ -191,7 +194,8 @@
 								</div> -->
 
 								<button type="button" class="btn btn-default" ng-click="edit(edit_cat)">Submit&nbsp&nbsp
-								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );?>"></button>
+								<img ng-show="showloader" src="<?php echo plugins_url( '/images/rolling.gif', dirname(__FILE__) );
+?>"></button>
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -205,7 +209,8 @@
 			<!--List of all categories -->
 			<h2>All Purchase</h2>
 			<p>
-				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );?>">
+				<img ng-show="loading" src="<?php echo plugins_url( '/images/gears.gif', dirname(__FILE__) );
+?>">
 			</p>
 			<div class="table-responsive">          
 			<center>

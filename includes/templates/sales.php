@@ -58,11 +58,23 @@
 								<div class="panel panel-default" ng-repeat="recipe in newReciepe">
 									<div class="panel-body">
 										<div class="form-inline">
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Recipe</label>
 												<select name="parent" ng-model="recipe.ID" class="form-control">
 													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
 												</select>
+											</div> -->
+											<div class="form-group">
+												<label for="name">Recipe</label>
+												<!-- <select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
+													<option value="{{ prd.id }}" ng-repeat="prd in products| orderBy:'inv_product_name'">{{ prd.inv_product_name }}</option>
+												</select> -->
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getRecipeValue($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" ng-model="recipe.inv_recipe_name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="recipe.ID" type="hidden">
 											</div>
 
 											<div class="form-group">
@@ -141,12 +153,26 @@
 								<div class="panel panel-default" ng-repeat="recipe in editReciepe">
 									<div class="panel-body">
 										<div class="form-inline">
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Recipe</label>
 												<select name="parent" ng-model="recipe.inv_recipe_id_inv_recipe" class="form-control">
 													<option value="{{ recipe.id }}" ng-repeat="recipe in recipes">{{ recipe.inv_recipe_name }}</option>
 												</select>
+											</div> -->
+
+											<div class="form-group">
+												<label for="name">Recipe</label>
+												<!-- <select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
+													<option value="{{ prd.id }}" ng-repeat="prd in products| orderBy:'inv_product_name'">{{ prd.inv_product_name }}</option>
+												</select> -->
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'old')" uib-typeahead="pr.title for pr in getRecipeValue($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" ng-model="recipe.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="recipe.ID" type="hidden">
 											</div>
+
 
 											<div class="form-group">
 												<label for="name">Quantity</label>

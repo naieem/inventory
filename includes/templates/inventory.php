@@ -61,11 +61,23 @@
 								<div class="panel panel-default" ng-repeat="product in newProduct">
 									<div class="panel-body">
 										<div class="form-inline">
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label for="name">Product</label>
 												<select name="" ng-model="product.ID" class="form-control">
 													<option value="{{ product.id }}" ng-repeat="product in products| orderBy:'inv_product_name'">{{ product.inv_product_name }}</option>
 												</select>
+											</div> -->
+											<div class="form-group">
+												<label for="name">Product</label>
+												<!-- <select name="" ng-model="product.ID" class="form-control">
+													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
+												</select> -->
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="product.ID" placeholder="Enter text" type="hidden">
 											</div>
 											<div class="form-group">
 												<label for="name">Amount</label>
@@ -156,9 +168,17 @@
 										<div class="form-inline">
 											<div class="form-group">
 												<label for="name">Product</label>
-												<select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
+												<!-- <select name="" ng-model="product.inv_product_id_inv_product" class="form-control">
 													<option value="{{ prd.id }}" ng-repeat="prd in products| orderBy:'inv_product_name'">{{ prd.inv_product_name }}</option>
-												</select>
+												</select> -->
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'old')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" ng-model="product.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="product.inv_product_id_inv_product" type="hidden">
+
+
 											</div>
 											<div class="form-group">
 												<label for="name">Amount</label>

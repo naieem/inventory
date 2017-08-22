@@ -137,6 +137,18 @@ app.controller('salesctrl', function($scope, $http) {
             $scope.loading = false;
             $scope.edit_cat = data;
             $scope.editReciepe = response.data;
+            /**
+             * this is needed for showing name in the edited situation to the input field
+             */
+            for (var i = 0; i < $scope.editReciepe.length; i++) {
+                for (var j = 0; j < $scope.recipes.length; j++) {
+                    if ($scope.editReciepe[i]['inv_recipe_id_inv_recipe'] == $scope.recipes[j]['id']) {
+                        //var unitObj = $filter('filter')($scope.units, { id: $scope.recipes[j]['inv_product_size_unit'] });
+                        $scope.editReciepe[i]['name'] = $scope.recipes[j]['inv_recipe_name'];
+                    }
+                }
+            }
+            debugger;
             jQuery("#editModal").modal("show");
         }, function(error) {
             console.log(error);
@@ -434,4 +446,36 @@ app.controller('salesctrl', function($scope, $http) {
         $scope.itemsPerPage = num;
         $scope.currentPage = 1; //reset to first page
     }
+
+    /**
+     * Autocomplete configuration
+     */
+
+    $scope.onSelectTypehead = function($item, $model, $label, $event, index, type) {
+        if (type == 'new') {
+            $scope.newReciepe[index].ID = $item.id;
+        } else {
+            $scope.editReciepe[index].inv_recipe_id_inv_recipe = $item.id;
+        }
+
+        debugger;
+    };
+
+    $scope.getRecipeValue = function(val) {
+        debugger;
+        var res = _.filter($scope.recipes, function(i) {
+            var match = i.inv_recipe_name.toLowerCase().match(val.toLowerCase());
+            return match;
+        });
+
+        return res.map(function(item) {
+
+            //var unitObj = _.filter($scope.units, { id: item.inv_product_size_unit });
+            var productObj = {
+                title: item.inv_recipe_name,
+                id: item.id
+            };
+            return productObj;
+        });
+    };
 });

@@ -49,17 +49,18 @@
 								<div class="panel panel-default" ng-repeat="product in newProducts">
 									<div class="panel-body">
 										<div class="form-inline">
-											<label for="name">Product</label>
-											<!-- <select name="" ng-model="product.ID" class="form-control">
-												<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
-											</select> -->
-											<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
-											<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
-											<div ng-show="noResults">
-											<i class="glyphicon glyphicon-remove"></i> No Results Found
+											<div class="form-group">
+												<label for="name">Product</label>
+												<!-- <select name="" ng-model="product.ID" class="form-control">
+													<option value="{{ product.id }}" ng-repeat="product in products">{{ product.inv_product_name }}--{{ product.inv_product_size }}</option>
+												</select> -->
+												<input typeahead-on-select="onSelectTypehead($item, $model, $label, $event,$index,'new')" uib-typeahead="pr.title for pr in getProduct($viewValue)" class="form-control" typeahead-loading="loadingProducts" typeahead-no-results="noResults" typeahead-min-length="3" ui-index="{{$index}}" type="new" ng-model="product.name" placeholder="Enter text" type="text">
+												<i ng-show="loadingProducts" class="glyphicon glyphicon-refresh"></i>
+												<div ng-show="noResults">
+												<i class="glyphicon glyphicon-remove"></i> No Results Found
+												</div>
+												<input class="form-control" ng-model="product.ID" placeholder="Enter text" type="hidden">
 											</div>
-											<input class="form-control" ng-model="product.ID" placeholder="Enter text" type="hidden">
-
 											<div class="form-group">
 												<label for="name">Quantity</label>
 												<input type="text" class="form-control" name="name" ng-model="product.qty" required>
